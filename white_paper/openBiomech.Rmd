@@ -1,0 +1,82 @@
+---
+title: "The OpenBiomechanics Project"
+subtitle: "The Open Source Initiative for Anonymized, Elite-Level Athletic Motion Capture Data"
+output: 
+  bookdown::pdf_document2:
+    toc: false
+    keep_tex: true
+    subparagraph: yes
+    includes:
+      in_header: preamble.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+# set to false if you need to view the accessory latex files
+options(tinytex.clean = TRUE)
+
+# this function is needed to remove extra author block in compiled tex doc
+# solution found at:
+  # https://issueexplorer.com/issue/rstudio/bookdown/1158
+remove_author <- function(x) {
+  # identify empty author line
+  i <- grep("^\\\\author\\{\\}$", x)
+  # be sure it is the one pandoc inserts
+  if(length(i) != 0 && grepl('^\\\\date\\{', x[i+1])) x <- x[-i]
+  x
+}
+options(bookdown.post.latex = remove_author)
+```
+
+\pagenumbering{gobble}
+\begin{center}
+Keywords: open access, baseball, pitching
+\end{center}
+
+\bigskip
+\bigskip
+\begin{abstract}
+\doublespacing
+Elite sport's interest in quantifying human movement increases with each passing year. However, analysis of sport biomechanics data has traditionally been restricted to academic laboratories and professional sport organizations. A public sport biomechanics resource would democratize access to human movement data and accelerate progress and innovation for the sport biomechanics field as a whole. Therefore, our purpose here is to introduce \href{www.openbiomechanics.org}{\textbf{\textit{The OpenBiomechanics Project}}}, an initiative to provide free, elite-level, research grade motion capture data to the general public for independent individual exploration and analysis. We begin by providing raw and processed data from a sample of 100 baseball pitchers. We then discuss future expansion to other sports and athletic movements. Supporting documentation and additional resources are also provided.
+\end{abstract}
+
+\newpage
+# Introduction
+
+Calls for increased collaboration 
+
+# How to Use
+
+You marsh your Yabins.
+
+## Raw vs. Processed Data
+
+Yabins are both raw and processed.
+
+## Naming Conventions
+
+Always Yabin followed by Marsh
+
+## Fileshare and GitHub Organization
+
+Yabins are organized. Marshes are not.
+
+## Terms of Use
+
+Yabins may use. Marshes may not.
+
+## Citing and Contributing
+
+Marsh Y et al. (2022) \textit{Journal of Marshes}
+
+# Discussion and Future Directions
+
+You have been Marshed. You will continue to be Marshed.
+
+# Additional Resources
+
+Yabin is 1 of a kind.

@@ -1,0 +1,181 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{authblk}
+\usepackage{array}
+\usepackage{color,soul}
+\usepackage{setspace}
+\usepackage{etoolbox,lineno}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{threeparttable}
+\usepackage{tabularx}
+\usepackage{hhline}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{array,multirow}
+\usepackage{hyperref}
+% \usepackage[superscript]{cite}
+\usepackage{cite}
+\usepackage[acronym,toc,nonumberlist]{glossaries}
+\usepackage[small]{titlesec}
+\usepackage[none]{hyphenat}
+\renewcommand*{\contentsname}{Table of Contents}
+\renewcommand{\thefootnote}{\roman{footnote}}
+\setlength{\parindent}{0.375in}
+\author[1,$\dagger$]{\footnotesize Kyle W Wasserberger}
+\author[1]{\footnotesize Anthony C Brady}
+\author[1]{\footnotesize Kyle J Boddy}
+\affil[1]{\footnotesize Research \& Development; Driveline Baseball}
+\affil[$\dagger$]{\footnotesize Corresponding author: kyle.wasserberger@drivelinebaseball.com}
+\newcolumntype{L}[1]{>{\small\raggedright\let\newline\\\arraybackslash\hspace{-1pt}}p{#1}}
+\newcolumntype{C}[1]{>{\small\centering\let\newline\\\arraybackslash\hspace{-1pt}}p{#1}}
+\newcolumntype{R}[1]{>{\small\raggedleft\let\newline\\\arraybackslash\hspace{-1pt}}p{#1}}
+\hypersetup{
+  colorlinks=true
+}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={The OpenBiomechanics Project},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{The OpenBiomechanics Project}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{The Open Source Initiative for Anonymized, Elite-Level Athletic Motion Capture Data}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\pagenumbering{gobble}
+\begin{center}
+Keywords: open access, baseball, pitching
+\end{center}
+
+\bigskip
+\bigskip
+\begin{abstract}
+\doublespacing
+Elite sport's interest in quantifying human movement increases with each passing year. However, analysis of sport biomechanics data has traditionally been restricted to academic laboratories and professional sport organizations. A public sport biomechanics resource would democratize access to human movement data and accelerate progress and innovation for the sport biomechanics field as a whole. Therefore, our purpose here is to introduce \href{www.openbiomechanics.org}{\textbf{\textit{The OpenBiomechanics Project}}}, an initiative to provide free, elite-level, research grade motion capture data to the general public for independent individual exploration and analysis. We begin by providing raw and processed data from a sample of 100 baseball pitchers. We then discuss future expansion to other sports and athletic movements. We also provide supporting documentation and additional resources.
+\end{abstract}
+
+\newpage
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Yabin Marsh.
+
+\hypertarget{how-to-use}{%
+\section{How to Use}\label{how-to-use}}
+
+You marsh your Yabins.
+
+\hypertarget{raw-vs.-processed-data}{%
+\subsection{Raw vs.~Processed Data}\label{raw-vs.-processed-data}}
+
+Yabins are both raw and processed.
+
+\hypertarget{naming-conventions}{%
+\subsection{Naming Conventions}\label{naming-conventions}}
+
+Always Yabin followed by Marsh
+
+\hypertarget{fileshare-and-github-organization}{%
+\subsection{Fileshare and GitHub Organization}\label{fileshare-and-github-organization}}
+
+Yabins are organized. Marshes are not.
+
+\hypertarget{terms-of-use}{%
+\subsection{Terms of Use}\label{terms-of-use}}
+
+Yabins may use. Marshes may not.
+
+\hypertarget{citing-and-contributing}{%
+\subsection{Citing and Contributing}\label{citing-and-contributing}}
+
+Marsh Y et al.~(2022) \textit{Journal of Marshes}
+
+\hypertarget{discussion-and-future-directions}{%
+\section{Discussion and Future Directions}\label{discussion-and-future-directions}}
+
+You have been Marshed. You will continue to be Marshed.
+
+\hypertarget{additional-resources}{%
+\section{Additional Resources}\label{additional-resources}}
+
+Yabin is 1 of a kind.
+
+\end{document}

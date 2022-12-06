@@ -1,0 +1,226 @@
+---
+title: "Multilevel Regression Modeling as a Complement to Traditional Repeated Measures Analysis of Variance in Sports Biomechanics Research"
+output: 
+  bookdown::pdf_document2:
+    toc: false
+    keep_tex: true
+    subparagraph: yes
+    includes:
+      in_header: preamble.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+# set tp false if you need to view the accessory latex files
+options(tinytex.clean = TRUE)
+
+# this function is needed to remove extra author block in compiled tex doc
+# solution found at:
+  # https://issueexplorer.com/issue/rstudio/bookdown/1158
+remove_author <- function(x) {
+  # identify empty author line
+  i <- grep("^\\\\author\\{\\}$", x)
+  # be sure it is the one pandoc inserts
+  if(length(i) != 0 && grepl('^\\\\date\\{', x[i+1])) x <- x[-i]
+  x
+}
+options(bookdown.post.latex = remove_author)
+```
+\pagenumbering{gobble}
+\begin{center}
+Keywords: analysis of variance, mixed-effects, mixed-models, hierarchical, longitudinal, growth curve
+\end{center}
+
+\newpage
+\linenumbers
+\begin{abstract}
+\doublespacing
+With the increasing availability and decreasing costs of sport science technologies, longitudinal data are becoming increasingly available to the biomechanics and adjacent sport science communities. Consideration regarding the appropriate handling of longitudinal data is warranted to take advantage of this emerging wealth of data and best understand how biomechanics influence health and performance over time. Traditionally, longitudinal data in the sport sciences have most often been analyzed using repeated measures analysis of variance. However, typical analysis of variance is limited in its ability to handle missing data and unbalanced observations, two scenarios common in longitudinal designs. Alternatively, multilevel regression modeling is a flexible analysis method capable of handling these scenarios. In this paper, we hope to draw increased attention to multilevel regression modeling and lobby for its increased adaptation when examining repeated measures biomechanics data. First, we introduce the rationale and approach underlying multilevel regression models. We then present examples using simulated and real-world data to illustrate their potential application and limitations in sports biomechanics research. Lastly, we provide some recommendations, words of caution, and additional resources.
+\end{abstract}
+
+\newpage
+\pagenumbering{arabic}
+# Introduction
+\doublespacing
+Quantifying change over time is a central tenet for those working with athletes of all levels. Identifying factors that influence longitudinal athletic performance is vital for evaluating the effectiveness of athlete training programs. For the biomechanist, measuring technique changes over time and elucidating the relationships between those technique changes, athlete performance, and injury risk is of particular importance. However, despite the importance placed on longitudinal athletic development in the applied sport science domain, many researchers are forced to conduct cross-sectional studies due to limited time, labor, or funding. Fortunately, technological advances continue to decrease the burdens associated with collecting longitudinal data. Given these advances, we feel increased consideration is needed regarding the appropriate means by which we analyze and draw inferences from longitudinal data. 
+
+Calls for improved statistical methodology in the sport sciences have grown in recent years\cite{casals2017, glazier2019, halperin2018, knudson2009, knudson2017, nielsen2018, nielsen2020, sainani2020}. Informal skimming of recent *Sport Biomechanics* publications indicates repeated measures analysis of variance (RM$\cdot$ANOVA) remains a popular choice for dealing with longitudinal biomechanics data \cite{liao2021, mueske2018, nojiri2019, stronska2020}. Beyond *Sport Biomechanics*, Google Scholar returns over 4,200 hits over the last ten years for "ANOVA" in journals associated with biomechanics compared to approximately 600 hits for "multilevel regression", "mixed-effects", or "mixed-model"\footnote{ANOVA search: ["ANOVA" or "repeated measures" source:biomechanics], multilevel modeling search: ["multilevel regression" OR "mixed-effects" OR "mixed-model" source:biomechancis]. Date range limited between 2012 and 2022. Disregarding patents and citations. Performed February 2022.}. Despite the greater apparent popularity of ANOVA-based methods, RM$\cdot$ANOVA carries with it several important assumptions which limit its utility in applied longitudinal settings. Most notably, RM$\cdot$ANOVA assumes balanced designs (equal number of repeated measures across individuals), complete cases (no missing observations within individuals), and temporal equivalence (repeated measures across individuals are equally spaced in time). While these conditions can usually be met in tightly-controlled, laboratory-based studies, applied longitudinal work often suffers from study imbalances, unforeseen disruptions to data collection schedules, and participant attrition; all of which, depending on their severity, may threaten RM$\cdot$ANOVA's validity.
+
+The assumptions surrounding RM$\cdot$ANOVA present salient challenges to those working in the observational or quasi-experimental settings common in sport biomechanics research. Conversely, multilevel regression modeling is capable of handling both imbalanced designs and partially missing data, positioning it as a useful complement to more traditional repeated measures methods. Regretfully, multilevel models have yet to make significant headway into sport biomechanics despite being present in other sport performance domains, such as sport psychology \cite{beauchamp2005,benson2016,cornelius2007}. If fact, to our knowledge, the use of multilevel modeling in sport biomechanics is limited to three papers, all published since 2019 \cite{slowik2019, iglesias2021, solomito2020}. While studying the baseball pitching motion Slowik et. al.\cite{slowik2019}  and Solomito et al \cite{solomito2020} used a multilevel framework to examine the associations between various kinematic factors and pitching arm joint loads. Additionally, Iglesias et. al. examined between-participant differences in the within-participant load-velocity relationship during several weightlifting exercises \cite{iglesias2021}. Although these papers provide important insight into their respective research areas, we feel a formal introduction of the advantages, disadvantages, and limitations of multilevel modeling would benefit those in sport biomechanics working alongside athletes in longitudinal settings and who frequently encounter repeated measures study designs. Therefore, our purpose is to introduce multilevel regression modeling to a sports biomechanics audience and offer a brief tutorial on model notation, construction, and interpretation. We also outline the advantages and disadvantages of multilevel modeling over traditional repeated measures designs and offer recommendations for those interested in further exploration of multilevel techniques.
+
+# The Traditional Regression Model
+
+Before examining the multilevel regression model, let us first consider a simple linear regression predicting some outcome measure, $y$, from one predictor variable, $x$, given by Equation \ref{eq:reg1}:
+
+\begin{equation}
+\hat{y}_{i}=\beta_{0}+\beta_{1}x_{i}+\epsilon_{i}
+\label{eq:reg1}
+\end{equation}
+
+\noindent
+In Equation \ref{eq:reg1}, $\beta_{0}$ represents the model intercept and $\beta_{1}$ represents the model slope. Recall that a model intercept can be thought of as the predicted value of $y$ when $x$ equals zero and a model slope can be thought of as the predicted increase (or decrease, if negative) in $y$ for a 1-unit increase in $x$. If our predictor, $x$, is centered around its mean, then the intercept represents the predicted value of $y$ for an average value of $x$. $\epsilon_{i}$ represents the residual error between the $i$-th model prediction and the $i$-th observation ($\hat{y}_{i}-y_{i}$) (Figure \ref{fig1}). The one-predictor linear regression model can be extended to multiple regression by adding additional predictor variables (i.e. $x_{2}$, $x_{3}...x_{n}$) or nonlinear\footnote{More formal writings will use \textit{linear vs. nonlinear} in terms of the role of the regression coefficients (i.e. $\beta_{0}$, $\beta_{1}$, etc...). However, here we use \textit{nonlinear} in terms of the relationships between $x$ and $y$. For more details we refer the reader to the works of Curran-Everett\cite{curran-everett2011}} regression by adding polynomial (i.e. $x^{2}, x^{3}...x^{n}$), exponential ($e^{x}$), or logarithmic ($ln(x)$) terms. Additionally, how predictor variables' effects depend on one another can be examined by introducing their product terms (i.e. $x_{1}*x_{2}$) and analyzing their interactions.
+
+\begin{figure}[h]
+\centering
+\captionsetup{width=0.6\textwidth}
+\includegraphics[width=0.6\textwidth]{fig1.png}
+\caption{Hypothetical Simple Regression}
+\label{fig1}
+\end{figure}
+
+# Nested Data and the Multilevel Regression Model for Repeated Measures
+
+Collecting multiple observations from a single participant results in what is sometimes referred to in other fields as 'nested', 'hierarchical', or 'multilevel' data \cite{aarts2014, boisgontier2016, raudenbush2002, schielzeth2013, zuur2009}. In repeated measures designs, we consider observations to be nested within individuals. In other applications, individuals may be nested within some grouping structure such as classrooms, congressional districts, or treatment arms. Regardless of the grouping structure in question, nested data violate the assumption of observational independence required by traditional regression \cite{dehart2019, hox2017, raudenbush2002}. That is, two observations from the same individual will be more closely related to each other compared to two observations from two different individuals. 
+
+The degree to which nested data are more closely related than independent data is sometimes referred to as the *intraclass correlation* and is computed as the variance in a model's outcome accounted for by the data's nested structure divided by the outcome's total variance \cite[p.~15]{hox2017}\footnote{For those more familiar with the ANOVA-based framework, an analog to the ICC is the between sum of squares divided by the total sum of squares ($\frac{SS_{btwn}}{SS_{tot}}$).}.
+
+\begin{equation}
+ICC=\frac{\sigma_{u_{0}}^{2}}{\sigma_{u_{0}^{2}}+\sigma_{e}^{2}}
+\label{eq:icc}
+\end{equation}
+
+\noindent
+Where $\sigma_{u_{0}}^{2}$ and $\sigma_{e}^{2}$ represent the between-group and within-group variances, respectively. Under highly dependent data conditions (where most variance is accounted for by the nested data structure), the ICC will approach 1.0 since Equation \ref{eq:icc} simplifies to $\frac{\sigma_{u_{0}}^{2}}{\sigma_{u_{0}}^{2}}$ as $\sigma_{e}^{2}$ trends towards zero. Conversely, the ICC will approach zero under highly independent data (where little to no variance is accounted for by the nested data structure) since Equation \ref{eq:icc} simplifies to $\frac{0}{\sigma_{e}^{2}}$ as $\sigma_{u_{0}}^{2}$ trends towards zero. In practice, the ICC will lay somewhere between 0 and 1. Most important for the applied researcher, even apparently small deviations from 0 can drastically inflate type 1 error rates if ordinary least squares methods are used \cite{musca2011}.
+
+---
+
+\noindent
+Similar to traditional regression, we can start with a simple multilevel model predicting some outcome measure, $y$, from one predictor variable, $x$. For this paper we will be following Hox's \cite{hox2017} notation\footnote{It should be known that other authors have used slightly (or sometimes very) different notations. Admittedly, this is one of the higher barriers to entry for those without strong analytical training. We encourage readers to take considerable time learning model notation as it will accelerate the remaining stages of the learning process}.
+
+\begin{equation}
+\hat{y}_{ij}=\beta_{0j}+\beta_{1j}x_{ij}+\epsilon_{ij}
+\label{eq:mlm1}
+\end{equation}
+
+\noindent
+Equation \ref{eq:mlm1} is often referred to as the *level-one* or *first-level* model since it deals with the first level of nesting in our data.
+
+Equation \ref{eq:mlm1} is identical to Equation \ref{eq:reg1} except we now have a second subscript, $j$, denoting the nested nature of the data. $x_{ij}$ now represents observation $i$ from individual $j$ while $\beta_{0j}$ and $\beta_{1j}$ represent the model intercept and slope for individual $j$, respectively. $\hat{y}_{ij}$ represents the model prediction for observation $i$ from individual $j$ and $\epsilon_{ij}$ represents the residual error between each observed outcome and its corresponding predicted value ($\hat{y}_{ij}-y_{ij}$). The inclusion of a second subscript, $j$, thereby allowing model intercepts and slopes to vary between individuals is the fundamental difference between traditional and multilevel regression. 
+
+By allowing model intercepts and slopes to vary between individuals, the multilevel model for repeated measures parses each individual's intercept and slope into a combination of the average model intercept/slope plus some individual-specific deviation from the average. Equations \ref{eq:mlm_int} and \ref{eq:mlm_slope} represent the regression equations predicting each individual's model intercept (Equation \ref{eq:mlm_int}) and slope (Equation \ref{eq:mlm_slope}) and make up the second-level model. In Equations \ref{eq:mlm_int} and \ref{eq:mlm_slope}, the first term on the right side ($\gamma_{00}$ and $\gamma_{10}$) represent the *average* model intercept and slope, respectively, across all individuals. These average model parameters are known as *fixed*-effects since they do not vary between individuals (notice there is no $j$ subscript). The second terms on the right side ($\mu_{0j}$ and $\mu_{1j}$) represent the individual-specific deviations from the average model intercept and slope, respectively. Because $\mu_{0j}$ and $\mu_{1j}$ vary between individuals, they are known as *random*-effects. Modeling parameter variability as a combination of fixed and random-effects is why multilevel models are sometimes referred to as *mixed*-effects models (a mixture of fixed and random effects). 
+
+\begin{align}
+\beta_{0j}&=\gamma_{00}+\mu_{0j}\label{eq:mlm_int}\\
+\beta_{1j}&=\gamma_{10}+\mu_{1j}\label{eq:mlm_slope}
+\end{align}
+
+\noindent
+The multilevel model can then use second-level parameters ($z_{j}$) to account for variance in the predicted intercepts and slopes. What is a second-level parameter? Remember that the multilevel model for repeated measures contains observations at the first level nested within individuals at the second level. Therefore, any variable that does not change from measure to measure within an individual can be considered a second-level. Some examples of common second-level parameters could be subject height, weight, skill level, treatment group, etc...With the inclusion of second-level parameters, $\mu_{0j}$ and $\mu_{1j}$ represent the residual variation in the predicted intercept and slope after accounting for $z_{j}$.
+
+\begin{align}
+\beta_{0j}&=\gamma_{00}+\gamma_{01}z_{j}+\mu_{0j}\label{eq:mlm_int_full}\\
+\beta_{1j}&=\gamma_{10}+\gamma_{11}z_{j}+\mu_{1j}\label{eq:mlm_slope_full}
+\end{align}
+
+\noindent
+Substituting the right side of Equations \ref{eq:mlm_int_full} and \ref{eq:mlm_slope_full} for $\beta_{0j}$ and $\beta_{1j}$ from Equation \ref{eq:mlm1} yields the complete multilevel model predicting one outcome from one first-level and one second-level variable:
+
+\begin{equation}
+\hat{y}_{ij}=\overbrace{\textstyle \gamma_{00}+\gamma_{01}z_{j}+\mu_{0j}}^{\mathclap{intercept}}+
+\overbrace{\textstyle (\gamma_{10}+\gamma_{11}z_{j}+\mu_{1j})}^{\mathclap{slope}}x_{ij}+\epsilon_{ij}
+\label{eq:mlm2}
+\end{equation}
+
+\noindent
+Distributing $x_{ij}$ and arranging like terms helps delineate the fixed and random parts of the model:
+
+\begin{equation}
+\hat{y}_{ij}=\overbrace{\textstyle 
+\gamma_{00}+\gamma_{01}z_{j}+\gamma_{10}x_{ij}+\gamma_{11}x_{ij}z_{j}}^{\mathclap{fixed}}+
+\overbrace{\textstyle \mu_{1j}x_{ij}+\mu_{0j}+\epsilon_{ij}}^{\mathclap{random}}
+\label{eq:mlm3}
+\end{equation}
+
+\noindent
+As with traditional regression models, the multilevel regression model can be generalized to multiple multilevel\footnote{yeah, "multiple multilevel", I know. Yikes} regression with $m$ first-level and $n$ second-level predictors:
+
+\begin{align}
+\hat{y}_{ij}=&\beta_{0j}+\sum\limits_{m=1}^{m}\beta_{mj}x_{mij}+\epsilon_{ij}\\
+\beta_{0j}=&\gamma_{00}+\sum\limits_{n=1}^{n}\gamma_{0n}z_{nj}+\mu_{0j}\\
+\beta_{mj}=&\gamma_{m0}+\sum\limits_{n=1}^{n}\gamma_{1n}z_{nj}+\mu_{nj}
+\label{eq:mlm4}
+\end{align}
+
+# Benefits and Drawbacks of Multilevel Models over Traditional Repeated Measures ANOVA 
+
+The three assumptions made by repeated measures ANOVA that are most relevant to sport biomechanics: temporal equivalence, design balance, and case completeness.
+
+\begin{table}[h]
+\begin{threeparttable}
+\begin{tabular}{L{0.25\textwidth}R{0.375\textwidth}R{0.375\textwidth}}
+\toprule
+& \multicolumn{1}{r}{Repeated Measures ANOVA} & \multicolumn{1}{r}{Multilevel Regression} \\
+\cline{2-3}
+Temporal equivalence\tnote{a} & Assumes repeated measures are equally spaced in time & Repeated measures may be unequally spaced in time \\ \hline
+Balanced design & Assumes participants have same number of repeated measures & Participants may have different number of repeated measures \\ \hline
+Case completeness & Assumes no missing data; incomplete cases are handled through listwise deletion & Missing data may be accounted for under certain circumstances\tnote{b} \\
+\hhline{===}
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\scriptsize{
+\item[a] "Temporal" equivalence does not only apply to growth models, where time is placed on the x-axis. It may be extended to "whatever is on the x-axis of your scatterplot".
+\item[b] Missing data analysis is an extremely rich stand-alone area of research that we cannot do justice in this article alone. Readers are directed to works of Enders\cite{enders2010} for a more thorough exploration of the topic
+}
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+## When ANOVA will do just fine
+
+Simple pre-post designs with no missing data
+
+
+# Other Figures to incorporate
+
+\begin{figure}[H]
+\centering
+\captionsetup{width=0.6\textwidth}
+\includegraphics[width=0.6\textwidth]{rand_int.png}
+\caption{Fictional multilevel model with random intercepts. Individual regression lines are parallel (equal slopes) but differ in their respective intercepts}
+\label{fig-rand-int}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\captionsetup{width=0.6\textwidth}
+\includegraphics[width=0.6\textwidth]{rand_slope.png}
+\caption{Fictional multilevel model with random slopes. Individual regression lines are not parallel (unequal slopes) but share a mutual intercept}
+\label{fig-rand-slope}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\captionsetup{width=0.6\textwidth}
+\includegraphics[width=0.6\textwidth]{rand_int_slope.png}
+\caption{Fictional multilevel model with random intercepts and slopes. Individual regression lines are not parallel and do not share a mutual intercept}
+\label{fig-rand-int-slope}
+\end{figure}
+
+# Discard Pile
+
+We biomechanists like to throw away lots of data. Our cameras capture the positions of dozens of reflective markers with sub-millimeter accuracy hundreds of times each second while our participants perform several, sometimes dozens, of movement trials during data collection. Each new trial brings additional data that could increase statistical power and be used to better understand our research questions. Yet, far too often, choices related to experimental design or statistical analysis greatly reduce the volume of data we work with. Reduced data volume negatively impacts inferential power when conducting statistical analyses and can potentially indicate inefficient use of data collection resources and research labor.
+
+Two research practices common in sports biomechanics that reduce data volume are discretization and ensemble averaging. Discretization occurs when researchers extract one value, such as a maxima, minima, or average value, from a continuous time series of data. Ensemble averaging occurs when researchers combine several trials from the same participant into one *representative* trial. Discretization and ensemble averaging can also be combined to further reduce the available data by averaging discrete values from multiple trials or taking discrete values from ensemble averaged time series. Although sometimes appropriate depending on the research question, discretization and ensemble averaging reduce the dimensionality and variability in time series data, reducing statistical power. 
+
+While discretization can be ameliorated though emerging techniques such as statistical parametric mapping \cite{pataky2019}, researchers may still wish to examine certain discrete measures if warranted by their domain expertise and research question of interest. One such scenario is the repeated measure of biomechanic or performance values over time. Typically, repeated measures data in sports biomechanics are examined using univariate or multivariate repeated measures analysis of (co)variance. While these statistical tools are appropriate under certain conditions, they make several assumptions that may often be problematic in the observational or quasi-experimental settings common in sport biomechanics research. In such cases, multilevel regression modeling may complement or replace more traditional repeated measures analyses.
+
+Although multilevel techniques are present in other sport performance domains such as sport psychology \cite{beauchamp2005,benson2016,cornelius2007}, they have yet to make significant headway into sport biomechanics. If fact, to our knowledge, the use of multilevel modeling in sport biomechanics is limited to two papers, both published since 2019 \cite{slowik2019, iglesias2021}. Slowik et. al. used a multilevel framework to contrast the strong within and weak between-participant relationships between elbow joint loading and baseball pitching speed \cite{slowik2019} while Iglesias et. al. examined between-participant differences in the within-participant load-velocity relationship during several weightlifting exercises \cite{iglesias2021}. Although these two papers provide important insight into their respective research areas, we feel a formal introduction of the advantages, disadvantages, and limitations of multilevel modeling would benefit those in sport biomechanics working with repeated measures designs. Therefore, our purpose is to introduce multilevel regression modeling to a sports biomechanics audience and offer a brief tutorial on model notation, construction, and interpretation. We also outline the advantages and disadvantages of multilevel modeling over traditional repeated measures designs and offer recommendations for those interested in further exploration of multilevel techniques.
+
+Some of the more notable assumptions that can cause problems for sport biomechanists dealing with repeated measures include temporal equivalence (i.e. time between data points must be the same for all participants), balanced study designs (i.e. must have the same number of data points for each individual) and case completeness (i.e. must have no missing data).
+
+Compared with traditional univariate or multivariate analysis of (co)variance, multilevel modeling allows more researcher flexibility through fewer statistical assumptions and the ability to handle missing data, non-linear relationships, and time-varying covariates \cite{hox2017}.
+
+
+In addition to its assumptions regarding data symmetry and structure, RM$\cdot$ANOVA is restricted to testing for the presence of linear relationships between variables and, while the ANOVA framework can handle time-invariant covariates, modeling covariates which change over the duration of a longitudinal study is not possible in RM$\cdot$ANOVA.
+
+<!----------------------------------------------------------References--->
+
+\newpage
+\singlespacing
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain-custom}
+\bibliography{mlm_sport_biomech}
