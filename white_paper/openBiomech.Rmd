@@ -47,36 +47,36 @@ Elite sport's interest in quantifying human movement increases with each passing
 \newpage
 # Introduction
 
-Calls for increased collaboration 
+Calls for change in sport biomechanics research have increased in recent years.
 
 # How to Use
 
-You marsh your Yabins.
+...
 
 ## Raw vs. Processed Data
 
-Yabins are both raw and processed.
+...
 
 ## Naming Conventions
 
-Always Yabin followed by Marsh
+...
 
 ## Fileshare and GitHub Organization
 
-Yabins are organized. Marshes are not.
+...
 
 ## Terms of Use
 
-Yabins may use. Marshes may not.
+...
 
 ## Citing and Contributing
 
-Marsh Y et al. (2022) \textit{Journal of Marshes}
+...
 
 # Discussion and Future Directions
 
-You have been Marshed. You will continue to be Marshed.
+...
 
 # Additional Resources
 
-Yabin is 1 of a kind.
+...
