@@ -1,4 +1,4 @@
-# OpenBiomechanics Project (OPB) Documentation
+# OpenBiomechanics Project (OBP) Documentation
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
