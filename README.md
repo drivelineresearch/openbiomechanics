@@ -2,7 +2,7 @@
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
-Homepage: [OpenBiomechanics.org](www.openbiomechanics.org)
+Homepage: [OpenBiomechanics.org](https://openbiomechanics.org)
 
 # C3D
 
