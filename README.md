@@ -2,6 +2,8 @@
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
+Homepage: [OpenBiomechanics.org](www.openbiomechanics.org)
+
 # C3D
 
 Cleaned C3D files are provided at `~\baseball_pitching\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
