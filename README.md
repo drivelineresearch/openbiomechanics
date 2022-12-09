@@ -68,6 +68,8 @@ Unadjusted time series data are also available upon request.
 
 ## Processed Joint Kinematic/Kinetic Conventions
 
+Processed full signal data were filtered with a 4th order Butterworth low pass filter with a cutoff frequency of 20.0 Hz.
+
 ### Kinematics (Joint Angles, Joint Velocities)
 
 | Joint | C1 (”_X”) | C2 (”_Y”) | C3 (”_Z”) |
@@ -111,6 +113,8 @@ Unadjusted time series data are also available upon request.
 | Ankle | Plantar (+)/Dorsi (-) Flexion | Eversion (+)/Inversion (-) | Ab(+)/Adduction (-) |
 
 ## Processed Ground Reaction Force Conventions
+
+Ground reaction force data were filtered with a 4th order Butterworth low pass filter with a cutoff frequency of 40.0 Hz
 
 | Force Plate | X | Y | Z |
 | --- | --- | --- | --- |
