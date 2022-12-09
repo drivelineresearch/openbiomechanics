@@ -224,6 +224,4 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 "lead_grf_z_max": peak vertical ground reaction force on the lead leg (N)
 "lead_grf_mag_max": np.nanmax(lead_grf_mag),
 "lead_grf_angle_at_max": lead ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg)
-"peak_rfd_rear": peak rate of force development on the rear leg (N/s)
-"peak_rfd_lead": peak rate of force development on the lead leg (N/s)
 ```
