@@ -1,10 +1,8 @@
 # OpenBiomechanics Project (OBP) Documentation
 
-The OpenBiomechanics Project is an initiave started by [Driveline Baseball Research & Development](https://drivelinebaseball.com/research/) to provide raw (in the form of cleaned C3D files) and processed (full signal + point of interest) sports biomechanics data to the general public.
+The OpenBiomechanics Project is an initiave started by [Driveline Baseball Research & Development](https://drivelinebaseball.com/research/) to provide raw (in the form of cleaned C3D files) and processed (full signal + point of interest) sports biomechanics data to the general public. For more information, visit the [project homepage](https://openbiomechanics.org)
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
-
-Homepage: [OpenBiomechanics.org](https://openbiomechanics.org)
 
 # C3D
 
