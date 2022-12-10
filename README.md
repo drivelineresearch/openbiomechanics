@@ -4,6 +4,16 @@ The OpenBiomechanics Project is an initiave started by [Driveline Baseball Resea
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
+# License
+
+*CC BY-NC-SA 4.0*
+
+Attribution-NonCommercial-ShareAlike 4.0 International
+
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+Detailed information can be found in license.txt as well as on the OBP site under "Usage Terms."
+
 # C3D
 
 Cleaned C3D files are provided at `~\baseball_pitching\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
