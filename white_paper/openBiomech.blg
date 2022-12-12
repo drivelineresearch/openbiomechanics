@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: openBiomech.aux
 The style file: plain-custom.bst
 Database file #1: openBiomech.bib
-You've used 2 entries,
+You've used 7 entries,
             2143 wiz_defined-function locations,
-            515 strings with 4490 characters,
-and the built_in function-call counts, 687 in all, are:
-= -- 66
-> -- 30
+            546 strings with 5371 characters,
+and the built_in function-call counts, 2181 in all, are:
+= -- 218
+> -- 103
 < -- 0
-+ -- 13
-- -- 10
-* -- 54
-:= -- 123
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 11
++ -- 45
+- -- 34
+* -- 162
+:= -- 389
+add.period$ -- 21
+call.type$ -- 7
+change.case$ -- 40
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 22
-empty$ -- 53
-format.name$ -- 10
-if$ -- 135
+cite$ -- 7
+duplicate$ -- 71
+empty$ -- 161
+format.name$ -- 34
+if$ -- 431
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 2
-newline$ -- 13
-num.names$ -- 4
-pop$ -- 7
+int.to.str$ -- 7
+missing$ -- 5
+newline$ -- 38
+num.names$ -- 14
+pop$ -- 26
 preamble$ -- 1
-purify$ -- 9
+purify$ -- 31
 quote$ -- 0
-skip$ -- 14
+skip$ -- 45
 stack$ -- 0
-substring$ -- 54
-swap$ -- 2
+substring$ -- 148
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 8
+type$ -- 28
 warning$ -- 0
-while$ -- 7
-width$ -- 3
-write$ -- 24
+while$ -- 23
+width$ -- 8
+write$ -- 79

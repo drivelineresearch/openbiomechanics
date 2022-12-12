@@ -1,5 +1,16 @@
 \begin{thebibliography}{1}
 
+\bibitem{bell1989prediction}
+Bell, A.~L., Brand, R.~A., and Pedersen, D.~R.
+\newblock Prediction of hip joint centre location from external landmarks.
+\newblock {\em Human movement science}, 8(1):3--16, 1989.
+
+\bibitem{bell1990comparison}
+Bell, A.~L., Pedersen, D.~R., and Brand, R.~A.
+\newblock A comparison of the accuracy of several hip center location
+  prediction methods.
+\newblock {\em Journal of biomechanics}, 23(6):617--621, 1990.
+
 \bibitem{camargo2021comprehensive}
 Camargo, J., Ramanathan, A., Flanagan, W., and Young, A.
 \newblock A comprehensive, open-source dataset of lower limb biomechanics in
@@ -7,9 +18,26 @@ Camargo, J., Ramanathan, A., Flanagan, W., and Young, A.
   transitions.
 \newblock {\em Journal of Biomechanics}, 119:110320, 2021.
 
+\bibitem{dempster1955space}
+Dempster, W.~T.
+\newblock Space requirements of the seated operator, geometrical, kinematic,
+  and mechanical aspects of the body with special reference to the limbs.
+\newblock Technical report, University of Michigan, 1955.
+
 \bibitem{erdemir2016open}
 Erdemir, A.
 \newblock Open knee: open source modeling and simulation in knee biomechanics.
 \newblock {\em The journal of knee surgery}, 29(02):107--116, 2016.
+
+\bibitem{hanavan1964mathematical}
+Hanavan~Jr, E.~P.
+\newblock A mathematical model of the human body.
+\newblock Technical report, Wright-Patterson Air Force Base, 1964.
+
+\bibitem{schmidt1999marker}
+Schmidt, R., Disselhorst-Klug, C., Silny, J., and Rau, G.
+\newblock A marker-based measurement procedure for unconstrained wrist and
+  elbow motions.
+\newblock {\em Journal of biomechanics}, 32(6):615--621, 1999.
 
 \end{thebibliography}

@@ -86,6 +86,7 @@
 \setlength{\parindent}{0.375in}
 \author[1,$\dagger$]{\footnotesize Kyle W Wasserberger}
 \author[1]{\footnotesize Anthony C Brady}
+\author[1]{\footnotesize David M Besky} 
 \author[1]{\footnotesize Kyle J Boddy}
 \affil[1]{\footnotesize Research \& Development; Driveline Baseball}
 \affil[$\dagger$]{\footnotesize Corresponding author: kyle.wasserberger@drivelinebaseball.com}
@@ -129,7 +130,7 @@ Keywords: open access, baseball, pitching
 \linenumbers
 \doublespacing
 \begin{abstract}
-Interest in quantifying human movement, particularly in elite sport, increases with each passing year. However, analysis of sport biomechanics data has traditionally been restricted to academic laboratories and professional sport organizations. Public sport biomechanics resources would democratize access to human movement data and accelerate progress and innovation for the sport biomechanics field as a whole. In this paper, we introduce \href{www.openbiomechanics.org}{\textbf{\textit{The OpenBiomechanics Project}}}, an initiative started by \href{https://www.drivelinebaseball.com/research/}{\textbf{\textit{Driveline Baseball Research \& Development}}} to provide free, elite-level, research grade motion capture data to the general public for independent individual exploration and analysis. We begin by providing raw and processed data from a sample of 100 baseball pitchers. We then discuss future directions within baseball, expansion to other sports and athletic movements, and outline supporting documentation and additional resources.
+Interest in quantifying human movement, particularly in elite sport, increases with each passing year. However, analysis of sport biomechanics data has traditionally been restricted to academic laboratories and professional sport organizations. A public sport biomechanics resource would democratize access to human movement data and accelerate progress and innovation for the sport biomechanics field as a whole. In this paper, we introduce \href{www.openbiomechanics.org}{\textbf{\textit{The OpenBiomechanics Project}}}, an initiative started by \href{https://www.drivelinebaseball.com/research/}{\textbf{\textit{Driveline Baseball Research \& Development}}} to provide free, elite-level, research grade motion capture data to the general public for independent individual exploration and analysis. We begin by providing raw and processed data from a sample of 100 baseball pitchers. We then discuss future directions within baseball, expansion to other sports and athletic movements, and outline supporting documentation and additional resources.
 \end{abstract}
 
 \newpage
@@ -144,9 +145,9 @@ Open access resources exist in other biomechanics sub disciplines \cite{camargo2
 
 Data collection took place at Driveline Baseball in Kent, Washington, USA as part of each athlete's motion capture assessment. After a standardized warm up consisting of static and dynamic stretching, resistance band exercises, and preparatory throwing drills, we applied between 45 and 48 reflective markers directly to the athlete's skin over relevant bony landmarks (Table \ref{tbl:marker_set}). We then allowed athletes to complete a final warm up consisting of preparatory throws from the pitching mound. Once the athlete indicated they felt ready to throw with game-like effort, we recorded up to five fastball pitches from a pitching mound at a regulation distance (18.4 m).
 
-Although athletes were cued to throw at the provided strike zone, we did not require athletes to throw a strike for a trial to be considered valid. We considered a trial valid if all reflective markers remained affixed to the athlete throughout the pitching motion. A radar gun positioned behind home plate measured pitch velocity to the nearest tenth of a mile per hour which we recorded and paired with each motion capture trial.
+Although athletes were cued to throw at the provided strike zone, we did not require athletes to throw a strike for a trial to be considered valid. We considered a trial valid if all reflective markers remained affixed to the athlete throughout the pitching motion. Pitch velocities were measured to the nearest tenth of a mile per hour using a radar gun positioned behind home plate and paired with each trial prior to processing and analysis.
 
-During each athlete's assessment, fourteen cameras (Prime 17W; Optitrack/NaturalPoint Inc., Corvallis, OR, USA) recorded marker positions at 360 Hz while three force plates embedded in a custom concrete mound (1 x FP4080-15-TM-2000, 2 x FP9090-15-TM-2000; Bertec Corp., Columbus, OH, USA) collected ground reaction force data at 1,080 Hz. Marker and ground reaction force data were synchronized and recorded using Motive Optitrack software.
+Marker positions were recorded at 360 Hz by fourteen cameras (Prime 17W; Optitrack/NaturalPoint Inc., Corvallis, OR, USA) while ground reaction force data were collected at 1,080 Hz by three force plates embedded in a custom concrete mound (1 x FP4080-15-TM-2000, 2 x FP9090-15-TM-2000; Bertec Corp., Columbus, OH, USA). Kinematic and kinetic data were synchronized using Optitrack's Motive software. Once we collected a sufficient number of pitches (typically between three and five trials), C3D files were exported for processing in Visual3D and Python.
 
 \begin{table}[h]
 \centering
@@ -217,17 +218,26 @@ T10 & Thorax & Tenth thoracic vertebrae \\
 \hypertarget{data-processing}{%
 \section{Data processing}\label{data-processing}}
 
-We exported pitching trials that met validity criteria as C3D files.
+C3D files meeting the validity criteria were exported from Motive. Where necessary, we used cubic spline and pattern-based gap filling techniques prior to export to interpolate occluded marker positions. C3D files were then fed into a custom Visual3D processing pipeline for pose estimation and inverse dynamics calculations.
+
+\hypertarget{linked-segment-model}{%
+\subsection{Linked-Segment Model}\label{linked-segment-model}}
+
+Our full-body skeletal model consisted of 14 body segments {[}bilateral feet (1-2), shanks (3-4), thighs (5-6), upper arms (7-8), forearms (9-10), and hands (11-12), plus a pelvis (13) and thorax (14){]} separated into four inverse dynamics linkages representing the four limbs of the body. The pelvis and thorax were left unconstrained (6 DOF) with respect to the linkages and with respect to each other.
+
+We used default Visual3D segment mass/body mass ratios, inertial parameters, and segment geometries \cite{dempster1955space, hanavan1964mathematical}. The hip joint centers and pelvis segment were modeled using Bell's CODA methods \cite{bell1989prediction, bell1990comparison}. Joint centers for the elbows, wrists, knees, and ankles were defined as the midpoint between the joint's medial and lateral markers. Shoulder joint centers were offset relative to the acromion markers \cite{schmidt1999marker}. Complete model specifications may be found in the .MDH file provided in the \href{https://github.com/drivelineresearch/openbiomechanics/tree/main/baseball_pitching/code/v3d/model}{\textbf{\textit{OBP GitHub repository}}}.
 
 \hypertarget{how-to-use}{%
 \section{How to Use}\label{how-to-use}}
 
-\ldots{}
+Data for the OpenBiomechanics Project may be found in our GitHub repository linked previously in this article. Although single-use downloads are possible, we recommend familiarizing yourself with the source control program \textit{git}, if you are not already. Using \textit{git} best practices ensures that your data and code remain updated in the event of any patches, changes, or new releases. For most users, the application \href{https://desktop.github.com/}{\textit{\textbf{GitHub Desktop}}} will suffice, and comes with supporting tutorials and documentation.
+
+Once you have GitHub desktop (or an analogous \textit{git} solution) in place, simply fork our repository to create your own branch from which you can customize our code and analyze our data. Any changes or additions you commit will remain on your branch, allowing all users to perform their own analyses without interference from other researchers.
 
 \hypertarget{terms-of-use}{%
 \subsection{Terms of Use}\label{terms-of-use}}
 
-\ldots{}
+Data and code provided through the OpenBiomechanics project are protected under a Creative Commons license and free for individual use. Researchers
 
 \hypertarget{naming-conventions}{%
 \subsection{Naming Conventions}\label{naming-conventions}}
