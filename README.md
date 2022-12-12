@@ -235,3 +235,7 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 "lead_grf_mag_max": np.nanmax(lead_grf_mag),
 "lead_grf_angle_at_max": lead ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg)
 ```
+## GRF angle visualization
+
+![grf_angle_rear.png](imgs/grf_angle_rear.png)
+![grf_angle_lead.png](imgs/grf_angle_lead.png)
