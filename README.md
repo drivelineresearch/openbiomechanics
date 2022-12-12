@@ -238,4 +238,9 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 ## GRF angle visualization
 
 ![grf_angle_rear.png](imgs/grf_angle_rear.png)
+
+*Rear ground reaction force visualization*
+
 ![grf_angle_lead.png](imgs/grf_angle_lead.png)
+
+*Lead ground reaction force visualization*
