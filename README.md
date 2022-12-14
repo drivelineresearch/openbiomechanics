@@ -14,6 +14,10 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 Detailed information can be found in license.txt as well as on the OBP site under "Usage Terms."
 
+## IRB information
+
+Western IRB provided ehtical approval for all data collection proceedures (Western IRB # WB-DLR-115)
+
 # C3D
 
 Cleaned C3D files are provided at `~\baseball_pitching\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
