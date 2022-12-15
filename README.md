@@ -16,7 +16,7 @@ Detailed information can be found in license.txt as well as on the OBP site unde
 
 ## IRB information
 
-Western IRB provided ehtical approval for all data collection proceedures (Western IRB # WB-DLR-115)
+Western IRB provided ethical approval for all data collection proceedures (Western IRB # WB-DLR-115)
 
 # C3D
 
@@ -68,7 +68,7 @@ Ground reaction force data were collected using three force plates embedded unde
 
 ## Global Coordinate System
 
-The global (laboratory) reference frame is such that (+) x points from second base towards home plate, (+) points towards first base, and (+) z points upward
+The global (laboratory) reference frame is such that (+) x points from second base towards home plate, (+) y points towards first base, and (+) z points upward
 
 ![gcs.png](imgs/gcs.png)
 
