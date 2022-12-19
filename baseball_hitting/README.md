@@ -1,10 +1,10 @@
 # OBP Hitting Documentation
 
-# C3D
+## C3D
 
 Cleaned C3D files are provided at `~\baseball_hitting\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
 
-## File Naming
+### File Naming
 
 All C3Ds follow a common naming convention.
 
@@ -59,6 +59,14 @@ Ground reaction force data were collected using four force plates embedded under
 The global (laboratory) reference frame is such that (+) x points from home plate toward the pitcher’s mound, (+) y points toward the right-handed batter’s box, and (+) z points upward
 
 ![hitting_gcs.PNG](imgs/hitting_gcs.png)
+
+# Pitching Machine Setup
+
+All swings were collected while hitting off of a pitching machine set at ~65 mph from ~40 ft away from home plate.
+
+![pitching_machine front.jpeg](imgs/pitching_machine_front.jpeg)
+
+![pitching_machine back.jpeg](imgs/pitching_machine_back.jpeg)
 
 # Full Signal
 
