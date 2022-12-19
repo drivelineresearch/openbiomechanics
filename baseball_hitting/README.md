@@ -1,10 +1,10 @@
 # OBP Hitting Documentation
 
-# C3D
+## C3D
 
 Cleaned C3D files are provided at `~\baseball_hitting\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
 
-## File Naming
+### File Naming
 
 All C3Ds follow a common naming convention.
 
@@ -60,6 +60,14 @@ The global (laboratory) reference frame is such that (+) x points from home plat
 
 ![hitting_gcs.PNG](imgs/hitting_gcs.png)
 
+# Pitching Machine Setup
+
+All swings were collected while hitting off of a pitching machine set at ~65 mph from ~40 ft away from home plate.
+
+![pitching_machine front.jpeg](imgs/pitching_machine_front.jpeg)
+
+![pitching_machine back.jpeg](imgs/pitching_machine_back.jpeg)
+
 # Full Signal
 
 We first calculate joint angles and velocities as well as bat angles and velocities according to the right hand rule. We then perform select adjustments to better match coach/player intuition (righty/lefty symmetry, sign negations, adding or subtracting 90 degrees, etc.).
@@ -97,9 +105,7 @@ Ground reaction force data were filtered with a 4th order Butterworth low pass f
 
 Full signal data are broken up into six large CSV files:
 
-- `blast_kvest`: bat angles and velocities, segment velocities
 - `force_plate`: rear leg, lead leg ground reaction forces
-- `hittrax`: batted-ball data from HitTrax
 - `joint angles`: joint angles
 - `joint_velos`: joint angular velocities
 - `landmarks`: joint center positions
@@ -243,6 +249,23 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'x_factor_hs_y' : x-factor angle (y) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)
 'x_factor_hs_z' : x-factor angle (z) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)
 'max_cog_velo_x' : maximum center of gravity velocity from start of take to end of take (meters per second)
+```
+In addition to biomechanical POI metrics, we also provide pitch level HitTrax data in `\data\poi\hittrax.csv`. Those familiar with exporting raw HitTrax data should recognize most of the columns...
+
+```python
+'session_swing': unique swing identifier
+'pitch': velocity of incoming pitch (from machine) (mph)
+'strike_zone': strike zone region of pitch
+'la': launch angle (deg)
+'dist': carry distance (ft)
+'res': predicted result of ball in play
+'bearing': spray angle (deg)
+'vertical_distance':
+'horizontal_distance': 
+'poi_x': point of impact coordinate ()
+'poi_y': point of impact coordinate ()
+'poi_z': point of impact coordinate ()
+'pitch_angle': decent angle of incoming pitch (deg)
 ```
 
 # About the Data
