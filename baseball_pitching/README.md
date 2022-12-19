@@ -233,7 +233,7 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 
 ## Playing Level Distribution
 
-Most of the participants played at the collegiate level at the time of data collection.
+Most participants played at the collegiate level at the time of data collection.
 
 ![playing_level_distribution.png](misc/figs/playing_level_distribution.png)
 
