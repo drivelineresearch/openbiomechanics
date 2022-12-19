@@ -251,8 +251,8 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 
 Most participants played at the collegiate level at the time of data collection.
 
-![playing_level_distribution.PNG](misc/figs/playing_level_distribution.png)
+![playing_level_distribution.PNG](imgs/playing_level_distribution.png)
 
 ## Exit Velocity Distribution
 
-![exit_velo_distribution.PNG](misc/figs/exit_velo_distribution.png)
+![exit_velo_distribution.PNG](imgs/exit_velo_distribution.png)

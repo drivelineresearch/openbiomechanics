@@ -235,8 +235,8 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 
 Most participants played at the collegiate level at the time of data collection.
 
-![playing_level_distribution.png](misc/figs/playing_level_distribution.png)
+![playing_level_distribution.png](imgs/playing_level_distribution.png)
 
 ## Pitch Velocity Distribution
 
-![pitch_speed_distribution.png](misc/figs/pitch_speed_distribution.png)
+![pitch_speed_distribution.png](imgs/pitch_speed_distribution.png)
