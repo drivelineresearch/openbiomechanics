@@ -244,3 +244,15 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'x_factor_hs_z' : x-factor angle (z) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)
 'max_cog_velo_x' : maximum center of gravity velocity from start of take to end of take (meters per second)
 ```
+
+# About the Data
+
+## Playing Level Distribution
+
+The majority of participants played at the collegiate level at the time of data collection.
+
+![playing_level_distribution.PNG](misc/figs/playing_level_distribution.png)
+
+## Exit Velocity Distribution
+
+![exit_velo_distribution.PNG](misc/figs/exit_velo_distribution.png)
