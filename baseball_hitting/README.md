@@ -107,9 +107,9 @@ Full signal data are broken up into six large CSV files:
 Tables may be joined using `session_swing` + `time`. Please note that force plate and marker-derived data are provided at their own respective measurement rates (360 Hz and 1,080 Hz, 
 respectively). Therefore, we recommend caution when joining force plate and marker-derived data to avoid potential data loss.
 
-The times at which common events occurred are also joined in each table for convenience. Provided events are foot contact (10% bodyweight), foot plant (100% bodyweight), maximum external rotation (layback), ball release, and maximum internal rotation.
+The times at which common events occurred are also joined in each table for convenience. Provided events are front foot contact (10% bodyweight), front foot plant (100% bodyweight), and contact.
 
-One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full signal data through the metadata CSV located at `~\baseball_pitching\data\metadata.csv`.
+One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full signal data through the metadata CSV located at `~\baseball_hitting\data\metadata.csv`.
 
 # Point of Interest
 
