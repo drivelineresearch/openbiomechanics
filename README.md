@@ -16,4 +16,4 @@ Detailed information can be found in license.txt as well as on the OBP site unde
 
 ## IRB information
 
-Western IRB provided ethical approval for all data collection proceedures (Western IRB # WB-DLR-115)
+[Western IRB](https://www.wcgirb.com/) provided ethical approval for all data collection proceedures (Western IRB # WB-DLR-115)
