@@ -228,3 +228,15 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 ![grf_angle_lead.png](imgs/grf_angle_lead.png)
 
 *Lead ground reaction force visualization*
+
+# About the Data
+
+## Playing Level Distribution
+
+Most of the participants played at the collegiate level at the time of data collection.
+
+![playing_level_distribution.png](misc/figs/playing_level_distribution.png)
+
+## Pitch Velocity Distribution
+
+![pitch_speed_distribution.png](misc/figs/pitch_speed_distribution.png)
