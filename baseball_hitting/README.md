@@ -64,9 +64,9 @@ The global (laboratory) reference frame is such that (+) x points from home plat
 
 All swings were collected while hitting off of a pitching machine set at ~65 mph from ~40 ft away from home plate.
 
-![pitching_machine front.jpeg](imgs/pitching_machine_front.jpeg)
+![pitching_machine front.jpg](imgs/pitching_machine_front.jpg)
 
-![pitching_machine back.jpeg](imgs/pitching_machine_back.jpeg)
+![pitching_machine back.jpg](imgs/pitching_machine_back.jpg)
 
 # Full Signal
 
