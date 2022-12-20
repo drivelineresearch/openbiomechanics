@@ -119,7 +119,7 @@ One potential research project is to process the provided C3D using your own pip
 
 # Point of Interest
 
-Kinematic metrics commonly referenced in biomechanical analyses are arranged into a point-of-interest (POI) CSV. We attempted to name variables so their definitions would be clear, however, this may not always be the case.
+Kinematic metrics commonly referenced in biomechanical analyses are arranged into a point-of-interest (POI) CSV at `~\data\poi\POI.csv`. We attempted to name variables so their definitions would be clear, however, this may not always be the case.
 
 ```python
 'session_swing' : unique swing ID
@@ -250,7 +250,7 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'x_factor_hs_z' : x-factor angle (z) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)
 'max_cog_velo_x' : maximum center of gravity velocity from start of take to end of take (meters per second)
 ```
-In addition to biomechanical POI metrics, we also provide pitch level HitTrax data in `\data\poi\hittrax.csv`. Those familiar with exporting raw HitTrax data should recognize most of the columns...
+In addition to biomechanical POI metrics, we also provide pitch level HitTrax data in `~\data\poi\hittrax.csv`. Those familiar with exporting raw HitTrax data should recognize most of the columns...
 
 ```python
 'session_swing': unique swing identifier
