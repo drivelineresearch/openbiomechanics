@@ -250,7 +250,7 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'x_factor_hs_z' : x-factor angle (z) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)
 'max_cog_velo_x' : maximum center of gravity velocity from start of take to end of take (meters per second)
 ```
-In addition to biomechanical POI metrics, we also provide pitch level HitTrax data in `~\data\poi\hittrax.csv`. Those familiar with exporting raw HitTrax data should recognize most of the columns...
+In addition to biomechanical POI metrics, we also provide pitch level HitTrax data in `~\data\poi\hittrax.csv`. Those familiar with exporting raw HitTrax data should recognize most of the columns.
 
 ```python
 'session_swing': unique swing identifier
@@ -259,14 +259,20 @@ In addition to biomechanical POI metrics, we also provide pitch level HitTrax da
 'la': launch angle (deg)
 'dist': carry distance (ft)
 'res': predicted result of ball in play
-'bearing': spray angle (deg)
-'vertical_distance':
-'horizontal_distance': 
-'poi_x': point of impact coordinate ()
-'poi_y': point of impact coordinate ()
-'poi_z': point of impact coordinate ()
+'bearing': spray angle (deg) (0 = straight back at pitcher; + = lefty pull field, - = righty pull field)
+'vertical_distance': distance from center of strike zone (inches) (+ values = higher than middle of strike zone)
+'horizontal_distance': distance from center of strike zone (inches) (+ values = pitches inside to right handed batter)
+'poi_x': horizontal point of impact coordinate (0 = back tip of home plate; + = inside to left handed batter)
+'poi_y': vertical point of impact coordinate (0 = ground; + = above ground)
+'poi_z': point of impact coordinate (0 = back tip of home plate; + values = towards pitcher)
 'pitch_angle': decent angle of incoming pitch (deg)
 ```
+
+HitTrax strike zone zones are as follows:
+
+![hittrax_zones.png](imgs/hittrax_zones.png)
+
+***HitTrax Zones from the pitcher's perspective***
 
 # About the Data
 
