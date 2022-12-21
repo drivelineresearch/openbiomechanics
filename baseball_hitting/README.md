@@ -103,7 +103,7 @@ Ground reaction force data were filtered with a 4th order Butterworth low pass f
 
 ### Table Schema
 
-Full signal data are broken up into six large CSV files:
+Full signal data are broken up into four large CSV files:
 
 - `force_plate`: rear leg, lead leg ground reaction forces
 - `joint angles`: joint angles
