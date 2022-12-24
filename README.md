@@ -14,6 +14,10 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 Detailed information can be found in license.txt as well as on the OBP site under "Usage Terms."
 
+Very important part of our *license.txt* file:
+
+>While the license is clear that this data cannot be used for commercial purposes (which includes but is not limited to for-profit organizations, corporations, and sole proprietorships with the intent to profit now or in the future), there is also one additional specific exclusion where this data cannot be used in any form without a specific written commercial (paid) license: ***Any employee or contractor employed by, associated with, or a significant shareholder of a professional sports organization or financial analysis firm is forbidden to use The OpenBiomechanics Project data for any use whatsoever.***
+
 ## IRB information
 
 [Western IRB](https://www.wcgirb.com/) provided ethical approval for all data collection proceedures (Western IRB # WB-DLR-115)
