@@ -117,6 +117,25 @@ The times at which common events occurred are also joined in each table for conv
 
 One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full signal data through the metadata CSV located at `~\baseball_hitting\data\metadata.csv`.
 
+### Landmarks Key
+
+| Abbreviation | Definition |
+| --- | --- |
+| lhjc | left hand joint center |
+| left_hip | left hip joint center |
+| lsjc | left shoulder joint center |
+| lejc | left elbow joint center |
+| lkjc | left knee joint center |
+| lajc | left ankle joint center |
+| lwjc | left wrist joint center |
+| rhjc | right hand joint center |
+| right_hip | right hip joint center |
+| rsjc | right shoulder joint center |
+| rejc | right shoulder joint center |
+| rkjc | right knee joint center |
+| rajc | right ankle joint center |
+| rwjc | right wrist joint center |
+
 # Point of Interest
 
 Kinematic metrics commonly referenced in biomechanical analyses are arranged into a point-of-interest (POI) CSV at `~\data\poi\POI.csv`. We attempted to name variables so their definitions would be clear, however, this may not always be the case.
