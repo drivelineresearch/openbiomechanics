@@ -1,0 +1,1 @@
+Run frameprocessing.py first to load all the images and pre-process ones that are good for analysis, then run 2dcalibrate.py!
