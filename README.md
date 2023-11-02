@@ -4,9 +4,11 @@ The OpenBiomechanics Project is an initiative started by [Driveline Baseball Res
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
-### Update 2022-01-10
+### Update 2023-11-02
 
-OBP tutorial #1: [***Accessing C3D files using Python and ezc3d***](/additional_resources/tutorials/ezc3d_python) added.
+OBP Computer Vision (OBP-CV) added! Examples can be found in the `computer_vision` folder and the README and data can be found at the following Google Sheet link:
+
+[OBP-CV README, Shot List, and More Information](https://docs.google.com/spreadsheets/d/1NhpF8DnfBdio_xsU7B44KNuHghtePDp-d3juvCYNm9Q/edit?usp=sharing)
 
 # License
 
