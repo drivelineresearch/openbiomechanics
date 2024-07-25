@@ -85,15 +85,15 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 1. **Concentric Peak Velocity**: Maximum Velocity during the Concentric Phase (m/s).
 
 
-## **Metrics Naming Convention ##
+## **Metrics Naming Convention** ##
 
 Most metrics in the dataset will follow the naming convention
 
-`variableName_[units]_type_test`
+`variable_[units]_type_testabbreviation`
 
-Where `variableName` is a short description of the metric, `[units]` is the unit of measure, `type` denotes the metric data type, and `test` is an abbreviation of the test type.
+Where `variable` is a short description of the metric, `[units]` is the unit of measure, `type` denotes the metric data type (typically a mean or max/best of several trials), and `testabbrevion` is an abbreviation of the test type.
 
-Test type abbreviations are as follows...
+Test abbreviations are as follows...
 
 - CMJ = countermovement jump
 - SJ = squat jump
