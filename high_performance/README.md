@@ -44,7 +44,7 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 * **Ground Contact Time:** Measures how quickly an athlete can rebound, important for reactive sports.  
 * **Flight Time:** Reflects the height of each hop, indicating power and endurance.
 
-## **Basic Metrics Overview-** 
+## **Metrics Overview** 
 
 #### **Asymmetry Metrics**
 
@@ -84,3 +84,19 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 1. **Concentric Mean Velocity**: Average Velocity during the Concentric Phase (m/s).  
 1. **Concentric Peak Velocity**: Maximum Velocity during the Concentric Phase (m/s).
 
+
+## **Metrics Naming Convention ##
+
+Most metrics in the dataset will follow the naming convention
+
+`variableName_\[units\]_type_test`
+
+Where `variableName` is a short description of the metric, `[units]` is the unit of measure, `type` denotes the metric data type, and `test` is an abbreviation of the test type.
+
+Test type abbreviations are as follows...
+
+- CMJ = countermovement jump
+- SJ = squat jump
+- HT = hop test
+- IMTP = isometric midthigh pull
+- PP = plyo pushup
