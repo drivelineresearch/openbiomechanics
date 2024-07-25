@@ -89,7 +89,7 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 
 Most metrics in the dataset will follow the naming convention
 
-`variableName_\[units\]_type_test`
+`variableName_[units]_type_test`
 
 Where `variableName` is a short description of the metric, `[units]` is the unit of measure, `type` denotes the metric data type, and `test` is an abbreviation of the test type.
 
