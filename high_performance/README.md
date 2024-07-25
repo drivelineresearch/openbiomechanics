@@ -44,9 +44,9 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 * **Ground Contact Time:** Measures how quickly an athlete can rebound, important for reactive sports.  
 * **Flight Time:** Reflects the height of each hop, indicating power and endurance.
 
-**Basic Metrics Overview-** 
+## **Basic Metrics Overview-** 
 
-**Asymmetry Metrics**
+#### **Asymmetry Metrics**
 
 **Asymmetry**: A relative measurement of difference between two-sided values expressed as a percentage. Calculated as (Left Metric value – Right Metric value) / maximum of (Left Metric value or Right Metric value) x 100\.
 
