@@ -2,7 +2,7 @@
 
 Our assessment process utilizes force plate tests paired with motion capture data to provide a comprehensive analysis of an athlete’s performance. This documentation outlines the key tests we use, their significance, and how we integrate the collected data
 
-## **Testing Battery (Protocols included in links)-**
+## **Testing Battery (Protocols included in links)**
 
 ### [**Shoulder/Spine Strength & Range of Motion (Table)**](https://vimeo.com/382787527/9cf56a289c)
 
