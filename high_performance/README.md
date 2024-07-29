@@ -4,6 +4,10 @@ Our assessment process utilizes force plate tests paired with motion capture dat
 
 ## **Testing Battery (Protocols included in links)-**
 
+### [**Shoulder/Spine Strength & Range of Motion (Table)**](https://vimeo.com/382787527/9cf56a289c)
+
+The two datapoints included in the dataset are Thoracic spine mobility (measured on hands and knees) and supine shoulder internal and external rotation strength (measured with a dynamometer).
+
 ### [**Isometric Mid-Thigh Pull (IMTP)**](https://vimeo.com/972866323/3cc3060c4a)
 
 The IMTP assesses lower body maximal strength by measuring the force an athlete can exert in a static position. This test is critical for understanding an athlete's raw strength and capacity to produce force, which is foundational for many athletic movements.
@@ -68,6 +72,9 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 3. **Vertical Force**: The vertical force component measured from a single force plate or combined from both (N).  
 4. **Concentric Mean Force**: Average Vertical Force during the Concentric Phase (N).  
 5. **Concentric Mean Force/BM**: Concentric Mean Force divided by Body Mass (N/kg).
+
+**Flight Time:** The total time from when an athlete's feet leave the plates to landing
+
 
 #### **Rate of Development Metrics**
 
