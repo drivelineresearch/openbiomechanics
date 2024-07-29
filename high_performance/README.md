@@ -5,6 +5,7 @@ Our assessment process utilizes force plate tests paired with motion capture dat
 ## **Testing Battery (Protocols included in links)-**
 
 [**Table ROM and Shoulder Strength**](https://vimeo.com/382787527/9cf56a289c)**\-**  
+
 The two datapoints included in the dataset are Thoracic spine mobility (measured on hands and knees) and supine shoulder internal and external rotation strength (measured with a dynamometer)
 
 ### [**Isometric Mid-Thigh Pull (IMTP)**](https://vimeo.com/972866323/3cc3060c4a)
