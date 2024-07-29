@@ -2,11 +2,10 @@
 
 Our assessment process utilizes force plate tests paired with motion capture data to provide a comprehensive analysis of an athlete’s performance. This documentation outlines the key tests we use, their significance, and how we integrate the collected data
 
-## **Testing Battery (Protocols included in links)**
+## **Testing Battery (Protocols included in links)-**
 
-### [**Shoulder/Spine Strength & Range of Motion (Table)**](https://vimeo.com/382787527/9cf56a289c)
-
-The two datapoints included in the dataset are Thoracic spine mobility (measured on hands and knees) and supine shoulder internal and external rotation strength (measured with a dynamometer).
+[**Table ROM and Shoulder Strength**](https://vimeo.com/382787527/9cf56a289c)**\-**  
+The two datapoints included in the dataset are Thoracic spine mobility (measured on hands and knees) and supine shoulder internal and external rotation strength (measured with a dynamometer)
 
 ### [**Isometric Mid-Thigh Pull (IMTP)**](https://vimeo.com/972866323/3cc3060c4a)
 
@@ -38,16 +37,15 @@ The SJ measures lower body explosive strength from a static position, eliminatin
 * **Asymmetries:** Highlights discrepancies between limbs, useful for injury prevention and rehabilitation.  
 * **Eccentric Utilization Ratio (EUR):** Compares CMJ to SJ height to evaluate an athlete’s ability to utilize the stretch-shortening cycle.
 
-### [**Plyo Pushup**](https://vimeo.com/991424293/9c27f2b889?share=copy)
+[**Plyo Pushup**](https://vimeo.com/991424293/9c27f2b889?share=copy) **(Not included in entire dataset)**
 
 The plyo pushup measures upper body rate of force development using a countermovement.
 
 **Significance:**
 
-* **Peak Takeoff Force:** the peak force achieved before the athlete's hands leave the plates
-* **Peak Eccentric Force:** the peak force achieved during the eccentric phase of the plyo pushup
-* **Asymmetry:** The difference in force production between the right and left arms
-
+* **Peak Takeoff Force**\- the peak force achieved before the athlete's hands leave the plates  
+* **Peak Eccentric Force**\- the peak force achieved during the eccentric phase of the plyo pushup  
+* **Asymmetry**\- The difference in force production between the right and left arms
 
 ### [**Repeated Hop Test**](https://vimeo.com/manage/videos/972840700/05fb7485ca)
 
@@ -59,49 +57,35 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 * **Ground Contact Time:** Measures how quickly an athlete can rebound, important for reactive sports.  
 * **Flight Time:** Reflects the height of each hop, indicating power and endurance.
 
-## **Metrics Overview** 
+## **Basic Metrics Overview-** 
 
-#### **Asymmetry Metrics**
+### **Asymmetry Metrics**
 
-**Asymmetry**: A relative measurement of difference between two-sided values expressed as a percentage. Calculated as (Left Metric value – Right Metric value) / maximum of (Left Metric value or Right Metric value) x 100\.
+1. **Asymmetry**: A relative measurement of the difference between two-sided values expressed as a percentage. Calculated as (Left Metric value – Right Metric value) / maximum of (Left Metric value or Right Metric value) x 100\.
 
-#### **Force Metrics**
+### **Force Metrics**
 
 1. **Left Force**: The vertical Force component measured from the left force plate (N).  
 2. **Right Force**: The vertical Force component measured from the right force plate (N).  
-3. **Vertical Force**: The vertical force component measured from a single force plate or combined from both (N).  
-4. **Concentric Mean Force**: Average Vertical Force during the Concentric Phase (N).  
-5. **Concentric Mean Force/BM**: Concentric Mean Force divided by Body Mass (N/kg).
+3. **Concentric Mean Force/BM**: Concentric Mean Force divided by Body Mass (N/kg).  
+4. **Peak Force**: The highest force achieved in the movement  
+5. **Net Peak Force**: The highest force achieved in the movement minus bodyweight
 
 **Flight Time:** The total time from when an athlete's feet leave the plates to landing
 
-
-#### **Rate of Development Metrics**
-
-1. **Rate of Force Development (RFD)**: Change in force over a given time period or phase (N/s).  
-2. **Rate of Power Development (RPD)**: Change in power over a given time period or phase (W/s).  
-3. **Concentric RFD**: RFD from the start of the Concentric Phase to the point when Peak Force occurs (N/s).  
-4. **Concentric RPD**: RPD from the start of the Concentric Phase to the point when Peak Power occurs (W/s).
-
-#### **Impulse Metrics**
+### **Impulse Metrics**
 
 1. **Concentric Impulse**: Net Impulse during the Concentric Phase (Ns).  
 2. **Concentric Impulse (Abs) / BM**: Absolute Impulse during the Concentric Phase divided by Body Mass (Ns/kg).  
 3. **Concentric Impulse-100ms**: Net Impulse during the first 100ms of the Concentric Phase (Ns).  
 4. **Concentric Impulse-50ms**: Net Impulse during the first 50ms of the Concentric Phase (Ns).
 
-#### **Power Metrics**
+### **Power Metrics**
 
 1. **Concentric Mean Power**: Average Power during the Concentric Phase (W).  
 2. **Concentric Mean Power / BM**: Concentric Mean Power divided by Body Mass (W/kg).  
 3. **Peak Power**: Maximum Power during the Concentric Phase (W).  
 4. **Peak Power / BM**: Peak Power divided by Body Mass (W/kg).
-
-#### **Velocity Metrics**
-
-1. **Concentric Mean Velocity**: Average Velocity during the Concentric Phase (m/s).  
-2. **Concentric Peak Velocity**: Maximum Velocity during the Concentric Phase (m/s).
-
 
 ## **Metrics Naming Convention** ##
 
