@@ -34,6 +34,17 @@ The SJ measures lower body explosive strength from a static position, eliminatin
 * **Asymmetries:** Highlights discrepancies between limbs, useful for injury prevention and rehabilitation.  
 * **Eccentric Utilization Ratio (EUR):** Compares CMJ to SJ height to evaluate an athlete’s ability to utilize the stretch-shortening cycle.
 
+### [Plyo Pushup**](https://vimeo.com/991424293/9c27f2b889?share=copy)
+
+The plyo pushup measures upper body rate of force development using a countermovement.
+
+**Significance:**
+
+* **Peak Takeoff Force:** the peak force achieved before the athlete's hands leave the plates
+* **Peak Eccentric Force:** the peak force achieved during the eccentric phase of the plyo pushup
+* **Asymmetry:** The difference in force production between the right and left arms
+
+
 ### [**Repeated Hop Test**](https://vimeo.com/manage/videos/972840700/05fb7485ca)
 
 The repeated hop test assesses lower body reactive ability by measuring the athlete’s capacity to quickly transition from eccentric to concentric movements. 
@@ -53,36 +64,36 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 #### **Force Metrics**
 
 1. **Left Force**: The vertical Force component measured from the left force plate (N).  
-1. **Right Force**: The vertical Force component measured from the right force plate (N).  
-1. **Vertical Force**: The vertical force component measured from a single force plate or combined from both (N).  
-1. **Concentric Mean Force**: Average Vertical Force during the Concentric Phase (N).  
-1. **Concentric Mean Force/BM**: Concentric Mean Force divided by Body Mass (N/kg).
+2. **Right Force**: The vertical Force component measured from the right force plate (N).  
+3. **Vertical Force**: The vertical force component measured from a single force plate or combined from both (N).  
+4. **Concentric Mean Force**: Average Vertical Force during the Concentric Phase (N).  
+5. **Concentric Mean Force/BM**: Concentric Mean Force divided by Body Mass (N/kg).
 
 #### **Rate of Development Metrics**
 
 1. **Rate of Force Development (RFD)**: Change in force over a given time period or phase (N/s).  
-1. **Rate of Power Development (RPD)**: Change in power over a given time period or phase (W/s).  
-1. **Concentric RFD**: RFD from the start of the Concentric Phase to the point when Peak Force occurs (N/s).  
-1. **Concentric RPD**: RPD from the start of the Concentric Phase to the point when Peak Power occurs (W/s).
+2. **Rate of Power Development (RPD)**: Change in power over a given time period or phase (W/s).  
+3. **Concentric RFD**: RFD from the start of the Concentric Phase to the point when Peak Force occurs (N/s).  
+4. **Concentric RPD**: RPD from the start of the Concentric Phase to the point when Peak Power occurs (W/s).
 
 #### **Impulse Metrics**
 
 1. **Concentric Impulse**: Net Impulse during the Concentric Phase (Ns).  
-1. **Concentric Impulse (Abs) / BM**: Absolute Impulse during the Concentric Phase divided by Body Mass (Ns/kg).  
-1. **Concentric Impulse-100ms**: Net Impulse during the first 100ms of the Concentric Phase (Ns).  
-1. **Concentric Impulse-50ms**: Net Impulse during the first 50ms of the Concentric Phase (Ns).
+2. **Concentric Impulse (Abs) / BM**: Absolute Impulse during the Concentric Phase divided by Body Mass (Ns/kg).  
+3. **Concentric Impulse-100ms**: Net Impulse during the first 100ms of the Concentric Phase (Ns).  
+4. **Concentric Impulse-50ms**: Net Impulse during the first 50ms of the Concentric Phase (Ns).
 
 #### **Power Metrics**
 
 1. **Concentric Mean Power**: Average Power during the Concentric Phase (W).  
-1. **Concentric Mean Power / BM**: Concentric Mean Power divided by Body Mass (W/kg).  
-1. **Peak Power**: Maximum Power during the Concentric Phase (W).  
-1. **Peak Power / BM**: Peak Power divided by Body Mass (W/kg).
+2. **Concentric Mean Power / BM**: Concentric Mean Power divided by Body Mass (W/kg).  
+3. **Peak Power**: Maximum Power during the Concentric Phase (W).  
+4. **Peak Power / BM**: Peak Power divided by Body Mass (W/kg).
 
 #### **Velocity Metrics**
 
 1. **Concentric Mean Velocity**: Average Velocity during the Concentric Phase (m/s).  
-1. **Concentric Peak Velocity**: Maximum Velocity during the Concentric Phase (m/s).
+2. **Concentric Peak Velocity**: Maximum Velocity during the Concentric Phase (m/s).
 
 
 ## **Metrics Naming Convention** ##
