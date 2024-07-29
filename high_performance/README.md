@@ -34,7 +34,7 @@ The SJ measures lower body explosive strength from a static position, eliminatin
 * **Asymmetries:** Highlights discrepancies between limbs, useful for injury prevention and rehabilitation.  
 * **Eccentric Utilization Ratio (EUR):** Compares CMJ to SJ height to evaluate an athlete’s ability to utilize the stretch-shortening cycle.
 
-### [Plyo Pushup**](https://vimeo.com/991424293/9c27f2b889?share=copy)
+### [**Plyo Pushup**](https://vimeo.com/991424293/9c27f2b889?share=copy)
 
 The plyo pushup measures upper body rate of force development using a countermovement.
 
