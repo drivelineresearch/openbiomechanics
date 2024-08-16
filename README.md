@@ -4,6 +4,10 @@ The OpenBiomechanics Project is an initiative started by [Driveline Baseball Res
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
+### Update 2024-07-30
+
+[High Performance](https://github.com/drivelineresearch/openbiomechanics/tree/main/high_performance) module added! Find it in the `high_performance` folder!
+
 ### Update 2023-11-02
 
 OBP Computer Vision (OBP-CV) added! Examples can be found in the `computer_vision` folder and the README and data can be found at the following Google Sheet link:
