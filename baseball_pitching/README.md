@@ -126,7 +126,7 @@ Full signal data are broken up into six large CSV files:
 - `joint_velos`: joint angular velocities
 - `landmarks`: joint center positions
 
-Tables may be joined using `session_pitch` + `time`. Please note that force plate and marker-derived data are provided at their own respective measurement rates (360 Hz and 1,080 Hz, respectively). Therefore, we recommend caution when joining force plate and marker-derived data to avoid potential data loss.
+Tables may be joined using `session_pitch` + `time`. Please note that force plate and marker-derived data are provided at their own respective measurement rates (1,080 Hz and 360 Hz, respectively). Therefore, we recommend caution when joining force plate and marker-derived data to avoid potential data loss.
 
 The times at which common events occurred are also joined in each table for convenience. Provided events are foot contact (10% bodyweight), foot plant (100% bodyweight), maximum external rotation (layback), ball release, and maximum internal rotation.
 
