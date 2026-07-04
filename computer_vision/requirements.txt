@@ -1,0 +1,13 @@
+# OpenBiomechanics — computer_vision requirements
+# Pinned minimum versions (>=); newer releases are expected to work.
+opencv-python>=4.8.0
+ultralytics>=8.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+
+# NOTE: the hello_world/face_pose face-recognition demos additionally require the
+# 'face_recognition' package (unmaintained, dlib-based, needs a C++/CMake toolchain).
+# For a modern, actively maintained alternative consider 'mediapipe' instead.
+# face_recognition>=1.3.0

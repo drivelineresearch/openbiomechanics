@@ -1,8 +1,14 @@
+import argparse
 import face_recognition
 import cv2
 import numpy as np
 from ultralytics import YOLO
 import os
+
+parser = argparse.ArgumentParser(description="YOLO pose estimation with face recognition.")
+parser.add_argument('--video', default='iphone_dynamic_baseballthrow.MOV')
+parser.add_argument('--name', default='Subject')
+args = parser.parse_args()
 
 # Initialize YOLO model
 model = YOLO('yolov8n-pose.pt')
@@ -10,8 +16,7 @@ model = YOLO('yolov8n-pose.pt')
 print("Initializing...")
 
 # Initialize video capture
-video_path = 'iphone_dynamic_baseballthrow.MOV'
-cap = cv2.VideoCapture(video_path)
+cap = cv2.VideoCapture(args.video)
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
 
@@ -34,7 +39,7 @@ if os.path.exists('training/'):
             if len(encodings) > 0:
                 face_encoding = encodings[0]
                 known_face_encodings.append(face_encoding)
-                known_face_names.append("Clayton Thompson")
+                known_face_names.append(args.name)
             else:
                 print(f"No faces found in {filename}")
 
