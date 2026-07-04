@@ -20,9 +20,9 @@ All C3Ds follow a common naming convention.
 
 `SESSIONid` = unique session identifier
 
-`HEIGHT` = body height in inches (body height in meters is also provided in the metadata CSV)
+`HEIGHT` = body height in inches (also provided as `session_height_in` in the metadata CSV)
 
-`WEIGHT` = bodyweight in pounds (body mass in kilograms is also provided in the metadata CSV)
+`WEIGHT` = bodyweight in pounds (also provided as `session_mass_lbs` in the metadata CSV)
 
 `SIDE` = hitting side (L = left handed swing, R = right handed swing)
 
