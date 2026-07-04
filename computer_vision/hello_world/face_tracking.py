@@ -1,12 +1,16 @@
+import argparse
 import face_recognition
 import cv2
 import numpy as np
 import os
 
+parser = argparse.ArgumentParser(description="Face recognition on video.")
+parser.add_argument('--video', default='iphone_dynamic_baseballthrow.MOV')
+args = parser.parse_args()
+
 print("Initializing...")
 
-video_path = 'iphone_dynamic_baseballthrow.MOV'
-cap = cv2.VideoCapture(video_path)
+cap = cv2.VideoCapture(args.video)
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
 
@@ -28,7 +32,7 @@ if os.path.exists('training/'):
             if len(encodings) > 0:
                 face_encoding = encodings[0]
                 known_face_encodings.append(face_encoding)
-                known_face_names.append("Clayton Thompson")
+                known_face_names.append("Subject")
             else:
                 print(f"No faces found in {filename}")
 

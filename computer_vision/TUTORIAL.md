@@ -15,7 +15,7 @@ This repository includes references and examples using several widely-used compu
 - **SORT**: A simple online and realtime tracking algorithm for 2D multiple object tracking in video sequences. [SORT GitHub](https://github.com/abewley/sort)
 - **torchvision**: A package consisting of popular datasets, model architectures, and common image transformations for computer vision. [torchvision GitHub](https://github.com/pytorch/vision/)
 - **OpenCV**: An open-source computer vision and machine learning software library. [OpenCV Python Package](https://pypi.org/project/opencv-python/)
-- **Face Recognition**: Perhaps the simplest and best face recognition library for Python and the command line. [Face Recognition GitHub](https://github.com/ageitgey/face_recognition)
+- **Face Recognition**: A Python face recognition library. Note that `ageitgey/face_recognition` is largely unmaintained and depends on `dlib`, which can be difficult to build. For new work, consider [MediaPipe](https://github.com/google-ai-edge/mediapipe) as a modern, actively maintained alternative for pose and face landmarking. [Face Recognition GitHub](https://github.com/ageitgey/face_recognition)
 
 ## Starting Your First Project
 
@@ -42,7 +42,9 @@ As you progress through these exercises, you should expect to produce outputs si
 
 ![Example Output](image.png)
 
-*Replace the above link with the actual path to your output example image.*
+## Demo Videos and Dependencies
+
+The demo videos referenced by these examples now live in the `cv-media-v1` GitHub Release. Download `cv_media.zip` and unzip it at the repository root to restore them. Python dependencies for these examples are pinned in [computer_vision/requirements.txt](requirements.txt).
 
 ## Getting Help
 
@@ -50,8 +52,8 @@ If you encounter any issues or have questions:
 
 1. Consult the documentation and resources linked above.
 2. Seek guidance from community forums or directly from the tools' official support channels.
-3. For more personalized assistance, post your queries to platforms like Stack Overflow, or ask ChatGPT-4 for help with troubleshooting.
-4. If you still need help, contact Clayton Thompson. Crafting your first working script can be challenging, but with perseverance, you will succeed.
+3. For more personalized assistance, consult each library's official documentation or post your queries to community forums such as Stack Overflow.
+4. If you still need help, open a GitHub issue on this repository. Crafting your first working script can be challenging, but with perseverance, you will succeed.
 
 ---
 

@@ -1,4 +1,51 @@
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# --- R ---
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# --- ML model weights (downloaded on demand, not committed) ---
+*.pt
+*.onnx
+
+# --- Large data & media (distributed via GitHub Releases, not git) ---
+# Raw motion capture
+baseball_pitching/data/c3d/
+baseball_hitting/data/c3d/
+# Processed full-signal archives
+baseball_*/data/full_sig/*.zip
+# Computer-vision demo media
+*.mp4
+*.mov
+*.MOV
+*.avi
+# Third-party tool installers
+binaries/*.dmg
+binaries/*.zip
+
+# --- Generated CV scratch dirs (keep the small .csv/.xml calibration outputs) ---
+computer_vision/**/debug_images/*
+!computer_vision/**/debug_images/.gitkeep
+computer_vision/**/multiprocessed_frames/*
+!computer_vision/**/multiprocessed_frames/.gitkeep
+computer_vision/**/figures/*
+!computer_vision/**/figures/.gitkeep
+
+# --- Local agent workspace (not part of the project) ---
+brain/

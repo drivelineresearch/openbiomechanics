@@ -1,0 +1,15 @@
+# OpenBiomechanics — root requirements
+#
+# Per-module dependencies live alongside the code that uses them:
+#   baseball_pitching/code/requirements.txt
+#   baseball_hitting/code/requirements.txt
+#   high_performance/code/requirements.txt
+#   computer_vision/requirements.txt
+#
+# The packages below are the common analysis stack — enough to load and explore
+# the released CSV/C3D data (see scripts/download_data.sh) without the database
+# or computer-vision extras. Pinned minimum versions (>=).
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+ezc3d>=1.5.0
