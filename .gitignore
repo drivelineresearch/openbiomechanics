@@ -47,5 +47,8 @@ computer_vision/**/multiprocessed_frames/*
 computer_vision/**/figures/*
 !computer_vision/**/figures/.gitkeep
 
+# --- Generated example figures ---
+examples/figures/
+
 # --- Local agent workspace (not part of the project) ---
 brain/

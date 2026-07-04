@@ -1,0 +1,154 @@
+dataset,column,dtype,example,description,documented
+hitting_poi,session_swing,str,103_1,unique swing identifier,True
+hitting_poi,session,int64,103,unique session ID,True
+hitting_poi,exit_velo_mph_x,float64,97.2,exit velocity (miles per hour),True
+hitting_poi,blast_bat_speed_mph_x,float64,66.8,bat speed at contact as measured by Blast Motion sensor (miles per hour),True
+hitting_poi,bat_speed_mph_contact_x,float64,67.9426,resultant bat speed at contact event (miles per hour),True
+hitting_poi,sweet_spot_velo_mph_contact_x,float64,67.5411,x component (toward mound) of sweet spot velocity vector at contact (miles per hour),True
+hitting_poi,sweet_spot_velo_mph_contact_y,float64,1.1177,y component (toward pull-side) of sweet spot velocity vector at contact (miles per hour),True
+hitting_poi,sweet_spot_velo_mph_contact_z,float64,6.404,z component (upward) of sweet spot velocity vector at contact (miles per hour),True
+hitting_poi,bat_torso_angle_connection_x,float64,121.0109,bat-torso angle at down swing event - this is the same as bat_torso_angle_ds and is what Blast Motion calls “Early Connection” (deg),True
+hitting_poi,attack_angle_contact_x,float64,5.7984,vertical attack angle at contact (deg),True
+hitting_poi,bat_speed_mph_max_x,float64,69.2154,maximum resultant bat speed (miles per hour),True
+hitting_poi,bat_speed_xy_max_x,float64,2529.2776,maximum resultant angular velocity of the bat - just x and y components (deg/sec),True
+hitting_poi,bat_torso_angle_ds_x,float64,-121.3557,,False
+hitting_poi,bat_torso_angle_ds_y,float64,121.0109,vertical bat angle relative to the torso at down swing event - this is the same as bat_torso_angle_connection and is what Blast calls “Early Connection” (deg),True
+hitting_poi,bat_torso_angle_ds_z,float64,101.554,,False
+hitting_poi,hand_speed_blast_bat_mph_max_x,float64,23.0841,maximum hand speed in mph - calculated the same way as Blast’s hand speed (deg/sec),True
+hitting_poi,hand_speed_mag_max_x,float64,1527.4279,maximum resultant hand speed between first move and contact (deg/sec),True
+hitting_poi,pelvis_angle_fm_x,float64,26.7272,pelvis angle (x) at first move - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_fm_y,float64,3.989,pelvis angle (y) at first move - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_fm_z,float64,-20.0787,pelvis angle (z) at first move - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_fp_x,float64,28.8512,pelvis angle (x) at foot plant - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_fp_y,float64,4.1585,pelvis angle (y) at foot plant - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_fp_z,float64,13.434,pelvis angle (z) at foot plant - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_hs_x,float64,27.0634,pelvis angle (x) at heel strike - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_hs_y,float64,4.7819,pelvis angle (y) at heel strike - using K-Vest conventions (deg),True
+hitting_poi,pelvis_angle_hs_z,float64,-21.0498,pelvis angle (z) at heel strike - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_fm_x,float64,27.9432,torso angle (x) at first move - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_fm_y,float64,-15.0864,torso angle (y) at first move - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_fm_z,float64,-13.006,torso angle (z) at first move - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_fp_x,float64,21.8904,torso angle (x) at foot plant - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_fp_y,float64,-0.0221,torso angle (y) at foot plant - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_fp_z,float64,-5.8966,torso angle (z) at foot plant - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_hs_x,float64,28.8937,torso angle (x) at heel strike - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_hs_y,float64,-15.0236,torso angle (y) at heel strike - using K-Vest conventions (deg),True
+hitting_poi,torso_angle_hs_z,float64,-12.118,torso angle (z) at heel strike - using K-Vest conventions (deg),True
+hitting_poi,upper_arm_speed_mag_max_x,float64,987.9657,maximum resultant upper arm speed between first move and contact (deg/sec),True
+hitting_poi,x_factor_fm_x,float64,-0.0808,x-factor angle (x) at first move (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,x_factor_fm_y,float64,-20.1757,x-factor angle (y) at first move (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,x_factor_fm_z,float64,-2.4765,x-factor angle (z) at first move (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,x_factor_fp_x,float64,6.723,x-factor angle (x) at foot plant (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,x_factor_fp_y,float64,5.7071,x-factor angle (y) at foot plant (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,x_factor_fp_z,float64,-18.952,x-factor angle (z) at foot plant (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,bat_max_x,float64,597.5685,maximum bat angular velocity relative to the lab - used for tagging handedness (deg/sec),True
+hitting_poi,bat_min_x,float64,32.7952,minimum bat angular velocity relative to the lab - used for tagging handedness (deg/sec),True
+hitting_poi,hand_speed_mag_fm_x,float64,100.3058,resultant hand speed at first move (deg/sec),True
+hitting_poi,hand_speed_mag_fp_x,float64,529.3574,resultant hand speed at foot plant (deg/sec),True
+hitting_poi,hand_speed_mag_maxhss_x,float64,848.9559,resultant hand speed at maximum hip-shoulder separation (deg/sec),True
+hitting_poi,hand_speed_mag_seq_max_x,float64,1527.4279,maximum resultant hand speed between first move and contact (deg/sec),True
+hitting_poi,hand_speed_mag_stride_max_velo_x,float64,529.3574,maximum resultant hand speed between load and foot plant (deg/sec),True
+hitting_poi,hand_speed_mag_swing_max_velo_x,float64,1527.4279,maximum resultant hand speed between load and contact (deg/sec),True
+hitting_poi,lead_knee_launchpos_x,float64,31.665,lead knee angle (x) at foot plant (deg),True
+hitting_poi,lead_knee_stride_max_x,float64,100.3434,maximum knee angle (x) between load and foot plant (deg),True
+hitting_poi,lead_wrist_fm_x,float64,23.0732,lead wrist angle (x) at first move (deg),True
+hitting_poi,lead_wrist_swing_max_x,float64,-12.31,maximum lead wrist angle (x) between load and contact (deg),True
+hitting_poi,pelvis_angular_velocity_fm_x,float64,31.8693,pelvis angular velocity at first move (deg/sec),True
+hitting_poi,pelvis_angular_velocity_fp_x,float64,580.7448,pelvis angular velocity at foot plant (deg/sec),True
+hitting_poi,pelvis_angular_velocity_maxhss_x,float64,733.0911,pelvis angular velocity at maximum hip-shoulder separation (deg/sec),True
+hitting_poi,pelvis_angular_velocity_seq_max_x,float64,733.6451,maximum pelvis angular velocity between first move and contact (deg/sec),True
+hitting_poi,pelvis_angular_velocity_stride_max_x,float64,580.7448,maximum pelvis angular velocity between load and foot plant (deg/sec),True
+hitting_poi,pelvis_angular_velocity_swing_max_x,float64,733.6451,maximum pelvis angular velocity between load and contact (deg/sec),True
+hitting_poi,pelvis_fm_x,float64,-26.7272,pelvis angle (x) at first move (deg),True
+hitting_poi,pelvis_fm_y,float64,3.989,pelvis angle (y) at first move (deg),True
+hitting_poi,pelvis_fm_z,float64,-110.0787,pelvis angle (z) at first move (deg),True
+hitting_poi,pelvis_launchpos_x,float64,-28.8512,pelvis angle (x) at foot plant (deg),True
+hitting_poi,pelvis_launchpos_y,float64,4.1585,pelvis angle (y) at foot plant (deg),True
+hitting_poi,pelvis_launchpos_z,float64,-76.566,pelvis angle (z) at foot plant (deg),True
+hitting_poi,pelvis_loadedpos_x,float64,-100.4105,pelvis angle (z) at loaded position (deg),True
+hitting_poi,pelvis_load_max_x,float64,-98.1193,maximum pelvis angle (z) between the start of the take and the loaded position (deg),True
+hitting_poi,pelvis_stride_max_x,float64,-28.8512,maximum pelvis angle (x) between the load and foot plant (deg),True
+hitting_poi,pelvis_stride_max_y,float64,10.6588,maximum pelvis angle (y) between the load and foot plant (deg),True
+hitting_poi,pelvis_stride_max_z,float64,-111.1967,maximum pelvis angle (z) between the load and foot plant (deg),True
+hitting_poi,pelvis_swing_max_x,float64,-1.8499,maximum pelvis angle (x) between the load and contact (deg),True
+hitting_poi,pelvis_swing_max_y,float64,10.6588,maximum pelvis angle (y) between the load and contact (deg),True
+hitting_poi,pelvis_swing_max_z,float64,11.3636,maximum pelvis angle (z) between the load and contact (deg),True
+hitting_poi,rear_elbow_fm_x,float64,132.2291,rear elbow angle (x) at first move (deg),True
+hitting_poi,rear_elbow_fm_z,float64,67.3961,rear elbow angle (z) at first move - wrist pronation/supination (deg),True
+hitting_poi,rear_elbow_launchpos_x,float64,121.7515,rear elbow angle (x) at foot plant (deg),True
+hitting_poi,rear_elbow_stride_max_x,float64,143.6237,maximum rear elbow angle (x) between the load and foot plant (deg),True
+hitting_poi,rear_elbow_stride_max_z,float64,77.7509,maximum rear elbow angle (z) between the load and foot plant - wrist pronation/supination (deg),True
+hitting_poi,rear_elbow_swing_max_x,float64,143.6237,maximum rear elbow angle (x) between the load and contact (deg),True
+hitting_poi,rear_elbow_swing_max_z,float64,83.4073,maximum rear elbow angle (z) between the load and contact - wrist pronation/supination (deg),True
+hitting_poi,rear_hip_launchpos_x,float64,54.4718,rear hip angle (x) at foot plant (deg),True
+hitting_poi,rear_hip_stride_max_x,float64,57.1879,maximum hip angle (x) between the load and foot plant (deg),True
+hitting_poi,rear_hip_stride_max_y,float64,-4.2861,maximum hip angle (y) between the load and foot plant (deg),True
+hitting_poi,rear_hip_stride_max_z,float64,37.7659,maximum hip angle (z) between the load and foot plant (deg),True
+hitting_poi,rear_shoulder_launchpos_x,float64,51.7001,rear shoulder angle (y) at foot plant (deg),True
+hitting_poi,rear_shoulder_stride_max_x,float64,11.0415,maximum rear shoulder angle (x) between the load and foot plant (deg),True
+hitting_poi,rear_shoulder_stride_max_y,float64,89.5564,maximum rear shoulder angle (y) between the load and foot plant (deg),True
+hitting_poi,rear_shoulder_stride_max_z,float64,11.7063,maximum rear shoulder angle (z) between the load and foot plant (deg),True
+hitting_poi,torso_angular_velocity_fm_x,float64,-20.5107,torso angular velocity at first move (deg/sec),True
+hitting_poi,torso_angular_velocity_fp_x,float64,453.0682,torso angular velocity at foot plant (deg/sec),True
+hitting_poi,torso_angular_velocity_maxhss_x,float64,748.4769,torso angular velocity at maximum hip-shoulder separation (deg/sec),True
+hitting_poi,torso_angular_velocity_stride_max_x,float64,453.0682,maximum torso angular velocity between the load and foot plant (deg/sec),True
+hitting_poi,torso_angular_velocity_seq_max_x,float64,775.7749,maximum torso angular velocity between first move and contact (deg/sec),True
+hitting_poi,torso_angular_velocity_swing_max_x,float64,775.7749,maximum torso angular velocity between the load and contact (deg/sec),True
+hitting_poi,torso_fm_x,float64,-27.9432,torso angle (x) at first move (deg),True
+hitting_poi,torso_fm_y,float64,-15.0864,torso angle (y) at first move (deg),True
+hitting_poi,torso_fm_z,float64,-103.006,torso angle (z) at first move (deg),True
+hitting_poi,torso_launchpos_x,float64,-21.8904,torso angle (x) at foot plant (deg),True
+hitting_poi,torso_launchpos_y,float64,-0.0221,torso angle (y) at foot plant (deg),True
+hitting_poi,torso_launchpos_z,float64,-95.8966,torso angle (z) at foot plant (deg),True
+hitting_poi,torso_loadedpos_x,float64,-97.7734,Torso angle (z) at loaded position (deg),True
+hitting_poi,torso_load_max_x,float64,-97.5618,maximum torso angle (z) between the start of the take and the load (deg),True
+hitting_poi,torso_pelvis_fm_x,float64,-2.4765,torso-pelvis angle (z) at first move (deg),True
+hitting_poi,torso_pelvis_launchpos_x,float64,-18.952,torso-pelvis angle (z) at foot plant (deg),True
+hitting_poi,torso_pelvis_loadedpos_x,float64,-4.3548,Torso-pelvis angle (z) at loaded position (deg),True
+hitting_poi,torso_pelvis_load_max_x,float64,-4.9252,maximum torso-pelvis angle (z) between the start of the take and the load (deg),True
+hitting_poi,torso_pelvis_stride_max_x,float64,-3.1422,maximum torso-pelvis angle (x) between the load and foot plant (deg),True
+hitting_poi,torso_pelvis_stride_max_y,float64,-25.0935,maximum torso-pelvis angle (y) between the load and foot plant (deg),True
+hitting_poi,torso_pelvis_stride_max_z,float64,-18.952,maximum torso-pelvis angle (z) between the load and foot plant (deg),True
+hitting_poi,torso_pelvis_swing_max_x,float64,-20.5898,maximum torso_pelvis angle (z) between the load and contact (deg),True
+hitting_poi,torso_stride_max_x,float64,-29.9237,maximum torso angle (x) between the load and foot plant (deg),True
+hitting_poi,torso_stride_max_y,float64,-15.0887,maximum torso angle (y) between the load and foot plant (deg),True
+hitting_poi,torso_stride_max_z,float64,-104.0084,maximum torso angle (z) between the load and foot plant (deg),True
+hitting_poi,torso_swing_max_x,float64,19.9394,maximum torso angle (x) between the load and contact (deg),True
+hitting_poi,torso_swing_max_y,float64,25.5588,maximum torso angle (y) between the load and contact (deg),True
+hitting_poi,torso_swing_max_z,float64,6.2796,maximum torso angle (z) between the load and contact (deg),True
+hitting_poi,upper_arm_speed_mag_fm_x,float64,77.2077,resultant upper arm speed at first move (deg/sec),True
+hitting_poi,upper_arm_speed_mag_fp_x,float64,281.0329,resultant upper arm speed at foot plant (deg/sec),True
+hitting_poi,upper_arm_speed_mag_maxhss_x,float64,449.7435,resultant upper arm speed at maximum hip-shoulder separation (deg/sec),True
+hitting_poi,upper_arm_speed_mag_seq_max_x,float64,987.9657,maximum resultant upper arm speed between first move and contact (deg/sec),True
+hitting_poi,upper_arm_speed_mag_stride_max_velo_x,float64,290.3699,maximum resultant upper arm speed between the load and foot plant (deg/sec),True
+hitting_poi,upper_arm_speed_mag_swing_max_velo_x,float64,987.9657,maximum resultant upper arm speed between the load and contact (deg/sec),True
+hitting_poi,x_factor_hs_x,float64,-0.7814,x-factor angle (x) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,x_factor_hs_y,float64,-21.659,x-factor angle (y) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,x_factor_hs_z,float64,-1.2444,x-factor angle (z) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg),True
+hitting_poi,max_cog_velo_x,float64,1.241,maximum center of gravity velocity from start of take to end of take (meters per second),True
+hitting_metadata,session_swing,str,6_1,unique swing identifier,True
+hitting_metadata,session_mass_lbs,float64,209.0,body mass in pounds,True
+hitting_metadata,session_height_in,float64,72.0,body height in inches,True
+hitting_metadata,athlete_age,int64,23,athlete age in years,True
+hitting_metadata,highest_playing_level,str,milb,highest playing level attained,True
+hitting_metadata,hitter_side,str,R,"hitting side (L = left handed swing, R = right handed swing)",True
+hitting_metadata,bat_weight_oz,float64,31.0,bat weight in ounces,True
+hitting_metadata,bat_length_in,float64,34.0,bat length in inches,True
+hitting_metadata,bat_speed_mph_max_x,float64,66.9317,maximum resultant bat speed (miles per hour),True
+hitting_metadata,blast_bat_speed_mph_x,float64,67.0,bat speed at contact as measured by Blast Motion sensor (miles per hour),True
+hitting_metadata,exit_velo_mph_x,float64,94.2,exit velocity (miles per hour),True
+hitting_metadata,user,int64,5,unique athlete identifier,True
+hitting_metadata,session,int64,6,unique session ID,True
+hitting_hittrax,session_swing,str,103_1,unique swing identifier,True
+hitting_hittrax,pitch,float64,57.8,velocity of incoming pitch (from machine) (mph),True
+hitting_hittrax,strike_zone,float64,8.0,strike zone region of pitch,True
+hitting_hittrax,la,int64,5,launch angle (deg),True
+hitting_hittrax,dist,int64,123,carry distance (ft),True
+hitting_hittrax,res,str, 1B-7,predicted result of ball in play,True
+hitting_hittrax,bearing,int64,-22,"spray angle (deg) (0 = straight back at pitcher; + = lefty pull field, - = righty pull field)",True
+hitting_hittrax,vertical_distance,float64,-4.4,distance from center of strike zone (inches) (+ values = higher than middle of strike zone),True
+hitting_hittrax,horizontal_distance,float64,2.2,distance from center of strike zone (inches) (+ values = pitches inside to right handed batter),True
+hitting_hittrax,poi_x,float64,-2.16,horizontal point of impact coordinate (0 = back tip of home plate; + = inside to left handed batter),True
+hitting_hittrax,poi_y,float64,28.02,vertical point of impact coordinate (0 = ground; + = above ground),True
+hitting_hittrax,poi_z,float64,18.43,point of impact coordinate (0 = back tip of home plate; + values = towards pitcher),True
+hitting_hittrax,pitch_angle,float64,-7.0,descent angle of incoming pitch (deg),True

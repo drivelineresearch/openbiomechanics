@@ -1,9 +1,14 @@
 import argparse
+import os
+import sys
+
 import face_recognition
 import cv2
 import numpy as np
 from ultralytics import YOLO
-import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils import load_known_faces, make_writer, iter_frames
 
 parser = argparse.ArgumentParser(description="YOLO pose estimation with face recognition.")
 parser.add_argument('--video', default='iphone_dynamic_baseballthrow.MOV')
@@ -15,35 +20,13 @@ model = YOLO('yolov8n-pose.pt')
 
 print("Initializing...")
 
-# Initialize video capture
+# Initialize video capture and a writer sized to the input
 cap = cv2.VideoCapture(args.video)
-frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
-
-# Initialize video writer
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-out = cv2.VideoWriter('face_pose_output.mp4', fourcc, 30.0, (frame_width, frame_height))
+out = make_writer(cap, 'face_pose_output.mp4')
 
 print("Loading training images...")
-known_face_encodings = []
-known_face_names = []
-
-# Load training images
-if os.path.exists('training/'):
-    for filename in os.listdir('training/'):
-        if filename.endswith('.jpg'):
-            print(f"Processing {filename}...")
-            image_path = os.path.join('training/', filename)
-            image = face_recognition.load_image_file(image_path)
-            encodings = face_recognition.face_encodings(image)
-            if len(encodings) > 0:
-                face_encoding = encodings[0]
-                known_face_encodings.append(face_encoding)
-                known_face_names.append(args.name)
-            else:
-                print(f"No faces found in {filename}")
-
-print(f"Loaded {len(known_face_encodings)} face encodings.")
+known_face_encodings, known_face_names = load_known_faces('training/', args.name)
 
 # Initialize variables
 face_locations = []
@@ -56,14 +39,9 @@ persistent_name = None
 run_face_recognition = True
 
 print("Starting video processing...")
-while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret:
-        print("Reached end of video.")
-        break
-
+for frame in iter_frames(cap):
     print("Processing frame...")
-    
+
     # Face Recognition
     if run_face_recognition:
         face_locations = face_recognition.face_locations(frame)

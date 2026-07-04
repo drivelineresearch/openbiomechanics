@@ -1,0 +1,92 @@
+dataset,column,dtype,example,description,documented
+pitching_poi,session_pitch,str,1031_2,unique pitch ID,True
+pitching_poi,session,int64,1031,unique session ID,True
+pitching_poi,p_throws,str,R,pitcher handedness,True
+pitching_poi,pitch_type,str,FF,pitch type,True
+pitching_poi,pitch_speed_mph,float64,90.4,pitch speed (miles per hour),True
+pitching_poi,max_shoulder_internal_rotational_velo,float64,4533.248,peak shoulder internal rotation velocity (deg/s),True
+pitching_poi,max_elbow_extension_velo,float64,2445.8177,peak elbow extension velocity (deg/s),True
+pitching_poi,max_torso_rotational_velo,float64,958.0878,peak torso axial rotation (Z) velocity (deg/s),True
+pitching_poi,max_rotation_hip_shoulder_separation,float64,32.3152,peak separation between thorax and pelvis (deg),True
+pitching_poi,max_elbow_flexion,float64,109.9971,peak elbow flexion angle (deg),True
+pitching_poi,max_shoulder_external_rotation,float64,162.348,peak shoulder external rotation (layback) (deg),True
+pitching_poi,elbow_flexion_fp,float64,86.3476,elbow flexion angle at foot plant (deg),True
+pitching_poi,elbow_pronation_fp,float64,13.8688,wrist pronation angle at foot plant (deg),True
+pitching_poi,rotation_hip_shoulder_separation_fp,float64,31.5769,hip-shoulder separation angle at foot plant (deg),True
+pitching_poi,shoulder_horizontal_abduction_fp,float64,53.7302,shoulder horizontal abduction angle at foot plant (deg),True
+pitching_poi,shoulder_abduction_fp,float64,88.9089,shoulder abduction angle at foot plant (deg),True
+pitching_poi,shoulder_external_rotation_fp,float64,12.406,shoulder external rotation angle at foot plant (deg),True
+pitching_poi,lead_knee_extension_angular_velo_fp,float64,160.4524,lead knee extension angular velocity at foot plant (deg/s),True
+pitching_poi,lead_knee_extension_angular_velo_br,float64,449.407,lead knee extension angular velocity at ball release (deg/s),True
+pitching_poi,lead_knee_extension_angular_velo_max,float64,452.7888,peak knee extension angular velocity (deg/s),True
+pitching_poi,torso_anterior_tilt_fp,float64,-2.6113,trunk flexion at foot plant (deg),True
+pitching_poi,torso_lateral_tilt_fp,float64,-7.0313,trunk lateral flexion at foot plant (deg),True
+pitching_poi,torso_rotation_fp,float64,0.3425,trunk axial rotation at foot plant (deg),True
+pitching_poi,pelvis_anterior_tilt_fp,float64,8.2744,pelvis anterior tilt at foot plant (deg),True
+pitching_poi,pelvis_lateral_tilt_fp,float64,-1.7844,pelvis lateral tilt at foot plant (deg),True
+pitching_poi,pelvis_rotation_fp,float64,31.7105,pelvis axial rotation at foot plant (deg),True
+pitching_poi,max_cog_velo_x,float64,3.3113,peak center of gravity velocity towards home plate (m/s),True
+pitching_poi,torso_rotation_min,float64,-21.1062,peak torso counterrotation angle (deg),True
+pitching_poi,max_pelvis_rotational_velo,float64,609.9531,peak pelvis axial rotation angular velocity (deg/s),True
+pitching_poi,glove_shoulder_horizontal_abduction_fp,float64,38.3919,glove shoulder horizontal abduction angle at foot plant (deg),True
+pitching_poi,glove_shoulder_abduction_fp,float64,85.9397,glove shoulder abduction angle at foot plant (deg),True
+pitching_poi,glove_shoulder_external_rotation_fp,float64,-46.638,glove shoulder external rotation angle at foot plant (deg),True
+pitching_poi,glove_shoulder_abduction_mer,float64,45.497,glove shoulder abduction angle at maximum external rotation (deg),True
+pitching_poi,elbow_flexion_mer,float64,93.9717,elbow flexion angle at maximum external rotation (deg),True
+pitching_poi,torso_anterior_tilt_mer,float64,16.9991,trunk flexion at maximum external rotation (deg),True
+pitching_poi,torso_lateral_tilt_mer,float64,22.1885,trunk lateral flexion at maximum external rotation (deg),True
+pitching_poi,torso_rotation_mer,float64,99.4708,trunk axial rotation at maximum external rotation (deg),True
+pitching_poi,elbow_varus_moment,float64,141.172,peak elbow varus moment (Nm),True
+pitching_poi,shoulder_internal_rotation_moment,float64,135.2726,peak shoulder internal rotation moment (Nm),True
+pitching_poi,torso_anterior_tilt_br,float64,34.1093,trunk flexion angle at ball release (deg),True
+pitching_poi,torso_lateral_tilt_br,float64,16.9053,trunk lateral flexion angle at ball release (deg),True
+pitching_poi,torso_rotation_br,float64,111.1709,trunk axial rotation angle at ball release (deg),True
+pitching_poi,lead_knee_extension_from_fp_to_br,float64,10.1399,difference in lead knee extension angle between foot plant and ball release (deg),True
+pitching_poi,cog_velo_pkh,float64,0.4643,center of gravity velocity towards home plate at peak knee height (m/s),True
+pitching_poi,stride_length,float64,0.8374,stride length (%body height),True
+pitching_poi,stride_angle,float64,5.3785,stride angle (+ = cross-body stride) (deg),True
+pitching_poi,arm_slot,float64,39.7377,arm slot (global forearm projection angle) (deg),True
+pitching_poi,timing_peak_torso_to_peak_pelvis_rot_velo,float64,0.0223,time from peak pelvis angular velocity to peak torso angular velocity (s),True
+pitching_poi,max_shoulder_horizontal_abduction,float64,53.8175,peak shoulder horizontal abduction angle (deg),True
+pitching_poi,shoulder_transfer_fp_br,float64,471.6631,energy transfer across throwing shoulder between foot plant and ball release (J),True
+pitching_poi,shoulder_generation_fp_br,float64,72.518,energy generation across throwing shoulder between foot plant and ball release (J),True
+pitching_poi,shoulder_absorption_fp_br,float64,8.1687,energy absorption across throwing shoulder between foot plant and ball release (J),True
+pitching_poi,elbow_transfer_fp_br,float64,481.4378,energy transfer across throwing elbow between foot plant and ball release (J),True
+pitching_poi,elbow_generation_fp_br,float64,7.0827,energy generation across throwing elbow between foot plant and ball release (J),True
+pitching_poi,elbow_absorption_fp_br,float64,88.0793,energy absorption across throwing elbow between foot plant and ball release (J),True
+pitching_poi,lead_hip_transfer_fp_br,float64,48.2958,energy transfer across lead hip between foot plant and ball release (J),True
+pitching_poi,lead_hip_generation_fp_br,float64,11.5949,energy generation across lead hip between foot plant and ball release (J),True
+pitching_poi,lead_hip_absorption_fp_br,float64,119.5385,energy absorption across lead hip between foot plant and ball release (J),True
+pitching_poi,lead_knee_transfer_fp_br,float64,70.8131,energy transfer across lead knee between foot plant and ball release (J),True
+pitching_poi,lead_knee_generation_fp_br,float64,74.767,energy generation across lead knee between foot plant and ball release (J),True
+pitching_poi,lead_knee_absorption_fp_br,float64,32.104,energy absorption across lead knee between foot plant and ball release (J),True
+pitching_poi,rear_hip_transfer_pkh_fp,float64,130.8791,energy transfer across rear hip between foot plant and ball release (J),True
+pitching_poi,rear_hip_generation_pkh_fp,float64,173.1504,energy generation  across rear hip between foot plant and ball release (J),True
+pitching_poi,rear_hip_absorption_pkh_fp,float64,37.6984,energy absorption across rear hip between foot plant and ball release (J),True
+pitching_poi,rear_knee_transfer_pkh_fp,float64,33.8403,energy transfer across rear knee between foot plant and ball release (J),True
+pitching_poi,rear_knee_generation_pkh_fp,float64,111.565,energy generation across rear knee between foot plant and ball release (J),True
+pitching_poi,rear_knee_absorption_pkh_fp,float64,88.4883,energy absorption across rear knee between foot plant and ball release (J),True
+pitching_poi,pelvis_lumbar_transfer_fp_br,float64,157.7995,energy transfer out of pelvis towards trunk between foot plant and ball release (J),True
+pitching_poi,thorax_distal_transfer_fp_br,float64,479.8318,energy transfer out of trunk towards throwing shoulder between foot plant and ball release (J),True
+pitching_poi,rear_grf_x_max,float64,1019.3193,peak anterior push-off ground reaction force (N),True
+pitching_poi,rear_grf_y_max,float64,103.0399,peak lateral push-off ground reaction force (N),True
+pitching_poi,rear_grf_z_max,float64,1497.9859,peak vertical ground reaction force on the rear leg (N),True
+pitching_poi,rear_grf_mag_max,float64,1736.0368,peak resultant ground reaction force on the rear leg (N),True
+pitching_poi,rear_grf_angle_at_max,float64,55.7071,rear ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg),True
+pitching_poi,lead_grf_x_max,float64,1278.4966,peak braking ground reaction force (N),True
+pitching_poi,lead_grf_y_max,float64,270.7849,peak lateral braking ground reaction force (N),True
+pitching_poi,lead_grf_z_max,float64,2484.8747,peak vertical ground reaction force on the lead leg (N),True
+pitching_poi,lead_grf_mag_max,float64,2782.958,peak resultant ground reaction force on the lead leg (N),True
+pitching_poi,lead_grf_angle_at_max,float64,63.3501,lead ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg),True
+pitching_poi,peak_rfd_rear,float64,11.6564,peak rate of force development on the rear leg (N/s),True
+pitching_poi,peak_rfd_lead,float64,170.462,peak rate of force development on the lead leg (N/s),True
+pitching_metadata,user,int64,750,athlete ID,True
+pitching_metadata,session,int64,1031,unique session ID,True
+pitching_metadata,session_pitch,str,1031_2,unique pitch ID,True
+pitching_metadata,session_mass_kg,float64,110.6784,body mass (kg),True
+pitching_metadata,session_height_m,float64,1.9304,body height (m),True
+pitching_metadata,age_yrs,float64,21.4,age at collection (years),True
+pitching_metadata,playing_level,str,college,playing level at the time of data collection,True
+pitching_metadata,pitch_speed_mph,float64,90.4,pitch speed (miles per hour),True
+pitching_metadata,filename_new,str,000750_001031_76_244_013_FF_904.c3d,anonymized c3d filename,True
+pitching_metadata,modelname_new,str,000750_001031_model.c3d,anonymized static model c3d filename,True

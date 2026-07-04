@@ -1,8 +1,13 @@
+import os
+import sys
+
 import face_recognition
 import cv2
 import numpy as np
-import os
 from ultralytics import YOLO
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils import load_known_faces
 
 # Initialization
 print("Initializing...")
@@ -10,22 +15,7 @@ model = YOLO('yolov8n-pose.pt')
 
 # Load known faces
 print("Loading training images...")
-known_face_encodings = []
-known_face_names = []
-if os.path.exists('training/'):
-    for filename in os.listdir('training/'):
-        if filename.endswith('.jpg'):
-            print(f"Processing {filename}...")
-            image_path = os.path.join('training/', filename)
-            image = face_recognition.load_image_file(image_path)
-            encodings = face_recognition.face_encodings(image)
-            if len(encodings) > 0:
-                face_encoding = encodings[0]
-                known_face_encodings.append(face_encoding)
-                known_face_names.append("Subject")
-            else:
-                print(f"No faces found in {filename}")
-print(f"Loaded {len(known_face_encodings)} face encodings.")
+known_face_encodings, known_face_names = load_known_faces('training/', "Subject")
 
 # Load a test image
 test_image_path = '7cakQHm7_400x400.jpg'

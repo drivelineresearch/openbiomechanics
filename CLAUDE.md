@@ -13,9 +13,11 @@ files it points to.
 | `baseball_pitching/` | Pitching data (`data/`) + processing code (`code/`) + `README.md` (marker set, coordinate system, sign conventions, POI + metadata dictionaries) |
 | `baseball_hitting/` | Same structure as pitching, for swings |
 | `high_performance/` | Force-plate + assessment data (`data/hp_obp.csv`) + scrape notebook + `README.md` |
-| `computer_vision/` | OpenCV / YOLO / calibration tutorials (`TUTORIAL.md`) |
+| `computer_vision/` | OpenCV / YOLO / calibration tutorials (`TUTORIAL.md`); shared helpers in `utils.py` |
 | `additional_resources/` | Cited references + `tutorials/` (ezc3d, ISBS) |
-| `scripts/download_data.sh` | Fetches the large data artifacts from GitHub Releases |
+| `obp/` | Small pandas loader package: `load_poi/load_metadata/load_hp`, path resolvers, `download()` |
+| `examples/` | Runnable `.py` scripts demonstrating POI/C3D/full-signal/HP workflows |
+| `scripts/` | `download_data.sh` (fetch release data), `build_data_dictionary.py` (regenerate dictionaries) |
 
 Each `baseball_*/data/` holds: `metadata.csv`, `poi/` (in-repo, small) — and,
 after download, `c3d/` (raw trials) and `full_sig/*.zip` (processed signals).
@@ -32,6 +34,11 @@ after download, `c3d/` (raw trials) and `full_sig/*.zip` (processed signals).
 
 - **Get the data:** `scripts/download_data.sh` (needs the `gh` CLI). Add
   `--with-media` for CV demo videos, `--with-mokka` for the C3D viewer.
+- **Load data in code:** `import obp; obp.load_poi("pitching")`. POI/metadata/HP
+  CSVs are in-repo; `obp.download()` fetches the release archives when you need
+  raw C3D or full-signal.
+- **Column references:** `<module>/data/data_dictionary.csv` (generated from real
+  CSV headers by `scripts/build_data_dictionary.py`) — regenerate it if headers change.
 - **Dependencies:** each area has its own `requirements.txt`
   (`computer_vision/`, `<module>/code/`); root `requirements.txt` is the
   minimal data-analysis stack.

@@ -1,0 +1,37 @@
+# NOTE: This CITATION.cff covers the DATASET. The CODE in this repository is
+# separately licensed under the MIT License (see the repository's code license).
+#
+# To mint a Zenodo DOI: enable this repository on Zenodo
+# (https://zenodo.org), create a new GitHub release, and Zenodo will archive it
+# and issue a DOI. Then add the resulting DOI to this file as a top-level
+# `doi:` field and an `identifiers:` block, e.g.:
+#
+#   doi: 10.5281/zenodo.XXXXXXX
+#   identifiers:
+#     - type: doi
+#       value: 10.5281/zenodo.XXXXXXX
+#       description: The concept DOI for all versions.
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+title: "The OpenBiomechanics Project (OBP)"
+type: dataset
+authors:
+  - name: "Driveline Baseball Research and Development"
+  - family-names: "Boddy"
+    given-names: "Kyle"
+repository-code: "https://github.com/drivelineresearch/openbiomechanics"
+url: "https://openbiomechanics.org"
+license: CC-BY-NC-SA-4.0
+keywords:
+  - biomechanics
+  - baseball
+  - motion capture
+  - pitching
+  - hitting
+  - force plate
+  - sports science
+abstract: >-
+  The OpenBiomechanics Project is a freely available library of
+  research-grade biomechanics data, providing full-body marker-based motion
+  capture and force plate measurements of baseball pitching and hitting to
+  support open sports-science research.
