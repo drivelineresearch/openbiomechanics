@@ -9,6 +9,9 @@ The OpenBiomechanics Project is an initiative started by [Driveline Baseball Res
 - [Modules](#modules)
 - [Dataset at a glance](#dataset-at-a-glance)
 - [Getting the Data](#getting-the-data)
+- [Quickstart](#quickstart)
+- [Data dictionaries & datasheet](#data-dictionaries--datasheet)
+- [Citing](#citing)
 - [License](#license)
 - [IRB information](#irb-information)
 - [Updates](#updates)
@@ -43,6 +46,43 @@ To keep the repository lightweight, the large archives are distributed via [GitH
 Run [`scripts/download_data.sh`](scripts/download_data.sh) to fetch and unpack the release assets into the correct locations.
 
 Point-of-interest (POI) and metadata CSVs remain in-repo under each module's `data/` folder, so summary analyses work without downloading the full archives.
+
+## Quickstart
+
+A small helper package, [`obp/`](obp/README.md), resolves data paths and loads the
+in-repo CSVs with pandas:
+
+```python
+import sys; sys.path.insert(0, "path/to/openbiomechanics")
+import obp
+
+poi = obp.load_poi("pitching")     # 411 fastball trials x 81 POI metrics
+meta = obp.load_metadata("hitting")
+hp = obp.load_hp()
+obp.download(media=True)            # fetch the release archives via scripts/download_data.sh
+```
+
+Runnable, commented scripts live in [`examples/`](examples/README.md):
+
+- `01_explore_poi.py` — load POI + metadata, plot pitch speed vs. elbow varus moment
+- `02_read_c3d.py` — open a C3D with `ezc3d`, plot a marker trajectory
+- `03_join_fullsig.py` — join full-signal tables on `session_pitch` + `time`
+- `04_hp_assessment.py` — plot a countermovement-jump distribution
+
+## Data dictionaries & datasheet
+
+- **Data dictionaries** — machine-readable column references generated from the
+  actual CSV headers: `<module>/data/data_dictionary.csv` and the aggregated
+  [`data_dictionary.json`](data_dictionary.json). Regenerate with
+  [`scripts/build_data_dictionary.py`](scripts/build_data_dictionary.py).
+- **Datasheet** — [`DATASHEET.md`](DATASHEET.md) documents motivation, composition
+  (with real counts), collection, and distribution, following the
+  *Datasheets for Datasets* framework.
+
+## Citing
+
+If you use OBP, please cite it — see [`CITATION.cff`](CITATION.cff) (GitHub's
+"Cite this repository" button reads this file).
 
 ## License
 

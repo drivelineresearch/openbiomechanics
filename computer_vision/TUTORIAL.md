@@ -46,6 +46,8 @@ As you progress through these exercises, you should expect to produce outputs si
 
 The demo videos referenced by these examples now live in the `cv-media-v1` GitHub Release. Download `cv_media.zip` and unzip it at the repository root to restore them. Python dependencies for these examples are pinned in [computer_vision/requirements.txt](requirements.txt).
 
+The boilerplate these scripts share — loading known faces from a `training/` folder, opening a video and creating a matching output writer, iterating frames, and drawing a labeled face box — lives in [computer_vision/utils.py](utils.py). Each script adds the `computer_vision/` directory to `sys.path` and imports the helpers it needs.
+
 ## Getting Help
 
 If you encounter any issues or have questions:

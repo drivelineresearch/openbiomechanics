@@ -1,0 +1,2390 @@
+{
+  "pitching_poi": [
+    {
+      "dataset": "pitching_poi",
+      "column": "session_pitch",
+      "dtype": "str",
+      "example": "1031_2",
+      "description": "unique pitch ID",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "session",
+      "dtype": "int64",
+      "example": "1031",
+      "description": "unique session ID",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "p_throws",
+      "dtype": "str",
+      "example": "R",
+      "description": "pitcher handedness",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "pitch_type",
+      "dtype": "str",
+      "example": "FF",
+      "description": "pitch type",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "pitch_speed_mph",
+      "dtype": "float64",
+      "example": "90.4",
+      "description": "pitch speed (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_shoulder_internal_rotational_velo",
+      "dtype": "float64",
+      "example": "4533.248",
+      "description": "peak shoulder internal rotation velocity (deg/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_elbow_extension_velo",
+      "dtype": "float64",
+      "example": "2445.8177",
+      "description": "peak elbow extension velocity (deg/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_torso_rotational_velo",
+      "dtype": "float64",
+      "example": "958.0878",
+      "description": "peak torso axial rotation (Z) velocity (deg/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_rotation_hip_shoulder_separation",
+      "dtype": "float64",
+      "example": "32.3152",
+      "description": "peak separation between thorax and pelvis (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_elbow_flexion",
+      "dtype": "float64",
+      "example": "109.9971",
+      "description": "peak elbow flexion angle (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_shoulder_external_rotation",
+      "dtype": "float64",
+      "example": "162.348",
+      "description": "peak shoulder external rotation (layback) (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "elbow_flexion_fp",
+      "dtype": "float64",
+      "example": "86.3476",
+      "description": "elbow flexion angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "elbow_pronation_fp",
+      "dtype": "float64",
+      "example": "13.8688",
+      "description": "wrist pronation angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rotation_hip_shoulder_separation_fp",
+      "dtype": "float64",
+      "example": "31.5769",
+      "description": "hip-shoulder separation angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "shoulder_horizontal_abduction_fp",
+      "dtype": "float64",
+      "example": "53.7302",
+      "description": "shoulder horizontal abduction angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "shoulder_abduction_fp",
+      "dtype": "float64",
+      "example": "88.9089",
+      "description": "shoulder abduction angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "shoulder_external_rotation_fp",
+      "dtype": "float64",
+      "example": "12.406",
+      "description": "shoulder external rotation angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_knee_extension_angular_velo_fp",
+      "dtype": "float64",
+      "example": "160.4524",
+      "description": "lead knee extension angular velocity at foot plant (deg/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_knee_extension_angular_velo_br",
+      "dtype": "float64",
+      "example": "449.407",
+      "description": "lead knee extension angular velocity at ball release (deg/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_knee_extension_angular_velo_max",
+      "dtype": "float64",
+      "example": "452.7888",
+      "description": "peak knee extension angular velocity (deg/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_anterior_tilt_fp",
+      "dtype": "float64",
+      "example": "-2.6113",
+      "description": "trunk flexion at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_lateral_tilt_fp",
+      "dtype": "float64",
+      "example": "-7.0313",
+      "description": "trunk lateral flexion at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_rotation_fp",
+      "dtype": "float64",
+      "example": "0.3425",
+      "description": "trunk axial rotation at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "pelvis_anterior_tilt_fp",
+      "dtype": "float64",
+      "example": "8.2744",
+      "description": "pelvis anterior tilt at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "pelvis_lateral_tilt_fp",
+      "dtype": "float64",
+      "example": "-1.7844",
+      "description": "pelvis lateral tilt at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "pelvis_rotation_fp",
+      "dtype": "float64",
+      "example": "31.7105",
+      "description": "pelvis axial rotation at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_cog_velo_x",
+      "dtype": "float64",
+      "example": "3.3113",
+      "description": "peak center of gravity velocity towards home plate (m/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_rotation_min",
+      "dtype": "float64",
+      "example": "-21.1062",
+      "description": "peak torso counterrotation angle (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_pelvis_rotational_velo",
+      "dtype": "float64",
+      "example": "609.9531",
+      "description": "peak pelvis axial rotation angular velocity (deg/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "glove_shoulder_horizontal_abduction_fp",
+      "dtype": "float64",
+      "example": "38.3919",
+      "description": "glove shoulder horizontal abduction angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "glove_shoulder_abduction_fp",
+      "dtype": "float64",
+      "example": "85.9397",
+      "description": "glove shoulder abduction angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "glove_shoulder_external_rotation_fp",
+      "dtype": "float64",
+      "example": "-46.638",
+      "description": "glove shoulder external rotation angle at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "glove_shoulder_abduction_mer",
+      "dtype": "float64",
+      "example": "45.497",
+      "description": "glove shoulder abduction angle at maximum external rotation (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "elbow_flexion_mer",
+      "dtype": "float64",
+      "example": "93.9717",
+      "description": "elbow flexion angle at maximum external rotation (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_anterior_tilt_mer",
+      "dtype": "float64",
+      "example": "16.9991",
+      "description": "trunk flexion at maximum external rotation (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_lateral_tilt_mer",
+      "dtype": "float64",
+      "example": "22.1885",
+      "description": "trunk lateral flexion at maximum external rotation (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_rotation_mer",
+      "dtype": "float64",
+      "example": "99.4708",
+      "description": "trunk axial rotation at maximum external rotation (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "elbow_varus_moment",
+      "dtype": "float64",
+      "example": "141.172",
+      "description": "peak elbow varus moment (Nm)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "shoulder_internal_rotation_moment",
+      "dtype": "float64",
+      "example": "135.2726",
+      "description": "peak shoulder internal rotation moment (Nm)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_anterior_tilt_br",
+      "dtype": "float64",
+      "example": "34.1093",
+      "description": "trunk flexion angle at ball release (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_lateral_tilt_br",
+      "dtype": "float64",
+      "example": "16.9053",
+      "description": "trunk lateral flexion angle at ball release (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "torso_rotation_br",
+      "dtype": "float64",
+      "example": "111.1709",
+      "description": "trunk axial rotation angle at ball release (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_knee_extension_from_fp_to_br",
+      "dtype": "float64",
+      "example": "10.1399",
+      "description": "difference in lead knee extension angle between foot plant and ball release (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "cog_velo_pkh",
+      "dtype": "float64",
+      "example": "0.4643",
+      "description": "center of gravity velocity towards home plate at peak knee height (m/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "stride_length",
+      "dtype": "float64",
+      "example": "0.8374",
+      "description": "stride length (%body height)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "stride_angle",
+      "dtype": "float64",
+      "example": "5.3785",
+      "description": "stride angle (+ = cross-body stride) (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "arm_slot",
+      "dtype": "float64",
+      "example": "39.7377",
+      "description": "arm slot (global forearm projection angle) (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "timing_peak_torso_to_peak_pelvis_rot_velo",
+      "dtype": "float64",
+      "example": "0.0223",
+      "description": "time from peak pelvis angular velocity to peak torso angular velocity (s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "max_shoulder_horizontal_abduction",
+      "dtype": "float64",
+      "example": "53.8175",
+      "description": "peak shoulder horizontal abduction angle (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "shoulder_transfer_fp_br",
+      "dtype": "float64",
+      "example": "471.6631",
+      "description": "energy transfer across throwing shoulder between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "shoulder_generation_fp_br",
+      "dtype": "float64",
+      "example": "72.518",
+      "description": "energy generation across throwing shoulder between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "shoulder_absorption_fp_br",
+      "dtype": "float64",
+      "example": "8.1687",
+      "description": "energy absorption across throwing shoulder between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "elbow_transfer_fp_br",
+      "dtype": "float64",
+      "example": "481.4378",
+      "description": "energy transfer across throwing elbow between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "elbow_generation_fp_br",
+      "dtype": "float64",
+      "example": "7.0827",
+      "description": "energy generation across throwing elbow between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "elbow_absorption_fp_br",
+      "dtype": "float64",
+      "example": "88.0793",
+      "description": "energy absorption across throwing elbow between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_hip_transfer_fp_br",
+      "dtype": "float64",
+      "example": "48.2958",
+      "description": "energy transfer across lead hip between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_hip_generation_fp_br",
+      "dtype": "float64",
+      "example": "11.5949",
+      "description": "energy generation across lead hip between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_hip_absorption_fp_br",
+      "dtype": "float64",
+      "example": "119.5385",
+      "description": "energy absorption across lead hip between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_knee_transfer_fp_br",
+      "dtype": "float64",
+      "example": "70.8131",
+      "description": "energy transfer across lead knee between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_knee_generation_fp_br",
+      "dtype": "float64",
+      "example": "74.767",
+      "description": "energy generation across lead knee between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_knee_absorption_fp_br",
+      "dtype": "float64",
+      "example": "32.104",
+      "description": "energy absorption across lead knee between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_hip_transfer_pkh_fp",
+      "dtype": "float64",
+      "example": "130.8791",
+      "description": "energy transfer across rear hip between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_hip_generation_pkh_fp",
+      "dtype": "float64",
+      "example": "173.1504",
+      "description": "energy generation  across rear hip between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_hip_absorption_pkh_fp",
+      "dtype": "float64",
+      "example": "37.6984",
+      "description": "energy absorption across rear hip between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_knee_transfer_pkh_fp",
+      "dtype": "float64",
+      "example": "33.8403",
+      "description": "energy transfer across rear knee between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_knee_generation_pkh_fp",
+      "dtype": "float64",
+      "example": "111.565",
+      "description": "energy generation across rear knee between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_knee_absorption_pkh_fp",
+      "dtype": "float64",
+      "example": "88.4883",
+      "description": "energy absorption across rear knee between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "pelvis_lumbar_transfer_fp_br",
+      "dtype": "float64",
+      "example": "157.7995",
+      "description": "energy transfer out of pelvis towards trunk between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "thorax_distal_transfer_fp_br",
+      "dtype": "float64",
+      "example": "479.8318",
+      "description": "energy transfer out of trunk towards throwing shoulder between foot plant and ball release (J)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_grf_x_max",
+      "dtype": "float64",
+      "example": "1019.3193",
+      "description": "peak anterior push-off ground reaction force (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_grf_y_max",
+      "dtype": "float64",
+      "example": "103.0399",
+      "description": "peak lateral push-off ground reaction force (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_grf_z_max",
+      "dtype": "float64",
+      "example": "1497.9859",
+      "description": "peak vertical ground reaction force on the rear leg (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_grf_mag_max",
+      "dtype": "float64",
+      "example": "1736.0368",
+      "description": "peak resultant ground reaction force on the rear leg (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "rear_grf_angle_at_max",
+      "dtype": "float64",
+      "example": "55.7071",
+      "description": "rear ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_grf_x_max",
+      "dtype": "float64",
+      "example": "1278.4966",
+      "description": "peak braking ground reaction force (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_grf_y_max",
+      "dtype": "float64",
+      "example": "270.7849",
+      "description": "peak lateral braking ground reaction force (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_grf_z_max",
+      "dtype": "float64",
+      "example": "2484.8747",
+      "description": "peak vertical ground reaction force on the lead leg (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_grf_mag_max",
+      "dtype": "float64",
+      "example": "2782.958",
+      "description": "peak resultant ground reaction force on the lead leg (N)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "lead_grf_angle_at_max",
+      "dtype": "float64",
+      "example": "63.3501",
+      "description": "lead ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "peak_rfd_rear",
+      "dtype": "float64",
+      "example": "11.6564",
+      "description": "peak rate of force development on the rear leg (N/s)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_poi",
+      "column": "peak_rfd_lead",
+      "dtype": "float64",
+      "example": "170.462",
+      "description": "peak rate of force development on the lead leg (N/s)",
+      "documented": true
+    }
+  ],
+  "pitching_metadata": [
+    {
+      "dataset": "pitching_metadata",
+      "column": "user",
+      "dtype": "int64",
+      "example": "750",
+      "description": "athlete ID",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "session",
+      "dtype": "int64",
+      "example": "1031",
+      "description": "unique session ID",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "session_pitch",
+      "dtype": "str",
+      "example": "1031_2",
+      "description": "unique pitch ID",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "session_mass_kg",
+      "dtype": "float64",
+      "example": "110.6784",
+      "description": "body mass (kg)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "session_height_m",
+      "dtype": "float64",
+      "example": "1.9304",
+      "description": "body height (m)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "age_yrs",
+      "dtype": "float64",
+      "example": "21.4",
+      "description": "age at collection (years)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "playing_level",
+      "dtype": "str",
+      "example": "college",
+      "description": "playing level at the time of data collection",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "pitch_speed_mph",
+      "dtype": "float64",
+      "example": "90.4",
+      "description": "pitch speed (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "filename_new",
+      "dtype": "str",
+      "example": "000750_001031_76_244_013_FF_904.c3d",
+      "description": "anonymized c3d filename",
+      "documented": true
+    },
+    {
+      "dataset": "pitching_metadata",
+      "column": "modelname_new",
+      "dtype": "str",
+      "example": "000750_001031_model.c3d",
+      "description": "anonymized static model c3d filename",
+      "documented": true
+    }
+  ],
+  "hitting_poi": [
+    {
+      "dataset": "hitting_poi",
+      "column": "session_swing",
+      "dtype": "str",
+      "example": "103_1",
+      "description": "unique swing identifier",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "session",
+      "dtype": "int64",
+      "example": "103",
+      "description": "unique session ID",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "exit_velo_mph_x",
+      "dtype": "float64",
+      "example": "97.2",
+      "description": "exit velocity (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "blast_bat_speed_mph_x",
+      "dtype": "float64",
+      "example": "66.8",
+      "description": "bat speed at contact as measured by Blast Motion sensor (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_speed_mph_contact_x",
+      "dtype": "float64",
+      "example": "67.9426",
+      "description": "resultant bat speed at contact event (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "sweet_spot_velo_mph_contact_x",
+      "dtype": "float64",
+      "example": "67.5411",
+      "description": "x component (toward mound) of sweet spot velocity vector at contact (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "sweet_spot_velo_mph_contact_y",
+      "dtype": "float64",
+      "example": "1.1177",
+      "description": "y component (toward pull-side) of sweet spot velocity vector at contact (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "sweet_spot_velo_mph_contact_z",
+      "dtype": "float64",
+      "example": "6.404",
+      "description": "z component (upward) of sweet spot velocity vector at contact (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_torso_angle_connection_x",
+      "dtype": "float64",
+      "example": "121.0109",
+      "description": "bat-torso angle at down swing event - this is the same as bat_torso_angle_ds and is what Blast Motion calls \u201cEarly Connection\u201d (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "attack_angle_contact_x",
+      "dtype": "float64",
+      "example": "5.7984",
+      "description": "vertical attack angle at contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_speed_mph_max_x",
+      "dtype": "float64",
+      "example": "69.2154",
+      "description": "maximum resultant bat speed (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_speed_xy_max_x",
+      "dtype": "float64",
+      "example": "2529.2776",
+      "description": "maximum resultant angular velocity of the bat - just x and y components (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_torso_angle_ds_x",
+      "dtype": "float64",
+      "example": "-121.3557",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_torso_angle_ds_y",
+      "dtype": "float64",
+      "example": "121.0109",
+      "description": "vertical bat angle relative to the torso at down swing event - this is the same as bat_torso_angle_connection and is what Blast calls \u201cEarly Connection\u201d (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_torso_angle_ds_z",
+      "dtype": "float64",
+      "example": "101.554",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_blast_bat_mph_max_x",
+      "dtype": "float64",
+      "example": "23.0841",
+      "description": "maximum hand speed in mph - calculated the same way as Blast\u2019s hand speed (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_mag_max_x",
+      "dtype": "float64",
+      "example": "1527.4279",
+      "description": "maximum resultant hand speed between first move and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_fm_x",
+      "dtype": "float64",
+      "example": "26.7272",
+      "description": "pelvis angle (x) at first move - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_fm_y",
+      "dtype": "float64",
+      "example": "3.989",
+      "description": "pelvis angle (y) at first move - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_fm_z",
+      "dtype": "float64",
+      "example": "-20.0787",
+      "description": "pelvis angle (z) at first move - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_fp_x",
+      "dtype": "float64",
+      "example": "28.8512",
+      "description": "pelvis angle (x) at foot plant - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_fp_y",
+      "dtype": "float64",
+      "example": "4.1585",
+      "description": "pelvis angle (y) at foot plant - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_fp_z",
+      "dtype": "float64",
+      "example": "13.434",
+      "description": "pelvis angle (z) at foot plant - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_hs_x",
+      "dtype": "float64",
+      "example": "27.0634",
+      "description": "pelvis angle (x) at heel strike - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_hs_y",
+      "dtype": "float64",
+      "example": "4.7819",
+      "description": "pelvis angle (y) at heel strike - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angle_hs_z",
+      "dtype": "float64",
+      "example": "-21.0498",
+      "description": "pelvis angle (z) at heel strike - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_fm_x",
+      "dtype": "float64",
+      "example": "27.9432",
+      "description": "torso angle (x) at first move - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_fm_y",
+      "dtype": "float64",
+      "example": "-15.0864",
+      "description": "torso angle (y) at first move - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_fm_z",
+      "dtype": "float64",
+      "example": "-13.006",
+      "description": "torso angle (z) at first move - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_fp_x",
+      "dtype": "float64",
+      "example": "21.8904",
+      "description": "torso angle (x) at foot plant - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_fp_y",
+      "dtype": "float64",
+      "example": "-0.0221",
+      "description": "torso angle (y) at foot plant - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_fp_z",
+      "dtype": "float64",
+      "example": "-5.8966",
+      "description": "torso angle (z) at foot plant - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_hs_x",
+      "dtype": "float64",
+      "example": "28.8937",
+      "description": "torso angle (x) at heel strike - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_hs_y",
+      "dtype": "float64",
+      "example": "-15.0236",
+      "description": "torso angle (y) at heel strike - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angle_hs_z",
+      "dtype": "float64",
+      "example": "-12.118",
+      "description": "torso angle (z) at heel strike - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "upper_arm_speed_mag_max_x",
+      "dtype": "float64",
+      "example": "987.9657",
+      "description": "maximum resultant upper arm speed between first move and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_fm_x",
+      "dtype": "float64",
+      "example": "-0.0808",
+      "description": "x-factor angle (x) at first move (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_fm_y",
+      "dtype": "float64",
+      "example": "-20.1757",
+      "description": "x-factor angle (y) at first move (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_fm_z",
+      "dtype": "float64",
+      "example": "-2.4765",
+      "description": "x-factor angle (z) at first move (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_fp_x",
+      "dtype": "float64",
+      "example": "6.723",
+      "description": "x-factor angle (x) at foot plant (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_fp_y",
+      "dtype": "float64",
+      "example": "5.7071",
+      "description": "x-factor angle (y) at foot plant (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_fp_z",
+      "dtype": "float64",
+      "example": "-18.952",
+      "description": "x-factor angle (z) at foot plant (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_max_x",
+      "dtype": "float64",
+      "example": "597.5685",
+      "description": "maximum bat angular velocity relative to the lab - used for tagging handedness (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "bat_min_x",
+      "dtype": "float64",
+      "example": "32.7952",
+      "description": "minimum bat angular velocity relative to the lab - used for tagging handedness (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_mag_fm_x",
+      "dtype": "float64",
+      "example": "100.3058",
+      "description": "resultant hand speed at first move (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_mag_fp_x",
+      "dtype": "float64",
+      "example": "529.3574",
+      "description": "resultant hand speed at foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_mag_maxhss_x",
+      "dtype": "float64",
+      "example": "848.9559",
+      "description": "resultant hand speed at maximum hip-shoulder separation (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_mag_seq_max_x",
+      "dtype": "float64",
+      "example": "1527.4279",
+      "description": "maximum resultant hand speed between first move and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_mag_stride_max_velo_x",
+      "dtype": "float64",
+      "example": "529.3574",
+      "description": "maximum resultant hand speed between load and foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "hand_speed_mag_swing_max_velo_x",
+      "dtype": "float64",
+      "example": "1527.4279",
+      "description": "maximum resultant hand speed between load and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "lead_knee_launchpos_x",
+      "dtype": "float64",
+      "example": "31.665",
+      "description": "lead knee angle (x) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "lead_knee_stride_max_x",
+      "dtype": "float64",
+      "example": "100.3434",
+      "description": "maximum knee angle (x) between load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "lead_wrist_fm_x",
+      "dtype": "float64",
+      "example": "23.0732",
+      "description": "lead wrist angle (x) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "lead_wrist_swing_max_x",
+      "dtype": "float64",
+      "example": "-12.31",
+      "description": "maximum lead wrist angle (x) between load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angular_velocity_fm_x",
+      "dtype": "float64",
+      "example": "31.8693",
+      "description": "pelvis angular velocity at first move (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angular_velocity_fp_x",
+      "dtype": "float64",
+      "example": "580.7448",
+      "description": "pelvis angular velocity at foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angular_velocity_maxhss_x",
+      "dtype": "float64",
+      "example": "733.0911",
+      "description": "pelvis angular velocity at maximum hip-shoulder separation (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angular_velocity_seq_max_x",
+      "dtype": "float64",
+      "example": "733.6451",
+      "description": "maximum pelvis angular velocity between first move and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angular_velocity_stride_max_x",
+      "dtype": "float64",
+      "example": "580.7448",
+      "description": "maximum pelvis angular velocity between load and foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_angular_velocity_swing_max_x",
+      "dtype": "float64",
+      "example": "733.6451",
+      "description": "maximum pelvis angular velocity between load and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_fm_x",
+      "dtype": "float64",
+      "example": "-26.7272",
+      "description": "pelvis angle (x) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_fm_y",
+      "dtype": "float64",
+      "example": "3.989",
+      "description": "pelvis angle (y) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_fm_z",
+      "dtype": "float64",
+      "example": "-110.0787",
+      "description": "pelvis angle (z) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_launchpos_x",
+      "dtype": "float64",
+      "example": "-28.8512",
+      "description": "pelvis angle (x) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_launchpos_y",
+      "dtype": "float64",
+      "example": "4.1585",
+      "description": "pelvis angle (y) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_launchpos_z",
+      "dtype": "float64",
+      "example": "-76.566",
+      "description": "pelvis angle (z) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_loadedpos_x",
+      "dtype": "float64",
+      "example": "-100.4105",
+      "description": "pelvis angle (z) at loaded position (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_load_max_x",
+      "dtype": "float64",
+      "example": "-98.1193",
+      "description": "maximum pelvis angle (z) between the start of the take and the loaded position (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_stride_max_x",
+      "dtype": "float64",
+      "example": "-28.8512",
+      "description": "maximum pelvis angle (x) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_stride_max_y",
+      "dtype": "float64",
+      "example": "10.6588",
+      "description": "maximum pelvis angle (y) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_stride_max_z",
+      "dtype": "float64",
+      "example": "-111.1967",
+      "description": "maximum pelvis angle (z) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_swing_max_x",
+      "dtype": "float64",
+      "example": "-1.8499",
+      "description": "maximum pelvis angle (x) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_swing_max_y",
+      "dtype": "float64",
+      "example": "10.6588",
+      "description": "maximum pelvis angle (y) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "pelvis_swing_max_z",
+      "dtype": "float64",
+      "example": "11.3636",
+      "description": "maximum pelvis angle (z) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_elbow_fm_x",
+      "dtype": "float64",
+      "example": "132.2291",
+      "description": "rear elbow angle (x) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_elbow_fm_z",
+      "dtype": "float64",
+      "example": "67.3961",
+      "description": "rear elbow angle (z) at first move - wrist pronation/supination (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_elbow_launchpos_x",
+      "dtype": "float64",
+      "example": "121.7515",
+      "description": "rear elbow angle (x) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_elbow_stride_max_x",
+      "dtype": "float64",
+      "example": "143.6237",
+      "description": "maximum rear elbow angle (x) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_elbow_stride_max_z",
+      "dtype": "float64",
+      "example": "77.7509",
+      "description": "maximum rear elbow angle (z) between the load and foot plant - wrist pronation/supination (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_elbow_swing_max_x",
+      "dtype": "float64",
+      "example": "143.6237",
+      "description": "maximum rear elbow angle (x) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_elbow_swing_max_z",
+      "dtype": "float64",
+      "example": "83.4073",
+      "description": "maximum rear elbow angle (z) between the load and contact - wrist pronation/supination (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_hip_launchpos_x",
+      "dtype": "float64",
+      "example": "54.4718",
+      "description": "rear hip angle (x) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_hip_stride_max_x",
+      "dtype": "float64",
+      "example": "57.1879",
+      "description": "maximum hip angle (x) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_hip_stride_max_y",
+      "dtype": "float64",
+      "example": "-4.2861",
+      "description": "maximum hip angle (y) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_hip_stride_max_z",
+      "dtype": "float64",
+      "example": "37.7659",
+      "description": "maximum hip angle (z) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_shoulder_launchpos_x",
+      "dtype": "float64",
+      "example": "51.7001",
+      "description": "rear shoulder angle (y) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_shoulder_stride_max_x",
+      "dtype": "float64",
+      "example": "11.0415",
+      "description": "maximum rear shoulder angle (x) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_shoulder_stride_max_y",
+      "dtype": "float64",
+      "example": "89.5564",
+      "description": "maximum rear shoulder angle (y) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "rear_shoulder_stride_max_z",
+      "dtype": "float64",
+      "example": "11.7063",
+      "description": "maximum rear shoulder angle (z) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angular_velocity_fm_x",
+      "dtype": "float64",
+      "example": "-20.5107",
+      "description": "torso angular velocity at first move (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angular_velocity_fp_x",
+      "dtype": "float64",
+      "example": "453.0682",
+      "description": "torso angular velocity at foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angular_velocity_maxhss_x",
+      "dtype": "float64",
+      "example": "748.4769",
+      "description": "torso angular velocity at maximum hip-shoulder separation (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angular_velocity_stride_max_x",
+      "dtype": "float64",
+      "example": "453.0682",
+      "description": "maximum torso angular velocity between the load and foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angular_velocity_seq_max_x",
+      "dtype": "float64",
+      "example": "775.7749",
+      "description": "maximum torso angular velocity between first move and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_angular_velocity_swing_max_x",
+      "dtype": "float64",
+      "example": "775.7749",
+      "description": "maximum torso angular velocity between the load and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_fm_x",
+      "dtype": "float64",
+      "example": "-27.9432",
+      "description": "torso angle (x) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_fm_y",
+      "dtype": "float64",
+      "example": "-15.0864",
+      "description": "torso angle (y) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_fm_z",
+      "dtype": "float64",
+      "example": "-103.006",
+      "description": "torso angle (z) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_launchpos_x",
+      "dtype": "float64",
+      "example": "-21.8904",
+      "description": "torso angle (x) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_launchpos_y",
+      "dtype": "float64",
+      "example": "-0.0221",
+      "description": "torso angle (y) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_launchpos_z",
+      "dtype": "float64",
+      "example": "-95.8966",
+      "description": "torso angle (z) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_loadedpos_x",
+      "dtype": "float64",
+      "example": "-97.7734",
+      "description": "Torso angle (z) at loaded position (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_load_max_x",
+      "dtype": "float64",
+      "example": "-97.5618",
+      "description": "maximum torso angle (z) between the start of the take and the load (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_fm_x",
+      "dtype": "float64",
+      "example": "-2.4765",
+      "description": "torso-pelvis angle (z) at first move (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_launchpos_x",
+      "dtype": "float64",
+      "example": "-18.952",
+      "description": "torso-pelvis angle (z) at foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_loadedpos_x",
+      "dtype": "float64",
+      "example": "-4.3548",
+      "description": "Torso-pelvis angle (z) at loaded position (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_load_max_x",
+      "dtype": "float64",
+      "example": "-4.9252",
+      "description": "maximum torso-pelvis angle (z) between the start of the take and the load (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_stride_max_x",
+      "dtype": "float64",
+      "example": "-3.1422",
+      "description": "maximum torso-pelvis angle (x) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_stride_max_y",
+      "dtype": "float64",
+      "example": "-25.0935",
+      "description": "maximum torso-pelvis angle (y) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_stride_max_z",
+      "dtype": "float64",
+      "example": "-18.952",
+      "description": "maximum torso-pelvis angle (z) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_pelvis_swing_max_x",
+      "dtype": "float64",
+      "example": "-20.5898",
+      "description": "maximum torso_pelvis angle (z) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_stride_max_x",
+      "dtype": "float64",
+      "example": "-29.9237",
+      "description": "maximum torso angle (x) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_stride_max_y",
+      "dtype": "float64",
+      "example": "-15.0887",
+      "description": "maximum torso angle (y) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_stride_max_z",
+      "dtype": "float64",
+      "example": "-104.0084",
+      "description": "maximum torso angle (z) between the load and foot plant (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_swing_max_x",
+      "dtype": "float64",
+      "example": "19.9394",
+      "description": "maximum torso angle (x) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_swing_max_y",
+      "dtype": "float64",
+      "example": "25.5588",
+      "description": "maximum torso angle (y) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "torso_swing_max_z",
+      "dtype": "float64",
+      "example": "6.2796",
+      "description": "maximum torso angle (z) between the load and contact (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "upper_arm_speed_mag_fm_x",
+      "dtype": "float64",
+      "example": "77.2077",
+      "description": "resultant upper arm speed at first move (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "upper_arm_speed_mag_fp_x",
+      "dtype": "float64",
+      "example": "281.0329",
+      "description": "resultant upper arm speed at foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "upper_arm_speed_mag_maxhss_x",
+      "dtype": "float64",
+      "example": "449.7435",
+      "description": "resultant upper arm speed at maximum hip-shoulder separation (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "upper_arm_speed_mag_seq_max_x",
+      "dtype": "float64",
+      "example": "987.9657",
+      "description": "maximum resultant upper arm speed between first move and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "upper_arm_speed_mag_stride_max_velo_x",
+      "dtype": "float64",
+      "example": "290.3699",
+      "description": "maximum resultant upper arm speed between the load and foot plant (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "upper_arm_speed_mag_swing_max_velo_x",
+      "dtype": "float64",
+      "example": "987.9657",
+      "description": "maximum resultant upper arm speed between the load and contact (deg/sec)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_hs_x",
+      "dtype": "float64",
+      "example": "-0.7814",
+      "description": "x-factor angle (x) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_hs_y",
+      "dtype": "float64",
+      "example": "-21.659",
+      "description": "x-factor angle (y) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "x_factor_hs_z",
+      "dtype": "float64",
+      "example": "-1.2444",
+      "description": "x-factor angle (z) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_poi",
+      "column": "max_cog_velo_x",
+      "dtype": "float64",
+      "example": "1.241",
+      "description": "maximum center of gravity velocity from start of take to end of take (meters per second)",
+      "documented": true
+    }
+  ],
+  "hitting_metadata": [
+    {
+      "dataset": "hitting_metadata",
+      "column": "session_swing",
+      "dtype": "str",
+      "example": "6_1",
+      "description": "unique swing identifier",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "session_mass_lbs",
+      "dtype": "float64",
+      "example": "209.0",
+      "description": "body mass in pounds",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "session_height_in",
+      "dtype": "float64",
+      "example": "72.0",
+      "description": "body height in inches",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "athlete_age",
+      "dtype": "int64",
+      "example": "23",
+      "description": "athlete age in years",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "highest_playing_level",
+      "dtype": "str",
+      "example": "milb",
+      "description": "highest playing level attained",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "hitter_side",
+      "dtype": "str",
+      "example": "R",
+      "description": "hitting side (L = left handed swing, R = right handed swing)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "bat_weight_oz",
+      "dtype": "float64",
+      "example": "31.0",
+      "description": "bat weight in ounces",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "bat_length_in",
+      "dtype": "float64",
+      "example": "34.0",
+      "description": "bat length in inches",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "bat_speed_mph_max_x",
+      "dtype": "float64",
+      "example": "66.9317",
+      "description": "maximum resultant bat speed (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "blast_bat_speed_mph_x",
+      "dtype": "float64",
+      "example": "67.0",
+      "description": "bat speed at contact as measured by Blast Motion sensor (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "exit_velo_mph_x",
+      "dtype": "float64",
+      "example": "94.2",
+      "description": "exit velocity (miles per hour)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "user",
+      "dtype": "int64",
+      "example": "5",
+      "description": "unique athlete identifier",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_metadata",
+      "column": "session",
+      "dtype": "int64",
+      "example": "6",
+      "description": "unique session ID",
+      "documented": true
+    }
+  ],
+  "hitting_hittrax": [
+    {
+      "dataset": "hitting_hittrax",
+      "column": "session_swing",
+      "dtype": "str",
+      "example": "103_1",
+      "description": "unique swing identifier",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "pitch",
+      "dtype": "float64",
+      "example": "57.8",
+      "description": "velocity of incoming pitch (from machine) (mph)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "strike_zone",
+      "dtype": "float64",
+      "example": "8.0",
+      "description": "strike zone region of pitch",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "la",
+      "dtype": "int64",
+      "example": "5",
+      "description": "launch angle (deg)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "dist",
+      "dtype": "int64",
+      "example": "123",
+      "description": "carry distance (ft)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "res",
+      "dtype": "str",
+      "example": " 1B-7",
+      "description": "predicted result of ball in play",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "bearing",
+      "dtype": "int64",
+      "example": "-22",
+      "description": "spray angle (deg) (0 = straight back at pitcher; + = lefty pull field, - = righty pull field)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "vertical_distance",
+      "dtype": "float64",
+      "example": "-4.4",
+      "description": "distance from center of strike zone (inches) (+ values = higher than middle of strike zone)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "horizontal_distance",
+      "dtype": "float64",
+      "example": "2.2",
+      "description": "distance from center of strike zone (inches) (+ values = pitches inside to right handed batter)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "poi_x",
+      "dtype": "float64",
+      "example": "-2.16",
+      "description": "horizontal point of impact coordinate (0 = back tip of home plate; + = inside to left handed batter)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "poi_y",
+      "dtype": "float64",
+      "example": "28.02",
+      "description": "vertical point of impact coordinate (0 = ground; + = above ground)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "poi_z",
+      "dtype": "float64",
+      "example": "18.43",
+      "description": "point of impact coordinate (0 = back tip of home plate; + values = towards pitcher)",
+      "documented": true
+    },
+    {
+      "dataset": "hitting_hittrax",
+      "column": "pitch_angle",
+      "dtype": "float64",
+      "example": "-7.0",
+      "description": "descent angle of incoming pitch (deg)",
+      "documented": true
+    }
+  ],
+  "high_performance": [
+    {
+      "dataset": "high_performance",
+      "column": "test_date",
+      "dtype": "str",
+      "example": "2021-07-27",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "playing_level",
+      "dtype": "str",
+      "example": "High School",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "bat_speed_mph_group",
+      "dtype": "str",
+      "example": "<65",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "pitch_speed_mph_group",
+      "dtype": "str",
+      "example": "85-90",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "jump_height_(imp-mom)_[cm]_mean_cmj",
+      "dtype": "float64",
+      "example": "38.47",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "lower-limb_stiffness_[n/m]_mean_cmj",
+      "dtype": "float64",
+      "example": "2896.73",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_power_[w]_mean_cmj",
+      "dtype": "float64",
+      "example": "3353.12",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_power_/_bm_[w/kg]_mean_cmj",
+      "dtype": "float64",
+      "example": "52.84",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "eccentric_braking_rfd_[n/s]_mean_cmj",
+      "dtype": "float64",
+      "example": "2846.22",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "eccentric_duration_[ms]_mean_cmj",
+      "dtype": "float64",
+      "example": "614.75",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "concentric_duration_[ms]_mean_cmj",
+      "dtype": "float64",
+      "example": "316.75",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "rsi-modified_[m/s]_mean_cmj",
+      "dtype": "float64",
+      "example": "0.43",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "countermovement_depth_[cm]_mean_cmj",
+      "dtype": "float64",
+      "example": "-36.45",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "cmj_stiffness_asymmetry_[%_l,r]_mean_cmj",
+      "dtype": "float64",
+      "example": "3.59",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "eccentric_deceleration_impulse_(asymmetry)_[%_l,r]_mean_cmj",
+      "dtype": "float64",
+      "example": "13.17",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "p1_concentric_impulse_asymmetry_[%_l,r]_mean_cmj",
+      "dtype": "float64",
+      "example": "0.8",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "p2_concentric_impulse_asymmetry_[%_l,r]_mean_cmj",
+      "dtype": "float64",
+      "example": "0.73",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "concentric_peak_force_[n]_mean_cmj",
+      "dtype": "float64",
+      "example": "1387.4",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "eccentric_peak_force_[n]_mean_cmj",
+      "dtype": "float64",
+      "example": "1374.4",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "minimum_eccentric_force_[n]_mean_cmj",
+      "dtype": "float64",
+      "example": "318.02",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "jump_height_(imp-mom)_[cm]_mean_sj",
+      "dtype": "float64",
+      "example": "33.35",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_power_[w]_mean_sj",
+      "dtype": "float64",
+      "example": "3154.01",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_power_/_bm_[w/kg]_mean_sj",
+      "dtype": "float64",
+      "example": "49.7",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "p1_concentric_impulse_asymmetry_[%_l,r]_mean_sj",
+      "dtype": "float64",
+      "example": "-3.86",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "p2_concentric_impulse_asymmetry_[%_l,r]_mean_sj",
+      "dtype": "float64",
+      "example": "-1.79",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_vertical_force_[n]_max_imtp",
+      "dtype": "float64",
+      "example": "2206.93",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "net_peak_vertical_force_[n]_max_imtp",
+      "dtype": "float64",
+      "example": "1587.84",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "force_at_100ms_[n]_max_imtp",
+      "dtype": "float64",
+      "example": "861.51",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "force_at_150ms_[n]_max_imtp",
+      "dtype": "float64",
+      "example": "1026.83",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "force_at_200ms_[n]_max_imtp",
+      "dtype": "float64",
+      "example": "1198.14",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "best_active_stiffness_[n/m]_mean_ht",
+      "dtype": "float64",
+      "example": "175423.49",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "best_jump_height_(flight_time)_[cm]_mean_ht",
+      "dtype": "float64",
+      "example": "22.41",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "best_rsi_(flight/contact_time)_mean_ht",
+      "dtype": "float64",
+      "example": "2.21",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "best_rsi_(jump_height/contact_time)_[m/s]_mean_ht",
+      "dtype": "float64",
+      "example": "115.68",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_takeoff_force_[n]_mean_pp",
+      "dtype": "float64",
+      "example": "1553.54",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_eccentric_force_[n]_mean_pp",
+      "dtype": "float64",
+      "example": "1010.79",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_takeoff_force_asymmetry_[%_l,r]_mean_pp",
+      "dtype": "float64",
+      "example": "-17.95",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "peak_eccentric_force_asymmetry_[%_l,r]_mean_pp",
+      "dtype": "float64",
+      "example": "-9.54",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "TSpineRomR",
+      "dtype": "float64",
+      "example": "51.0",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "TSpineRomL",
+      "dtype": "float64",
+      "example": "52.0",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "ShoulderERL",
+      "dtype": "float64",
+      "example": "22.4",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "ShoulderERR",
+      "dtype": "float64",
+      "example": "26.2",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "ShoulderIRL",
+      "dtype": "float64",
+      "example": "24.2",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "ShoulderIRR",
+      "dtype": "float64",
+      "example": "28.1",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "pitching_session_date",
+      "dtype": "str",
+      "example": "2023-01-31",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "pitch_speed_mph",
+      "dtype": "float64",
+      "example": "88.3",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "pitching_max_hss",
+      "dtype": "float64",
+      "example": "43.8",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "hitting_session_date",
+      "dtype": "str",
+      "example": "2021-07-27",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "bat_speed_mph",
+      "dtype": "float64",
+      "example": "52.7",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "hitting_max_hss",
+      "dtype": "float64",
+      "example": "26.8",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "relative_strength",
+      "dtype": "float64",
+      "example": "2.55",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "body_weight_[lbs]",
+      "dtype": "float64",
+      "example": "139.61",
+      "description": "",
+      "documented": false
+    },
+    {
+      "dataset": "high_performance",
+      "column": "athlete_uid",
+      "dtype": "str",
+      "example": "fd3d7a63-ef2c-43d5-96dd-1f5c1762b025",
+      "description": "",
+      "documented": false
+    }
+  ]
+}
