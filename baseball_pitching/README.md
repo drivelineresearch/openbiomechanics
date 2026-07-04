@@ -4,6 +4,18 @@
 
 Cleaned C3D files are provided at `~\baseball_pitching\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
 
+## Getting the Data
+
+The C3D files and full-signal tables are not stored directly in this repository. They are distributed as assets on GitHub Releases under the tag `dataset-v1`. Fetch and unpack them with the helper script from the repository root:
+
+```bash
+scripts/download_data.sh
+```
+
+The full-signal tables ship as `.zip` archives (e.g. `joint_angles.zip`) and must be unzipped before use.
+
+For a worked example of reading C3D files in Python with `ezc3d`, see the tutorial at [`additional_resources/tutorials/ezc3d_python/README.md`](../additional_resources/tutorials/ezc3d_python/README.md).
+
 ## File Naming
 
 All C3Ds follow a common naming convention. 
@@ -84,11 +96,11 @@ Processed full signal data were filtered with a 4th order Butterworth low pass f
 | --- | --- | --- | --- |
 | Wrist | Lateral (+)/ Medial(-) | Anterior (+)/Posterior (-) | Compression (+)/Distraction (-) |
 | Elbow | Lateral (+)/ Medial (-) | Anterior (+)/ Posterior (-) | Compression (+)/Distraction (-) |
-| Shoulder | Rel. upper arm: ? Rel. thorax: Lateral (+)/Medial (-) | Rel. upper arm: ? Rel. thorax: Anterior (+)/Posterior (-) | Rel upper arm: Compression (+)/Distraction (-). Rel thorax: Superior (+)/Inferior (-) |
+| Shoulder | Rel. upper arm: — (convention not reported) Rel. thorax: Lateral (+)/Medial (-) | Rel. upper arm: — (convention not reported) Rel. thorax: Anterior (+)/Posterior (-) | Rel upper arm: Compression (+)/Distraction (-). Rel thorax: Superior (+)/Inferior (-) |
 | Pelvis | NA | NA | NA |
 | Torso | NA | NA | NA |
 | Torso-Pelvis | NA | NA | NA |
-| Hip | Rel thigh: ? Rel pelvis: Lateral (+)/Medial (-) | Rel thigh: ? Rel pelvis: Anterior (+)/Posterior (-) | Rel thigh: Compression (+)/Distraction (-). Rel pelvis: Superior (+)/Inferior (-) |
+| Hip | Rel thigh: — (convention not reported) Rel pelvis: Lateral (+)/Medial (-) | Rel thigh: — (convention not reported) Rel pelvis: Anterior (+)/Posterior (-) | Rel thigh: Compression (+)/Distraction (-). Rel pelvis: Superior (+)/Inferior (-) |
 | Knee | Lateral (+)/Medial (-) | Anterior (+)/Posterior (-) | Compression (+)/Distraction (-) |
 | Ankle | Lateral (+)/Medial (-) | Anterior (+)/Posterior (-) | Superior (+)/Inferior (-) |
 
@@ -98,11 +110,11 @@ Processed full signal data were filtered with a 4th order Butterworth low pass f
 | --- | --- | --- | --- |
 | Wrist | Flexion (+)/Extension (-) | Ulnar (+)/Radial (-) Deviation | NA |
 | Elbow | Flexion (+)/Extension (-) | Varus (+)/Valgus (-) | Pronation (+)/Supination (-) |
-| Shoulder | Rel upper arm: ? Rel thorax:  ? | Rel upper arm: ? Rel. thorax: Ab (+)/ Adduction (-) | Rel upper arm: Internal (+)/External (-) Rotation. Rel thorax: Horizontal Add (+)/Abduction (-) |
+| Shoulder | Rel upper arm: — (convention not reported) Rel thorax: — (convention not reported) | Rel upper arm: — (convention not reported) Rel. thorax: Ab (+)/ Adduction (-) | Rel upper arm: Internal (+)/External (-) Rotation. Rel thorax: Horizontal Add (+)/Abduction (-) |
 | Pelvis | NA | NA | NA |
 | Torso | NA | NA | NA |
 | Torso-Pelvis | NA | NA | NA |
-| Hip | Rel thigh: ? Rel pelvis: Extension (+)/Flexion (-) | Rel thigh: ? Rel pelvis: ? | Rel thigh: Internal (+)/External (-) Rotation. Rel pelvis: ? |
+| Hip | Rel thigh: — (convention not reported) Rel pelvis: Extension (+)/Flexion (-) | Rel thigh: — (convention not reported) Rel pelvis: — (convention not reported) | Rel thigh: Internal (+)/External (-) Rotation. Rel pelvis: — (convention not reported) |
 | Knee | Flexion (+)/Extension (-) | Varus (+)/Valgus (-) | External (+)/Internal (-) Rotation |
 | Ankle | Plantar (+)/Dorsi (-) Flexion | Eversion (+)/Inversion (-) | Ab(+)/Adduction (-) |
 
@@ -122,7 +134,7 @@ Full signal data are broken up into six large CSV files:
 - `energy_flow`: energy transfer, energy generation, energy absorption
 - `force_plate`: rear leg, lead leg ground reaction forces
 - `forces_moments`: joint forces, joint moments
-- `joint angles`: joint angles
+- `joint_angles`: joint angles
 - `joint_velos`: joint angular velocities
 - `landmarks`: joint center positions
 
@@ -133,6 +145,21 @@ The times at which common events occurred are also joined in each table for conv
 By default, forces and moments are expressed in the proximal segment’s coordinate system (ex. `lead_ankle_moment_x` represents the moment at the lead ankle about the shank’s x-axis). Exceptions are made for the forces and moments at the shoulders and hips. For these joints, two sets of forces and two sets of moments are provided. The first set is the joint force/moment resolved in the proximal segment’s coordinate system (ex. shoulder force along the thorax’s x, y, and z axes). The second set is the joint force/moment resolved in the distal segment’s coordinate system (ex. shoulder force along the upper arm’s x, y, and z axes). For these “double dipped” joint kinetics, we follow the naming convention `joint_referenceSegment_kineticType_element`. For example, `shoulder_upper_arm_moment_z` represents the moment at the shoulder about the upper arm’s longitudinal (z) axis and `shoulder_thorax_moment_z` represents the moment at the shoulder resolved about the thorax superior-inferior (z) axis.
 
 One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full signal data through the metadata CSV located at `~\baseball_pitching\data\metadata.csv`. 
+
+## metadata.csv Schema
+
+The metadata CSV located at `~\baseball_pitching\data\metadata.csv` links the C3D files to the POI and full-signal data and provides athlete- and session-level information.
+
+- `user`: athlete ID
+- `session`: session ID
+- `session_pitch`: unique pitch ID (joins to the POI and full-signal data)
+- `session_mass_kg`: body mass (kg)
+- `session_height_m`: body height (m)
+- `age_yrs`: age at collection (years)
+- `playing_level`: playing level at the time of data collection
+- `pitch_speed_mph`: pitch speed (miles per hour)
+- `filename_new`: anonymized c3d filename
+- `modelname_new`: anonymized static model c3d filename
 
 # Point of Interest
 
@@ -152,7 +179,7 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 "max_shoulder_external_rotation": peak shoulder external rotation (layback) (deg)
 "elbow_flexion_fp": elbow flexion angle at foot plant (deg)
 "elbow_pronation_fp": wrist pronation angle at foot plant (deg)
-"rotation_hip_shoulder_separation_fp": hip-shoulder separation agnle at foot plant (deg)
+"rotation_hip_shoulder_separation_fp": hip-shoulder separation angle at foot plant (deg)
 "shoulder_horizontal_abduction_fp": shoulder horizontal abduction angle at foot plant (deg)
 "shoulder_abduction_fp": shoulder abduction angle at foot plant (deg)
 "shoulder_external_rotation_fp": shoulder external rotation angle at foot plant (deg)
@@ -213,11 +240,13 @@ Kinematic, kinetic, and energetic metrics commonly referenced in biomechanical a
 "rear_grf_z_max": peak vertical ground reaction force on the rear leg (N)
 "rear_grf_mag_max": peak resultant ground reaction force on the rear leg (N)
 "rear_grf_angle_at_max": rear ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg)
+"peak_rfd_rear": peak rate of force development on the rear leg (N/s)
 "lead_grf_x_max": peak braking ground reaction force (N)
 "lead_grf_y_max": peak lateral braking ground reaction force (N)
 "lead_grf_z_max": peak vertical ground reaction force on the lead leg (N)
-"lead_grf_mag_max": np.nanmax(lead_grf_mag),
+"lead_grf_mag_max": peak resultant ground reaction force on the lead leg (N)
 "lead_grf_angle_at_max": lead ground reaction force vector projection angle at the time of peak ground reaction force magnitude (deg)
+"peak_rfd_lead": peak rate of force development on the lead leg (N/s)
 ```
 ## GRF angle visualization
 

@@ -1,0 +1,8 @@
+# OpenBiomechanics — baseball_pitching/code requirements
+# Pinned minimum versions (>=); newer releases are expected to work.
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+mysql-connector-python>=8.0.0
+sqlalchemy>=2.0.0
+ezc3d>=1.5.0

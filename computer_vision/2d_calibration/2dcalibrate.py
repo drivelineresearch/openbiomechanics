@@ -1,3 +1,5 @@
+import argparse
+import os
 import numpy as np
 import cv2
 import glob
@@ -15,8 +17,8 @@ def count_images_in_directory(directory_path, camera_ids):
 
     return min_success_frames
 
-def calibrate_camera(frames_dict, checkerboard_size, camera_id):
-    
+def calibrate_camera(frames_dict, checkerboard_size, block_size, camera_id):
+
     print(f"Starting calibration for camera {camera_id}...")
 
     obj_points = []
@@ -57,7 +59,7 @@ def load_and_process_frames(folder, camera_ids, max_frames=75):
         frames_dict[camera_id] = frames
     return frames_dict
 
-def plot_single_camera(camera_id):
+def plot_single_camera(frames_dict, checkerboard_size, camera_id):
     frames = frames_dict[camera_id]
        
     # Initialize 2D points container
@@ -90,28 +92,33 @@ def plot_single_camera(camera_id):
         plt.savefig(f'figures/2D_chessboard_corners_camera_{cam}.png')
 
 if __name__ == "__main__":
-    # Initialize parameters
-    checkerboard_size = (7, 4)
-    block_size = 100  # mm
+    parser = argparse.ArgumentParser(description="2D checkerboard camera calibration.")
+    parser.add_argument("--directory", default="multiprocessed_frames")
+    parser.add_argument("--checkerboard-cols", type=int, default=7)
+    parser.add_argument("--checkerboard-rows", type=int, default=4)
+    parser.add_argument("--block-size-mm", type=float, default=100)
+    parser.add_argument("--max-frames", type=int, default=50)
+    args = parser.parse_args()
+
+    checkerboard_size = (args.checkerboard_cols, args.checkerboard_rows)
+    block_size = args.block_size_mm
+
+    os.makedirs("figures", exist_ok=True)
+    os.makedirs("debug_images", exist_ok=True)
 
     # Load frames for all cameras
     camera_ids_to_use = ['1', '2', '3', '4', '5', '6', '7', '8']  # Add all camera IDs you want to use
-    
-    directory_path = "multiprocessed_frames"
-    max_frames = count_images_in_directory(directory_path, camera_ids_to_use)
-    
-    if max_frames > 50:
-        max_frames = 50
-    
+
+    available_frames = count_images_in_directory(args.directory, camera_ids_to_use)
+    max_frames = min(available_frames, args.max_frames)
+
     print(f"Maximum number of frames to be used for calibration: {max_frames}")
 
-    frames_dict = load_and_process_frames(directory_path, camera_ids_to_use, max_frames=max_frames)
+    frames_dict = load_and_process_frames(args.directory, camera_ids_to_use, max_frames=max_frames)
 
     # 2D plots
     print("running plot_single_camera and calibrate_camera from main")
     for camera_id in camera_ids_to_use:
         print(f"Processing camera id: {camera_id}")
-        plot_single_camera(camera_id)
-        calibrate_camera(frames_dict, checkerboard_size, camera_id)
-
-    
+        plot_single_camera(frames_dict, checkerboard_size, camera_id)
+        calibrate_camera(frames_dict, checkerboard_size, block_size, camera_id)

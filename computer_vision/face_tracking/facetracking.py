@@ -36,7 +36,7 @@ if os.path.exists('training/'):
             if len(encodings) > 0:
                 face_encoding = encodings[0]
                 known_face_encodings.append(face_encoding)
-                known_face_names.append("Clayton Thompson")
+                known_face_names.append("Subject")
             else:
                 print(f"No faces found in {filename}")
 
