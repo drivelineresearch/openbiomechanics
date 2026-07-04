@@ -35,22 +35,19 @@ gh release download dataset-v1 -D "$TMP" --clobber
 mkdir -p baseball_pitching/data/full_sig baseball_hitting/data/full_sig
 
 # Processed full-signal tables ship as .zip and stay zipped in data/full_sig/.
-# (asset name -> destination path)
-declare -A FULLSIG=(
-  [pitching_energy_flow.zip]=baseball_pitching/data/full_sig/energy_flow.zip
-  [pitching_force_plate.zip]=baseball_pitching/data/full_sig/force_plate.zip
-  [pitching_forces_moments.zip]=baseball_pitching/data/full_sig/forces_moments.zip
-  [pitching_joint_angles.zip]=baseball_pitching/data/full_sig/joint_angles.zip
-  [pitching_joint_velos.zip]=baseball_pitching/data/full_sig/joint_velos.zip
-  [pitching_landmarks.zip]=baseball_pitching/data/full_sig/landmarks.zip
-  [hitting_force_plate.zip]=baseball_hitting/data/full_sig/force_plate.zip
-  [hitting_joint_angles.zip]=baseball_hitting/data/full_sig/joint_angles.zip
-  [hitting_joint_velos.zip]=baseball_hitting/data/full_sig/joint_velos.zip
-  [hitting_landmarks.zip]=baseball_hitting/data/full_sig/landmarks.zip
-)
-for asset in "${!FULLSIG[@]}"; do
-  mv -f "$TMP/$asset" "${FULLSIG[$asset]}"
-  echo "    placed ${FULLSIG[$asset]}"
+# Assets are module-prefixed in the release (e.g. pitching_joint_angles.zip);
+# strip the prefix and drop them into the matching module. (bash 3.2 compatible.)
+for z in "$TMP"/pitching_*.zip; do
+  base="$(basename "$z")"
+  [ "$base" = "pitching_c3d.zip" ] && continue
+  mv -f "$z" "baseball_pitching/data/full_sig/${base#pitching_}"
+  echo "    placed baseball_pitching/data/full_sig/${base#pitching_}"
+done
+for z in "$TMP"/hitting_*.zip; do
+  base="$(basename "$z")"
+  [ "$base" = "hitting_c3d.zip" ] && continue
+  mv -f "$z" "baseball_hitting/data/full_sig/${base#hitting_}"
+  echo "    placed baseball_hitting/data/full_sig/${base#hitting_}"
 done
 
 # Raw C3D archives unpack into each module's data/ folder (creates data/c3d/).
