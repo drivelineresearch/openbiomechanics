@@ -1,8 +1,14 @@
 # OBP Hitting Documentation
 
+## Getting the Data
+
+The C3D files and full-signal CSVs are not stored in this git repository. They are distributed as assets on the GitHub Releases page under the tag `dataset-v1`. Run `scripts/download_data.sh` from the repository root to fetch and unzip them into the expected locations. The full-signal data ships as `.zip` archives (unzip at the repo root to restore the `data/` layout referenced throughout this document).
+
 ## C3D
 
 Cleaned C3D files are provided at `~\baseball_hitting\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
+
+For a worked example of reading and processing these C3D files in Python, see the [ezc3d Python tutorial](../additional_resources/tutorials/ezc3d_python/README.md).
 
 ### File Naming
 
@@ -14,9 +20,9 @@ All C3Ds follow a common naming convention.
 
 `SESSIONid` = unique session identifier
 
-`HEIGHT` = body height in inches (body height in meters is also provided in the metadata CSV)
+`HEIGHT` = body height in inches (also provided as `session_height_in` in the metadata CSV)
 
-`WEIGHT` = bodyweight in pounds (body mass in kilograms is also provided in the metadata CSV)
+`WEIGHT` = bodyweight in pounds (also provided as `session_mass_lbs` in the metadata CSV)
 
 `SIDE` = hitting side (L = left handed swing, R = right handed swing)
 
@@ -131,10 +137,30 @@ One potential research project is to process the provided C3D using your own pip
 | rhjc | right hand joint center |
 | right_hip | right hip joint center |
 | rsjc | right shoulder joint center |
-| rejc | right shoulder joint center |
+| rejc | right elbow joint center |
 | rkjc | right knee joint center |
 | rajc | right ankle joint center |
 | rwjc | right wrist joint center |
+
+## metadata.csv Schema
+
+The metadata CSV at `~\baseball_hitting\data\metadata.csv` links self-processed C3D data to the provided POI and full-signal data. The join key is `session_swing`.
+
+| Column | Definition |
+| --- | --- |
+| session_swing | unique swing ID (joins to the POI and full-signal data) |
+| session_mass_lbs | body mass in pounds |
+| session_height_in | body height in inches |
+| athlete_age | athlete age in years |
+| highest_playing_level | highest playing level attained |
+| hitter_side | hitting side (L = left handed swing, R = right handed swing) |
+| bat_weight_oz | bat weight in ounces |
+| bat_length_in | bat length in inches |
+| bat_speed_mph_max_x | maximum resultant bat speed (miles per hour) |
+| blast_bat_speed_mph_x | bat speed at contact as measured by Blast Motion sensor (miles per hour) |
+| exit_velo_mph_x | exit velocity (miles per hour) |
+| user | unique athlete identifier |
+| session | unique session identifier |
 
 # Point of Interest
 
@@ -156,9 +182,9 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'bat_torso_angle_ds_y' : vertical bat angle relative to the torso at down swing event - this is the same as bat_torso_angle_connection and is what Blast calls “Early Connection” (deg)
 'hand_speed_blast_bat_mph_max_x' : maximum hand speed in mph - calculated the same way as Blast’s hand speed (deg/sec) 
 'hand_speed_mag_max_x' : maximum resultant hand speed between first move and contact (deg/sec) 
-'pelvis_angle_fm_x': pelvis angle (x) at first move - ussing K-Vest conventions (deg)
-'pelvis_angle_fm_y': pelvis angle (y) at first move - ussing K-Vest conventions (deg)
-'pelvis_angle_fm_z': pelvis angle (z) at first move - ussing K-Vest conventions (deg)
+'pelvis_angle_fm_x': pelvis angle (x) at first move - using K-Vest conventions (deg)
+'pelvis_angle_fm_y': pelvis angle (y) at first move - using K-Vest conventions (deg)
+'pelvis_angle_fm_z': pelvis angle (z) at first move - using K-Vest conventions (deg)
 'pelvis_angle_fp_x' : pelvis angle (x) at foot plant - using K-Vest conventions (deg)
 'pelvis_angle_fp_y' : pelvis angle (y) at foot plant - using K-Vest conventions (deg)
 'pelvis_angle_fp_z' : pelvis angle (z) at foot plant - using K-Vest conventions (deg)
@@ -284,7 +310,7 @@ In addition to biomechanical POI metrics, we also provide pitch level HitTrax da
 'poi_x': horizontal point of impact coordinate (0 = back tip of home plate; + = inside to left handed batter)
 'poi_y': vertical point of impact coordinate (0 = ground; + = above ground)
 'poi_z': point of impact coordinate (0 = back tip of home plate; + values = towards pitcher)
-'pitch_angle': decent angle of incoming pitch (deg)
+'pitch_angle': descent angle of incoming pitch (deg)
 ```
 
 HitTrax strike zone zones are as follows:

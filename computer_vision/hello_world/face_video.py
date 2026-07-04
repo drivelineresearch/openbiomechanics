@@ -28,7 +28,7 @@ known_face_encodings = [
     kyle_face_encoding
 ]
 known_face_names = [
-    "Clayton Thompson",
+    "Subject",
     "Kyle Boddy"
 ]
 

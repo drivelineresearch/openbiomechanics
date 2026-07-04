@@ -2,6 +2,10 @@
 
 Our assessment process utilizes force plate tests paired with motion capture data to provide a comprehensive analysis of an athlete’s performance. This documentation outlines the key tests we use, their significance, and how we integrate the collected data
 
+## Data
+
+The dataset lives in-repo at `data/hp_obp.csv` and is licensed under CC BY-NC-SA 4.0 (see `LICENSE-DATA.md`).
+
 ## **Testing Battery (Protocols included in links)-**
 
 [**Table ROM and Shoulder Strength**](https://vimeo.com/382787527/9cf56a289c)**\-**  
@@ -48,7 +52,7 @@ The plyo pushup measures upper body rate of force development using a countermov
 * **Peak Eccentric Force**\- the peak force achieved during the eccentric phase of the plyo pushup  
 * **Asymmetry**\- The difference in force production between the right and left arms
 
-### [**Repeated Hop Test**](https://vimeo.com/manage/videos/972840700/05fb7485ca)
+### [**Repeated Hop Test**](https://vimeo.com/972840700/05fb7485ca)
 
 The repeated hop test assesses lower body reactive ability by measuring the athlete’s capacity to quickly transition from eccentric to concentric movements. 
 
