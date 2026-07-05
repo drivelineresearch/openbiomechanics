@@ -4,8 +4,38 @@ The OpenBiomechanics Project is an initiative started by [Driveline Baseball Res
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
+## What's New (2026-07-04 repository overhaul)
+
+> [!WARNING]
+> **Breaking — git history was rewritten.** The repository history was purged to
+> remove ~2 GB of large binaries, shrinking `.git` from **2.2 GB to ~25 MB** (a
+> fresh clone is now ~28 MB). **If you have an existing clone or fork, delete it
+> and re-clone** — old commit hashes no longer exist and a `git pull` will not
+> reconcile. Nothing in the current file tree changed; only history was rewritten.
+
+> [!IMPORTANT]
+> **The large data no longer lives in git.** Raw C3D files, processed
+> full-signal archives, computer-vision demo media, and the Mokka installer are
+> now distributed via [GitHub Releases](https://github.com/drivelineresearch/openbiomechanics/releases).
+> Run [`scripts/download_data.sh`](scripts/download_data.sh) to fetch them. POI
+> and metadata CSVs remain in-repo.
+
+**Major changes**
+
+- **History purge** — large binaries removed from all git history (see the warning above).
+- **Data → GitHub Releases** — `dataset-v1` (raw C3D + full-signal), `cv-media-v1` (demo media), `tools-mokka-0.6.2` (C3D viewer). Fetch with `scripts/download_data.sh`.
+- **Dual license split** — code is now MIT ([`LICENSE-CODE.md`](LICENSE-CODE.md)); data + documentation stay CC BY-NC-SA 4.0 ([`LICENSE-DATA.md`](LICENSE-DATA.md)), including the professional-sports-organization / financial-firm exclusion.
+
+**Minor changes / additions**
+
+- **New tooling** — [`obp/`](obp/README.md) pandas loader package and runnable [`examples/`](examples/README.md).
+- **New metadata** — machine-readable [data dictionaries](#data-dictionaries--datasheet) (`<module>/data/data_dictionary.csv` + `data_dictionary.json`), a [`DATASHEET.md`](DATASHEET.md), and [`CITATION.cff`](CITATION.cff).
+- **Reproducibility** — pinned `requirements.txt` per module; agent guide in [`CLAUDE.md`](CLAUDE.md).
+- **Docs & code fixes** — corrected POI/metadata dictionaries (fixed a broken entry, added undocumented columns, fixed the `rejc` landmark), removed copyrighted textbook PDFs in favor of [cited references](additional_resources/README.md), de-duplicated and parameterized the computer-vision scripts, and removed committed cruft (`.DS_Store`, hardcoded paths/PII in notebooks).
+
 ## Contents
 
+- [What's New](#whats-new-2026-07-04-repository-overhaul)
 - [Modules](#modules)
 - [Dataset at a glance](#dataset-at-a-glance)
 - [Getting the Data](#getting-the-data)
