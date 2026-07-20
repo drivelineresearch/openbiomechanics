@@ -37,7 +37,8 @@ pass.
 - `results/extrinsics_summary.csv` is a compact camera-pair quality table.
 - `results/optitrack_rig_provisional.json` contains the 8 strictly accepted
   OptiTrack pair transforms, all rejection reasons, and a camera-19-relative
-  shortest-path pose graph.
+  shortest-path pose graph. Derived values are serialized to 10 decimal places
+  so deterministic rebuild checks are stable across BLAS implementations.
 - `results/iphone_split_stability.json` records the interleaved iPhone fit
   stability check.
 - `results/timing_results.json` records presentation-timestamp interval

@@ -22,6 +22,7 @@ THRESHOLDS = {
     "validation_translation_p95_mm_lt": 30.0,
     "validation_frames_gte": 4,
 }
+SERIALIZATION_DECIMALS = 10
 
 
 def parse_args() -> argparse.Namespace:
@@ -72,6 +73,17 @@ def edge_weight(row: dict) -> float:
         + validation["rotation_delta_median_deg"]
         + validation["translation_delta_median_mm"] / 100.0
     )
+
+
+def canonicalize_floats(value, decimals: int = SERIALIZATION_DECIMALS):
+    """Normalize derived floats across BLAS/platform implementations."""
+    if isinstance(value, dict):
+        return {key: canonicalize_floats(item, decimals) for key, item in value.items()}
+    if isinstance(value, list):
+        return [canonicalize_floats(item, decimals) for item in value]
+    if isinstance(value, (float, np.floating)):
+        return round(float(value), decimals)
+    return value
 
 
 def build_payload(data: dict) -> dict:
@@ -164,6 +176,7 @@ def build_payload(data: dict) -> dict:
     return {
         "schema_version": 2,
         "status": "provisional_not_bundle_adjusted",
+        "serialization_precision_decimal_places": SERIALIZATION_DECIMALS,
         "source_calibration_schema_version": data.get("schema_version"),
         "source_input_provenance": data.get("input_provenance"),
         "reference_camera": "optitrack_19",
@@ -196,7 +209,7 @@ def main() -> None:
     args = parse_args()
     source = args.results_dir / "calibration_results.json"
     data = json.loads(source.read_text())
-    payload = build_payload(data)
+    payload = canonicalize_floats(build_payload(data))
     target = args.results_dir / "optitrack_rig_provisional.json"
     target.write_text(json.dumps(payload, indent=2) + "\n")
     print(json.dumps(payload["non_tree_loop_closure_summary"], indent=2))
