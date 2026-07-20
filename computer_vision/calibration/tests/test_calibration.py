@@ -70,6 +70,11 @@ class CalibrationSafeguardTests(unittest.TestCase):
         }
         self.assertEqual(pose_graph.rejection_reasons(row), ["validation_translation_p95"])
 
+    def test_pose_serialization_has_canonical_float_precision(self):
+        value = {"matrix": [[np.float64(1.123456789012345)]], "tiny": 9.0e-14}
+        result = pose_graph.canonicalize_floats(value)
+        self.assertEqual(result, {"matrix": [[1.123456789]], "tiny": 0.0})
+
     def test_committed_results_are_physically_valid_and_provenanced(self):
         results = json.loads((CALIBRATION / "results" / "calibration_results.json").read_text())
         if results.get("schema_version") != 2:
