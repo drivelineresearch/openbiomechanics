@@ -1,0 +1,38 @@
+name: Calibration safeguards
+
+on:
+  pull_request:
+    paths:
+      - "computer_vision/calibration/**"
+      - ".github/workflows/calibration.yml"
+  push:
+    branches: [main]
+    paths:
+      - "computer_vision/calibration/**"
+      - ".github/workflows/calibration.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  calibration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: computer_vision/calibration/requirements.txt
+      - run: python -m pip install -r computer_vision/calibration/requirements.txt
+      - run: python -m unittest discover -s computer_vision/calibration/tests -v
+      - run: python -m compileall -q computer_vision/calibration/scripts
+      - name: Validate committed result files
+        run: |
+          for file in computer_vision/calibration/results/*.json; do
+            python -m json.tool "$file" >/dev/null
+          done
+      - name: Rebuild deterministic pose graph
+        run: |
+          python computer_vision/calibration/scripts/build_pose_graph.py
+          git diff --exit-code -- computer_vision/calibration/results/optitrack_rig_provisional.json

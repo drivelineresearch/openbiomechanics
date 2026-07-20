@@ -13,7 +13,7 @@ files it points to.
 | `baseball_pitching/` | Pitching data (`data/`) + processing code (`code/`) + `README.md` (marker set, coordinate system, sign conventions, POI + metadata dictionaries) |
 | `baseball_hitting/` | Same structure as pitching, for swings |
 | `high_performance/` | Force-plate + assessment data (`data/hp_obp.csv`) + scrape notebook + `README.md` |
-| `computer_vision/` | OpenCV / YOLO / calibration tutorials (`TUTORIAL.md`); shared helpers in `utils.py` |
+| `computer_vision/` | OpenCV / YOLO tutorials plus validated provisional multi-camera calibration (`calibration/`); shared helpers in `utils.py` |
 | `additional_resources/` | Cited references + `tutorials/` (ezc3d, ISBS) |
 | `obp/` | Small pandas loader package: `load_poi/load_metadata/load_hp`, path resolvers, `download()` |
 | `examples/` | Runnable `.py` scripts demonstrating POI/C3D/full-signal/HP workflows |

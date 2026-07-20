@@ -4,7 +4,20 @@ The OpenBiomechanics Project is an initiative started by [Driveline Baseball Res
 
 ![IMG_5797.JPG](imgs/IMG_5797.jpg)
 
-## What's New (2026-07-04 repository overhaul)
+## What's New
+
+### 2026-07-19: validated provisional OBP-CV calibration
+
+- Cross-validated, full-frame-monotonic intrinsics for 8 OptiTrack, 4
+  Edgertronic, and 1 iPhone feed.
+- A held-out-qualified eight-camera OptiTrack pose graph with independent loop
+  closure of 0.072° and 3.27 mm in camera-19-relative coordinates.
+- Exact source hashes, timing diagnostics, reproducible scripts, automated
+  safeguards, and documented rejected views and camera-pair fits.
+- A concrete [cube, CS-200, epipolar, and undistortion-grid annotation plan](computer_vision/calibration/ANNOTATION_PLAN.md)
+  for reaching final lab-frame calibration.
+
+### 2026-07-04: repository overhaul
 
 > [!WARNING]
 > **Breaking — git history was rewritten.** The repository history was purged to
@@ -35,7 +48,7 @@ The OpenBiomechanics Project is an initiative started by [Driveline Baseball Res
 
 ## Contents
 
-- [What's New](#whats-new-2026-07-04-repository-overhaul)
+- [What's New](#whats-new)
 - [Modules](#modules)
 - [Dataset at a glance](#dataset-at-a-glance)
 - [Getting the Data](#getting-the-data)
@@ -142,3 +155,12 @@ See [`LICENSE-DATA.md`](LICENSE-DATA.md) for the full terms.
 OBP Computer Vision (OBP-CV) added! Examples can be found in the `computer_vision` folder and the README and data can be found at the following Google Sheet link:
 
 [OBP-CV README, Shot List, and More Information](https://docs.google.com/spreadsheets/d/1NhpF8DnfBdio_xsU7B44KNuHghtePDp-d3juvCYNm9Q/edit?usp=sharing)
+
+### Validated provisional OBP-CV calibration
+
+Cross-validated provisional camera intrinsics, held-out pair transforms, an
+eight-camera OptiTrack pose graph, timing checks, and full methodology are available in
+[`computer_vision/calibration/`](computer_vision/calibration/). These values are
+published for reproducibility and continued validation; they are not yet a
+final lab-frame calibration. The next stage is the documented
+[cube, CS-200, epipolar-overlay, and undistortion-grid workflow](computer_vision/calibration/ANNOTATION_PLAN.md).

@@ -1,0 +1,94 @@
+{
+  "schema_version": 2,
+  "model": "k1_square",
+  "software_versions": {
+    "python": "3.12.3",
+    "opencv": "4.13.0",
+    "numpy": "2.4.3",
+    "ffprobe": "ffprobe version 6.1.1-3ubuntu5 Copyright (c) 2007-2023 the FFmpeg developers",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.39"
+  },
+  "input_provenance": {
+    "filename": "iphone_dynamic_checkerboard.MOV",
+    "bytes": 39850519,
+    "sha256": "2b91201b8307dd12626fb0a4ddbc9e452703416df6204221a864f09003b62826"
+  },
+  "split_method": "alternating detected frames after stride-6 sampling",
+  "split_a": {
+    "rms_px": 0.1881420808722874,
+    "K": [
+      [
+        1004.3737619504435,
+        0.0,
+        637.6592131092119
+      ],
+      [
+        0.0,
+        1004.3737619504435,
+        371.07953461329146
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "D": [
+      0.14494954336134494,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "physical_validity": {
+      "full_frame_max_normalized_radius": 0.7377308470539606,
+      "minimum_radial_scale": 1.0,
+      "minimum_radial_derivative": 1.0,
+      "first_invalid_normalized_radius": null,
+      "monotonic_over_full_frame": true
+    }
+  },
+  "split_b": {
+    "rms_px": 0.18708286858542436,
+    "K": [
+      [
+        1004.2067027745703,
+        0.0,
+        637.5574153579743
+      ],
+      [
+        0.0,
+        1004.2067027745703,
+        370.2583407691399
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "D": [
+      0.1482479741738179,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "physical_validity": {
+      "full_frame_max_normalized_radius": 0.7375321682717638,
+      "minimum_radial_scale": 1.0,
+      "minimum_radial_derivative": 1.0,
+      "first_invalid_normalized_radius": null,
+      "monotonic_over_full_frame": true
+    }
+  },
+  "relative_fx_difference_pct": 0.016634551496154573,
+  "relative_fy_difference_pct": 0.016634551496154573,
+  "principal_point_difference_px": 0.8274793724495025,
+  "distortion_l2_difference": 0.003298430812472969,
+  "detections_per_split": [
+    148,
+    148
+  ],
+  "warning": "Interleaved stability does not estimate or correct rolling-shutter readout time."
+}

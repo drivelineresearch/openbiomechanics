@@ -1,0 +1,106 @@
+{
+  "schema_version": 2,
+  "software_versions": {
+    "python": "3.12.3",
+    "opencv": "4.13.0",
+    "numpy": "2.4.3",
+    "ffprobe": "ffprobe version 6.1.1-3ubuntu5 Copyright (c) 2007-2023 the FFmpeg developers",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.39"
+  },
+  "input_provenance": {
+    "iphone_dynamic_checkerboard.MOV": {
+      "filename": "iphone_dynamic_checkerboard.MOV",
+      "bytes": 39850519,
+      "sha256": "2b91201b8307dd12626fb0a4ddbc9e452703416df6204221a864f09003b62826"
+    },
+    "iphone_color_palette.MOV": {
+      "filename": "iphone_color_palette.MOV",
+      "bytes": 9785341,
+      "sha256": "aa4801315dcc37b8e9d9bdba36b7ed9086b9a411bc0fd6b505443139903e91d7"
+    },
+    "iphone_grayscale_palette.MOV": {
+      "filename": "iphone_grayscale_palette.MOV",
+      "bytes": 10654085,
+      "sha256": "4b20f1101e371a01952a1ec5ef2fadaea3da9b5d8eb5abb069bb9abb2c994f5e"
+    }
+  },
+  "videos": {
+    "iphone_dynamic_checkerboard.MOV": {
+      "frames_with_pts": 1774,
+      "first_pts_s": 0.0,
+      "last_pts_s": 8.74875,
+      "duration_from_pts_s": 8.74875,
+      "timestamps_strictly_increasing": true,
+      "median_interval_ms": 4.16699999999981,
+      "minimum_interval_ms": 4.16599999999967,
+      "p05_interval_ms": 4.16599999999967,
+      "p95_interval_ms": 12.500000000000034,
+      "maximum_interval_ms": 16.666999999999987,
+      "intervals_over_1_5x_median": 170,
+      "unique_intervals_ms": [
+        4.166,
+        4.167,
+        4.583,
+        4.584,
+        8.333,
+        8.334,
+        8.75,
+        12.5,
+        12.916,
+        12.917,
+        16.666,
+        16.667
+      ]
+    },
+    "iphone_color_palette.MOV": {
+      "frames_with_pts": 449,
+      "first_pts_s": 0.0,
+      "last_pts_s": 2.227917,
+      "duration_from_pts_s": 2.227917,
+      "timestamps_strictly_increasing": true,
+      "median_interval_ms": 4.167000000000004,
+      "minimum_interval_ms": 4.16599999999967,
+      "p05_interval_ms": 4.165999999999892,
+      "p95_interval_ms": 12.499999999999956,
+      "maximum_interval_ms": 16.666999999999987,
+      "intervals_over_1_5x_median": 46,
+      "unique_intervals_ms": [
+        4.166,
+        4.167,
+        4.583,
+        4.584,
+        8.333,
+        8.334,
+        12.5,
+        16.666,
+        16.667
+      ]
+    },
+    "iphone_grayscale_palette.MOV": {
+      "frames_with_pts": 488,
+      "first_pts_s": 0.0,
+      "last_pts_s": 2.42,
+      "duration_from_pts_s": 2.42,
+      "timestamps_strictly_increasing": true,
+      "median_interval_ms": 4.167000000000004,
+      "minimum_interval_ms": 4.16599999999967,
+      "p05_interval_ms": 4.165999999999892,
+      "p95_interval_ms": 12.499999999999956,
+      "maximum_interval_ms": 17.08299999999996,
+      "intervals_over_1_5x_median": 50,
+      "unique_intervals_ms": [
+        4.166,
+        4.167,
+        4.583,
+        4.584,
+        8.333,
+        8.334,
+        12.5,
+        12.916,
+        16.666,
+        16.667,
+        17.083
+      ]
+    }
+  }
+}
