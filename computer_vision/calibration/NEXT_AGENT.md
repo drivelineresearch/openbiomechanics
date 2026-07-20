@@ -1,9 +1,14 @@
 # Handoff: color targets, cube/ground plane, and final calibration
 
-The checkerboard audit has produced provisional intrinsics for 13 feeds, full
-pair transforms for attempted synchronized fits, and a connected provisional
-OptiTrack pose graph in camera-19 coordinates. Continue from the committed
-files in this directory; do not silently replace them with hand-entered values.
+The checkerboard audit has produced cross-validated, full-frame-monotonic
+provisional intrinsics for 13 feeds, held-out pair diagnostics, and a connected
+provisional OptiTrack pose graph in camera-19 coordinates. Continue from the
+committed files in this directory; do not silently replace them with hand-entered
+values.
+
+Follow [`ANNOTATION_PLAN.md`](ANNOTATION_PLAN.md) for source-frame provenance,
+cube and CS-200 JSONL schemas, annotation review, epipolar overlays, undistortion
+grids, and final QA deliverables.
 
 ## Highest-priority geometry work
 
@@ -56,8 +61,10 @@ files in this directory; do not silently replace them with hand-entered values.
   4.167 ms, while the 95th-percentile interval is 12.5 ms and longer intervals
   occur. Use frame presentation timestamps.
 - Treat rolling-shutter motion as a separate model/uncertainty term.
-- Preserve byte-level source provenance: video filename, file ID or Drive URL,
-  resolution, PTS, decoded frame index, and calibration-object dimensions.
+- Preserve the existing SHA-256 source provenance and add stable Drive file IDs
+  or release URLs when the calibration assets receive a permanent distribution.
+  Keep resolution, PTS, decoded frame index, and object dimensions with every
+  new annotation.
 - Every released matrix needs a coordinate convention, units, frame name,
   validation split, error statistics, and a clear provisional/final status.
 
@@ -70,3 +77,5 @@ files in this directory; do not silently replace them with hand-entered values.
 - an Edgertronic rig derived from cube/ground-plane correspondences;
 - a color/grayscale feasibility table with minimum patch-resolution rules;
 - deterministic held-out QA reports and visual overlays.
+- per-pair epipolar overlays and per-camera undistortion grids specified in
+  `ANNOTATION_PLAN.md`.

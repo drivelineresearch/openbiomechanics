@@ -1,4 +1,4 @@
-# Experimental camera calibration audit
+# Validated provisional camera calibration
 
 This directory contains a reproducible, **provisional** calibration audit for
 the OpenBiomechanics Computer Vision (OBP-CV) videos. It establishes which
@@ -14,12 +14,12 @@ They are not duplicated in this repository.
 
 | Deliverable | Current status | Evidence |
 | --- | --- | --- |
-| OptiTrack intrinsics, cameras 15–22 | Provisional numeric estimates | Held-out median corner errors: 0.154–0.287 px |
-| OptiTrack relative extrinsics | Provisional connected rig | 9 accepted pair edges connect all 8 cameras |
+| OptiTrack intrinsics, cameras 15–22 | Provisional, physically valid estimates | Three-fold held-out median errors: 0.167–0.274 px; all models monotonic over the full frame |
+| OptiTrack relative extrinsics | Provisional connected rig | 8 held-out-qualified edges connect all 8 cameras |
 | OptiTrack lab/world coordinates | Not complete | Cube/CS-200 correspondences and final bundle adjustment still required |
-| Edgertronic intrinsics, cameras 1–4 | Cameras 2–4 usable; camera 1 weak | Camera 1 held-out median 1.050 px and p95 4.492 px |
+| Edgertronic intrinsics, cameras 1–4 | Provisional, physically valid estimates | Held-out medians: 0.183–0.204 px after deterministic bad-view rejection |
 | Edgertronic relative extrinsics | Not solved from checkerboard alone | Simultaneous checkerboard overlap graph is disconnected |
-| iPhone intrinsics | Provisional numeric estimate | 0.146 px held-out median; interleaved fx differs by 0.043% |
+| iPhone intrinsics | Provisional `k1` estimate | 0.146 px held-out median; interleaved focal length differs by 0.017% |
 | iPhone-to-fixed-rig extrinsics | Not complete | No genlock; rolling shutter and variable presentation timestamps |
 
 Do not advertise the matrices in `results/` as a final lab calibration. They
@@ -28,19 +28,23 @@ pass.
 
 ## Published files
 
-- `results/calibration_results.json` contains all intrinsic fits and every
-  attempted synchronized camera-pair fit. Pair entries include full rotation
-  matrices, translations, overlap counts, stereo RMS, and independent
-  per-frame stability diagnostics.
+- `results/calibration_results.json` contains input SHA-256 hashes and software
+  versions, every candidate intrinsic model and fold, coverage and physical
+  validity checks, rejected views, and every attempted synchronized pair fit.
+  Pair entries retain raw overlap counts, time-stratified frame selections,
+  full transforms, stereo RMS, and held-out per-frame diagnostics.
 - `results/intrinsics_summary.csv` is a compact per-camera table.
 - `results/extrinsics_summary.csv` is a compact camera-pair quality table.
-- `results/optitrack_rig_provisional.json` contains the 9 strictly accepted
-  OptiTrack pair transforms and a camera-19-relative shortest-path pose graph.
+- `results/optitrack_rig_provisional.json` contains the 8 strictly accepted
+  OptiTrack pair transforms, all rejection reasons, and a camera-19-relative
+  shortest-path pose graph.
 - `results/iphone_split_stability.json` records the interleaved iPhone fit
   stability check.
 - `results/timing_results.json` records presentation-timestamp interval
   distributions for the iPhone checkerboard and SpyderCHECKR recordings.
 - `scripts/` contains the programs that generated the results.
+- [`ANNOTATION_PLAN.md`](ANNOTATION_PLAN.md) specifies the next cube, CS-200,
+  epipolar-overlay, undistortion-grid, and bundle-adjustment work.
 
 ## Coordinate conventions
 
@@ -72,28 +76,43 @@ anatomical axis convention.
 2. Detect the 7 × 4 internal-corner grid with OpenCV
    `findChessboardCornersSB` and refine corners at native resolution.
 3. Select up to 120 diverse views by board position, projected area, and
-   orientation.
-4. Reserve every fifth selected view for intrinsic validation.
-5. Fit a low-dimensional Brown lens model with tangential distortion and k3
-   fixed. This avoids publishing unstable high-order coefficients where the
-   target does not cover the image corners.
-6. Fit fixed-intrinsic stereo transforms on synchronized detections and compare
-   each aggregate transform with independent per-frame PnP estimates.
-7. Accept an OptiTrack edge only when all of the following hold:
+   circular orientation features.
+4. Fit a square-pixel `k1` pilot model and reject only gross view outliers above
+   the larger of 0.75 px or four robust standard deviations from the median.
+5. Compare zero-distortion, `k1`, and `k1+k2` square-pixel Brown models with
+   three-fold held-out validation. Tangential distortion and `k3` remain fixed
+   at zero because the target does not cover enough of every frame to identify
+   them reliably.
+6. Reject any candidate whose radial mapping is non-positive or non-monotonic
+   anywhere in the full image. Choose the simplest physically valid model within
+   a small held-out-error tolerance of the best candidate, then refit it on all
+   retained views.
+7. Intersect the views retained by both intrinsic fits, select synchronized pair
+   frames uniformly over that qualified overlap, fit on four of every five
+   frames, and evaluate the transform on the held-out fifth before refitting the
+   published transform on all selected frames. Both raw and qualified overlap
+   counts remain in the output.
+8. Accept an OptiTrack edge only when all of the following hold:
    - stereo RMS < 0.5 px;
-   - median per-frame rotation deviation < 1°;
-   - median per-frame translation deviation < 30 mm.
-8. Build a minimum-error camera-19-relative pose graph from accepted edges and
-   report non-tree loop closure without claiming bundle adjustment.
+   - held-out rotation median < 1° and p95 < 1.5°;
+   - held-out translation median and p95 < 30 mm;
+   - at least 4 held-out frames.
+9. Build a validation-weighted camera-19-relative pose graph from accepted edges
+   and report non-tree loop closure without claiming bundle adjustment.
 
-The two non-tree accepted-edge checks close within 0.497° and 25.65 mm. That is
-encouraging, but it is not a substitute for a joint all-camera optimization.
+The independent non-tree accepted edge closes within 0.072° and 3.27 mm. That
+is encouraging, but it is not a substitute for joint all-camera optimization.
 
 ## Reproducing the audit
 
-Python 3 with NumPy and OpenCV is required; FFmpeg/FFprobe is required for the
-timestamp audit. Download the public files into
-`/tmp/obp-calibration-assets` using these names:
+Python 3 and FFmpeg/FFprobe are required. Install the exact NumPy and headless
+OpenCV versions used for the committed results:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+Download the public files into `/tmp/obp-calibration-assets` using these names:
 
 ```text
 opti_dynamic_checkerboard_cam15.mp4 ... cam22.mp4
@@ -103,18 +122,24 @@ iphone_color_palette.MOV
 iphone_grayscale_palette.MOV
 ```
 
-Then run from this directory:
+Then run from this directory. Use `--assets-dir PATH` on each command if the
+videos live elsewhere:
 
 ```bash
-python scripts/analyze_calibration.py
-python scripts/build_pose_graph.py
-python scripts/iphone_stability.py
-python scripts/timing_audit.py
+python3 scripts/analyze_calibration.py
+python3 scripts/build_pose_graph.py
+python3 scripts/iphone_stability.py
+python3 scripts/timing_audit.py
+python3 -m unittest discover -s tests -v
 ```
 
-The detector intentionally samples the videos and can take several minutes.
-The results in this commit were regenerated twice with matching reported
-summary values.
+After changing only stereo or pose-graph logic, pass `--reuse-intrinsics` to
+`analyze_calibration.py`. Reuse is refused unless the schema and all source
+SHA-256 hashes match the existing results.
+
+The detector and cross-validation sweep can take several minutes. Each output
+records exact input hashes and software versions. Regeneration is clean at the
+JSON/CSV level and the deterministic pose graph is rebuilt in CI.
 
 ## Known limitations
 
@@ -132,7 +157,9 @@ summary values.
 - The iPhone has rolling shutter and variable frame intervals. Use presentation
   timestamps rather than `frame_index / nominal_fps`.
 - Intrinsic validation covers the observed checkerboard distribution. More
-  edge-of-frame observations would improve distortion identifiability.
+  edge-of-frame observations would improve distortion identifiability. The
+  output reports both observed and full-frame normalized radii so this gap is
+  explicit; most feeds conservatively select zero distortion.
 
 ## SpyderCHECKR/color correction scope
 
@@ -143,8 +170,9 @@ claim of absolute sensor colorimetry because the recordings are processed 8-bit
 video, target patches can be only a few pixels across, and no measured target
 Lab/spectral reference file is supplied.
 
-See [`NEXT_AGENT.md`](NEXT_AGENT.md) for the concrete remaining color, cube,
-ground-plane, and final bundle-adjustment work.
+See [`ANNOTATION_PLAN.md`](ANNOTATION_PLAN.md) for the annotation schemas and
+visual-QA workflow, and [`NEXT_AGENT.md`](NEXT_AGENT.md) for the complete
+remaining color, geometry, and bundle-adjustment handoff.
 
 ## License
 

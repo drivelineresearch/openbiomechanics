@@ -179,7 +179,7 @@ The data license is non-commercial and carries one additional exclusion beyond s
 Driveline Baseball Research & Development maintains the dataset via the public GitHub repository.
 
 **How is it versioned and updated?**
-Updates are recorded in the root `README.md` and released through GitHub Releases (current data tag: `dataset-v1`). Notable updates include the addition of the High Performance module (2024-07-30) and the Computer Vision module (2023-11-02).
+Updates are recorded in the root `README.md` and released through GitHub Releases (current data tag: `dataset-v1`). Notable updates include the Computer Vision module (2023-11-02), the High Performance module (2024-07-30), and the validated provisional OBP-CV calibration audit with source provenance and held-out diagnostics (2026-07-19).
 
 **How can users contribute or report issues?**
 Contributions and issues are handled through the GitHub repository (see `CONTRIBUTING.md`). For more information, visit [openbiomechanics.org](https://openbiomechanics.org).

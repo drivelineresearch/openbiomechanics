@@ -57,14 +57,27 @@ If you encounter any issues or have questions:
 3. For more personalized assistance, consult each library's official documentation or post your queries to community forums such as Stack Overflow.
 4. If you still need help, open a GitHub issue on this repository. Crafting your first working script can be challenging, but with perseverance, you will succeed.
 
-## Experimental Camera Calibration Audit
+## OBP-CV Calibration
 
-The [`calibration/`](calibration/) directory contains provisional intrinsic
-estimates, synchronized pair transforms, an eight-camera OptiTrack pose graph,
-timing diagnostics, reproducible scripts, and explicit limitations for the
-OBP-CV calibration recordings. Start with its README before using any matrix;
-the current rig is camera-19-relative and has not yet been aligned to final
-laboratory coordinates.
+The [`calibration/`](calibration/) directory contains cross-validated provisional
+intrinsics, held-out pair diagnostics, an eight-camera OptiTrack pose graph,
+timing diagnostics, exact source hashes, reproducible scripts, and explicit
+limitations for the OBP-CV calibration recordings. Start with its README before
+using any matrix; the current rig is camera-19-relative and has not yet been
+aligned to final laboratory coordinates.
+
+Current validated provisional results:
+
+| System | Intrinsics | Relative extrinsics |
+| --- | --- | --- |
+| OptiTrack 15–22 | Three-fold held-out medians 0.167–0.274 px; full-frame-monotonic models | 8 held-out-qualified edges connect all cameras; independent closure 0.072° / 3.27 mm |
+| Edgertronic 1–4 | Held-out medians 0.183–0.204 px after robust view filtering | Checkerboard overlap remains disconnected |
+| iPhone | Held-out median 0.146 px; interleaved focal stability 0.017% | Not genlocked; rolling shutter and variable PTS remain |
+
+The next recommended stage is cube and CS-200 annotation followed by held-out
+epipolar overlays, undistortion grids, and joint bundle adjustment. The complete
+schema and acceptance plan is in
+[`calibration/ANNOTATION_PLAN.md`](calibration/ANNOTATION_PLAN.md).
 
 ---
 
