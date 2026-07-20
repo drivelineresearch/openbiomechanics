@@ -57,6 +57,15 @@ If you encounter any issues or have questions:
 3. For more personalized assistance, consult each library's official documentation or post your queries to community forums such as Stack Overflow.
 4. If you still need help, open a GitHub issue on this repository. Crafting your first working script can be challenging, but with perseverance, you will succeed.
 
+## Experimental Camera Calibration Audit
+
+The [`calibration/`](calibration/) directory contains provisional intrinsic
+estimates, synchronized pair transforms, an eight-camera OptiTrack pose graph,
+timing diagnostics, reproducible scripts, and explicit limitations for the
+OBP-CV calibration recordings. Start with its README before using any matrix;
+the current rig is camera-19-relative and has not yet been aligned to final
+laboratory coordinates.
+
 ---
 
 For more information and to ensure you are compliant with the licensing terms, please visit [www.openbiomechanics.org](http://www.openbiomechanics.org). All data and reports are subject to the licensing outlined on the website and the GitHub repository.

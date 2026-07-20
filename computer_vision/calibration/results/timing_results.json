@@ -1,0 +1,61 @@
+{
+  "iphone_dynamic_checkerboard.MOV": {
+    "frames_with_pts": 1774,
+    "duration_from_pts_s": 8.74875,
+    "median_interval_ms": 4.16699999999981,
+    "p05_interval_ms": 4.16599999999967,
+    "p95_interval_ms": 12.500000000000034,
+    "unique_intervals_ms": [
+      4.166,
+      4.167,
+      4.583,
+      4.584,
+      8.333,
+      8.334,
+      8.75,
+      12.5,
+      12.916,
+      12.917,
+      16.666,
+      16.667
+    ]
+  },
+  "iphone_color_palette.MOV": {
+    "frames_with_pts": 449,
+    "duration_from_pts_s": 2.227917,
+    "median_interval_ms": 4.167000000000004,
+    "p05_interval_ms": 4.165999999999892,
+    "p95_interval_ms": 12.499999999999956,
+    "unique_intervals_ms": [
+      4.166,
+      4.167,
+      4.583,
+      4.584,
+      8.333,
+      8.334,
+      12.5,
+      16.666,
+      16.667
+    ]
+  },
+  "iphone_grayscale_palette.MOV": {
+    "frames_with_pts": 488,
+    "duration_from_pts_s": 2.42,
+    "median_interval_ms": 4.167000000000004,
+    "p05_interval_ms": 4.165999999999892,
+    "p95_interval_ms": 12.499999999999956,
+    "unique_intervals_ms": [
+      4.166,
+      4.167,
+      4.583,
+      4.584,
+      8.333,
+      8.334,
+      12.5,
+      12.916,
+      16.666,
+      16.667,
+      17.083
+    ]
+  }
+}

@@ -1,0 +1,608 @@
+{
+  "status": "provisional_not_bundle_adjusted",
+  "reference_camera": "optitrack_19",
+  "coordinate_convention": "A 3-D point expressed in camera-19 coordinates is mapped to camera i by X_i = R_i19 @ X_19 + t_i19. Camera centers are expressed in camera-19 coordinates.",
+  "units": "millimetres",
+  "acceptance_thresholds": {
+    "stereo_rms_px_lt": 0.5,
+    "median_rotation_drift_deg_lt": 1.0,
+    "median_translation_drift_mm_lt": 30.0
+  },
+  "accepted_pair_count": 9,
+  "accepted_pairs": {
+    "15_to_19": {
+      "source_pair": "optitrack_15__optitrack_19",
+      "shared_sampled_frames": 26,
+      "stereo_rms_px": 0.21181342786024185,
+      "rotation_matrix": [
+        [
+          -0.9999218829738199,
+          0.010100425403552077,
+          0.007362700371312267
+        ],
+        [
+          0.012147526569235071,
+          0.6465667430789647,
+          0.762760699264527
+        ],
+        [
+          0.002943730344336919,
+          0.7627905532653954,
+          -0.6466389303937183
+        ]
+      ],
+      "translation_mm": [
+        162.59109521552978,
+        -4218.857394312429,
+        9163.455537358825
+      ],
+      "median_rotation_drift_deg": 0.05543290801688382,
+      "median_translation_drift_mm": 4.562252840388828
+    },
+    "16_to_19": {
+      "source_pair": "optitrack_16__optitrack_19",
+      "shared_sampled_frames": 26,
+      "stereo_rms_px": 0.2105151819072006,
+      "rotation_matrix": [
+        [
+          -0.898683822691571,
+          0.301492842213396,
+          -0.3185427018886998
+        ],
+        [
+          -0.113353300089023,
+          0.5419453200198089,
+          0.8327342309930307
+        ],
+        [
+          0.42369613662552164,
+          0.7844726484733006,
+          -0.4528622832671015
+        ]
+      ],
+      "translation_mm": [
+        2178.356103734207,
+        -3285.3016612849233,
+        7409.528080727295
+      ],
+      "median_rotation_drift_deg": 0.044633310032155114,
+      "median_translation_drift_mm": 3.0319372817451367
+    },
+    "17_to_18": {
+      "source_pair": "optitrack_17__optitrack_18",
+      "shared_sampled_frames": 24,
+      "stereo_rms_px": 0.20065866255834075,
+      "rotation_matrix": [
+        [
+          -0.899500617088193,
+          -0.1014561091031619,
+          0.4249768202897746
+        ],
+        [
+          0.19642614434942257,
+          0.7749267657046375,
+          0.6007539243405485
+        ],
+        [
+          -0.39027606853864344,
+          0.6238550839098748,
+          -0.6771184716176506
+        ]
+      ],
+      "translation_mm": [
+        -1832.8387986111443,
+        -3165.047521028689,
+        8679.263854706134
+      ],
+      "median_rotation_drift_deg": 0.03924165057769436,
+      "median_translation_drift_mm": 4.26551842034204
+    },
+    "17_to_22": {
+      "source_pair": "optitrack_17__optitrack_22",
+      "shared_sampled_frames": 28,
+      "stereo_rms_px": 0.31235457361912233,
+      "rotation_matrix": [
+        [
+          -0.5208043908362763,
+          -0.30478672814273683,
+          0.7974132158634573
+        ],
+        [
+          0.44080772414811925,
+          0.7039149770474281,
+          0.5569490599863461
+        ],
+        [
+          -0.7310617872772525,
+          0.6415674208034293,
+          -0.23224966683856574
+        ]
+      ],
+      "translation_mm": [
+        -3659.3522442889557,
+        -3527.8945276607183,
+        6226.014151121746
+      ],
+      "median_rotation_drift_deg": 0.43112583194658327,
+      "median_translation_drift_mm": 25.68703099942489
+    },
+    "18_to_19": {
+      "source_pair": "optitrack_18__optitrack_19",
+      "shared_sampled_frames": 24,
+      "stereo_rms_px": 0.19738359495918054,
+      "rotation_matrix": [
+        [
+          -0.3591733538517592,
+          -0.21853984413848698,
+          0.9073228964413964
+        ],
+        [
+          0.4111739531923346,
+          0.8357024983189577,
+          0.3640567462905212
+        ],
+        [
+          -0.8378129159299628,
+          0.5038270247092537,
+          -0.2103041774990557
+        ]
+      ],
+      "translation_mm": [
+        -4349.906431958538,
+        -1750.062069815393,
+        5558.674575259561
+      ],
+      "median_rotation_drift_deg": 0.05662664590821242,
+      "median_translation_drift_mm": 4.435463093300749
+    },
+    "18_to_20": {
+      "source_pair": "optitrack_18__optitrack_20",
+      "shared_sampled_frames": 20,
+      "stereo_rms_px": 0.25291421733464015,
+      "rotation_matrix": [
+        [
+          -0.7872504266949216,
+          0.15651505070731164,
+          -0.5964392714860007
+        ],
+        [
+          -0.3138412716357106,
+          0.7308996326357704,
+          0.606044043969558
+        ],
+        [
+          0.5307922586914242,
+          0.6642956916275937,
+          -0.5262801651195614
+        ]
+      ],
+      "translation_mm": [
+        2736.3963520664206,
+        -3558.5962752395067,
+        7248.082874964325
+      ],
+      "median_rotation_drift_deg": 0.06663906274477865,
+      "median_translation_drift_mm": 4.527264975209125
+    },
+    "18_to_21": {
+      "source_pair": "optitrack_18__optitrack_21",
+      "shared_sampled_frames": 24,
+      "stereo_rms_px": 0.22027148954504358,
+      "rotation_matrix": [
+        [
+          -0.8702440078574907,
+          -0.05144808535496748,
+          0.4899269958896321
+        ],
+        [
+          0.37542347789032143,
+          0.5746618687971892,
+          0.7272007623753272
+        ],
+        [
+          -0.3189554499250122,
+          0.8167722026757704,
+          -0.4807812287301816
+        ]
+      ],
+      "translation_mm": [
+        -2580.978744197467,
+        -3896.5685565613126,
+        6365.989051472899
+      ],
+      "median_rotation_drift_deg": 0.03791158178326585,
+      "median_translation_drift_mm": 3.834193697739228
+    },
+    "19_to_22": {
+      "source_pair": "optitrack_19__optitrack_22",
+      "shared_sampled_frames": 26,
+      "stereo_rms_px": 0.19877426953164945,
+      "rotation_matrix": [
+        [
+          -0.807938248069614,
+          0.2742045062365905,
+          -0.5215818977550415
+        ],
+        [
+          -0.23012180267360177,
+          0.6680307452425772,
+          0.7076573177357095
+        ],
+        [
+          0.5424755692567682,
+          0.6917707800783397,
+          -0.4766271546915373
+        ]
+      ],
+      "translation_mm": [
+        2743.6244375916,
+        -3667.966633490563,
+        6732.321454518927
+      ],
+      "median_rotation_drift_deg": 0.04017178965431892,
+      "median_translation_drift_mm": 4.596773350714887
+    },
+    "21_to_22": {
+      "source_pair": "optitrack_21__optitrack_22",
+      "shared_sampled_frames": 29,
+      "stereo_rms_px": 0.3405326135236146,
+      "rotation_matrix": [
+        [
+          -0.9951936461993534,
+          0.009326187730256022,
+          0.09748142790735276
+        ],
+        [
+          0.09351222699001567,
+          0.38601317830424664,
+          0.9177414067038829
+        ],
+        [
+          -0.029070087165403873,
+          0.9224461222195441,
+          -0.38502997498158753
+        ]
+      ],
+      "translation_mm": [
+        -245.17986556374518,
+        -3997.5506985013103,
+        6499.535311579053
+      ],
+      "median_rotation_drift_deg": 0.5015447999793191,
+      "median_translation_drift_mm": 22.566175305499296
+    }
+  },
+  "camera_poses": {
+    "15": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          -0.9999218829738199,
+          0.012147526569235071,
+          0.002943730344336919
+        ],
+        [
+          0.010100425403552077,
+          0.6465667430789647,
+          0.7627905532653954
+        ],
+        [
+          0.007362700371312267,
+          0.762760699264527,
+          -0.6466389303937183
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        186.8523342476069,
+        -4263.6666734381,
+        9142.228594054059
+      ],
+      "camera_center_in_reference_mm": [
+        162.59109521552978,
+        -4218.857394312428,
+        9163.455537358825
+      ],
+      "shortest_path_cost_px": 0.21181342786024185,
+      "tree_parent": {
+        "camera": "19",
+        "accepted_edge": "15_to_19"
+      }
+    },
+    "16": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          -0.898683822691571,
+          -0.113353300089023,
+          0.42369613662552164
+        ],
+        [
+          0.301492842213396,
+          0.5419453200198089,
+          0.7844726484733006
+        ],
+        [
+          -0.3185427018886998,
+          0.8327342309930307,
+          -0.4528622832671015
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        -1554.1348166296932,
+        -4688.87703030649,
+        6785.178396019329
+      ],
+      "camera_center_in_reference_mm": [
+        2178.356103734207,
+        -3285.3016612849237,
+        7409.528080727294
+      ],
+      "shortest_path_cost_px": 0.2105151819072006,
+      "tree_parent": {
+        "camera": "19",
+        "accepted_edge": "16_to_19"
+      }
+    },
+    "17": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          -0.0739566984577964,
+          -0.3477800407263591,
+          0.9346547223577243
+        ],
+        [
+          0.4331259580722973,
+          0.8330107766631644,
+          0.34423095503889034
+        ],
+        [
+          -0.8982941117458008,
+          0.430281407029637,
+          0.0890258365162545
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        -3765.415392149487,
+        -1719.4654376412373,
+        4907.876781116449
+      ],
+      "camera_center_in_reference_mm": [
+        4874.9842379758575,
+        -1988.9712056852848,
+        3674.3286717089927
+      ],
+      "shortest_path_cost_px": 0.3980422575175213,
+      "tree_parent": {
+        "camera": "18",
+        "accepted_edge": "17_to_18"
+      }
+    },
+    "18": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          -0.3591733538517592,
+          0.4111739531923346,
+          -0.8378129159299628
+        ],
+        [
+          -0.21853984413848698,
+          0.8357024983189577,
+          0.5038270247092537
+        ],
+        [
+          0.9073228964413964,
+          0.3640567462905212,
+          -0.2103041774990557
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        3814.3388120740274,
+        -2288.7071022792493,
+        5752.904090572002
+      ],
+      "camera_center_in_reference_mm": [
+        -4349.906431958538,
+        -1750.0620698153934,
+        5558.674575259561
+      ],
+      "shortest_path_cost_px": 0.19738359495918054,
+      "tree_parent": {
+        "camera": "19",
+        "accepted_edge": "18_to_19"
+      }
+    },
+    "19": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "camera_center_in_reference_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "shortest_path_cost_px": 0.0,
+      "tree_parent": null
+    },
+    "20": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          -0.29260840606573435,
+          -0.4100345917329667,
+          0.8638587582944619
+        ],
+        [
+          0.5028703676589169,
+          0.7024057154370642,
+          0.5037336640050295
+        ],
+        [
+          -0.813327556418849,
+          0.5818056758950754,
+          0.0006644290921297423
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        -4055.918538174877,
+        -2941.9951391177783,
+        4724.686806294649
+      ],
+      "camera_center_in_reference_mm": [
+        4135.364293679092,
+        -2345.442302127122,
+        4982.58352367872
+      ],
+      "shortest_path_cost_px": 0.4502978122938207,
+      "tree_parent": {
+        "camera": "18",
+        "accepted_edge": "18_to_20"
+      }
+    },
+    "21": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          0.7683338964816829,
+          -0.2224557343741098,
+          0.6001470401171284
+        ],
+        [
+          0.39937727710494564,
+          0.8993530584181786,
+          -0.1779378173579402
+        ],
+        [
+          -0.50016078819667,
+          0.3764007472866437,
+          0.7798472051578708
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        -2964.1316222574483,
+        403.70732613046084,
+        514.1442608609932
+      ],
+      "camera_center_in_reference_mm": [
+        2373.3660651153646,
+        -1215.987779273274,
+        1449.7956551980492
+      ],
+      "shortest_path_cost_px": 0.4176550845042241,
+      "tree_parent": {
+        "camera": "18",
+        "accepted_edge": "18_to_21"
+      }
+    },
+    "22": {
+      "reference_to_camera_rotation_matrix": [
+        [
+          -0.807938248069614,
+          0.2742045062365905,
+          -0.5215818977550415
+        ],
+        [
+          -0.23012180267360177,
+          0.6680307452425772,
+          0.7076573177357095
+        ],
+        [
+          0.5424755692567682,
+          0.6917707800783397,
+          -0.4766271546915373
+        ]
+      ],
+      "reference_to_camera_translation_mm": [
+        2743.6244375916,
+        -3667.966633490563,
+        6732.321454518927
+      ],
+      "camera_center_in_reference_mm": [
+        -2279.519885836442,
+        -2959.222964843541,
+        7235.495489622295
+      ],
+      "shortest_path_cost_px": 0.19877426953164945,
+      "tree_parent": {
+        "camera": "19",
+        "accepted_edge": "19_to_22"
+      }
+    }
+  },
+  "loop_closure_checks": [
+    {
+      "edge": "15_to_19",
+      "rotation_closure_error_deg": 0.0,
+      "translation_closure_error_mm": 9.094947017729282e-13,
+      "is_tree_edge": true
+    },
+    {
+      "edge": "16_to_19",
+      "rotation_closure_error_deg": 1.7075472925031877e-06,
+      "translation_closure_error_mm": 1.9293296132306226e-12,
+      "is_tree_edge": true
+    },
+    {
+      "edge": "17_to_18",
+      "rotation_closure_error_deg": 0.0,
+      "translation_closure_error_mm": 1.4380373887290168e-12,
+      "is_tree_edge": true
+    },
+    {
+      "edge": "17_to_22",
+      "rotation_closure_error_deg": 0.43352088954888646,
+      "translation_closure_error_mm": 25.64417188126146,
+      "is_tree_edge": false
+    },
+    {
+      "edge": "18_to_19",
+      "rotation_closure_error_deg": 0.0,
+      "translation_closure_error_mm": 9.374856803373542e-13,
+      "is_tree_edge": true
+    },
+    {
+      "edge": "18_to_20",
+      "rotation_closure_error_deg": 0.0,
+      "translation_closure_error_mm": 1.3642420526593924e-12,
+      "is_tree_edge": true
+    },
+    {
+      "edge": "18_to_21",
+      "rotation_closure_error_deg": 0.0,
+      "translation_closure_error_mm": 4.547473508864641e-13,
+      "is_tree_edge": true
+    },
+    {
+      "edge": "19_to_22",
+      "rotation_closure_error_deg": 0.0,
+      "translation_closure_error_mm": 0.0,
+      "is_tree_edge": true
+    },
+    {
+      "edge": "21_to_22",
+      "rotation_closure_error_deg": 0.4960927665355977,
+      "translation_closure_error_mm": 22.0729136130302,
+      "is_tree_edge": false
+    }
+  ],
+  "non_tree_loop_closure_summary": {
+    "count": 2,
+    "max_rotation_error_deg": 0.4960927665355977,
+    "max_translation_error_mm": 25.64417188126146
+  },
+  "warning": "Do not treat this shortest-path pose graph as the final released lab calibration. Run orientation-aware all-frame bundle adjustment, validate loop closure, and align the result to annotated cube/CS-200 lab coordinates first."
+}

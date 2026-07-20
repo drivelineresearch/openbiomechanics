@@ -142,3 +142,11 @@ See [`LICENSE-DATA.md`](LICENSE-DATA.md) for the full terms.
 OBP Computer Vision (OBP-CV) added! Examples can be found in the `computer_vision` folder and the README and data can be found at the following Google Sheet link:
 
 [OBP-CV README, Shot List, and More Information](https://docs.google.com/spreadsheets/d/1NhpF8DnfBdio_xsU7B44KNuHghtePDp-d3juvCYNm9Q/edit?usp=sharing)
+
+### Experimental OBP-CV calibration audit
+
+Provisional camera intrinsics, synchronized pair transforms, an eight-camera
+OptiTrack pose graph, timing checks, and full methodology are available in
+[`computer_vision/calibration/`](computer_vision/calibration/). These values are
+published for reproducibility and continued validation; they are not yet a
+final lab-frame calibration.
