@@ -833,8 +833,8 @@
       "column": "bat_torso_angle_ds_x",
       "dtype": "float64",
       "example": "-121.3557",
-      "description": "",
-      "documented": false
+      "description": "x component of bat-torso angle at down swing event (convention not reported) (deg)",
+      "documented": true
     },
     {
       "dataset": "hitting_poi",
@@ -849,8 +849,8 @@
       "column": "bat_torso_angle_ds_z",
       "dtype": "float64",
       "example": "101.554",
-      "description": "",
-      "documented": false
+      "description": "z component of bat-torso angle at down swing event (convention not reported) (deg)",
+      "documented": true
     },
     {
       "dataset": "hitting_poi",

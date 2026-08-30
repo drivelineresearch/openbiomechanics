@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security or sensitive-content report
+    url: https://github.com/drivelineresearch/openbiomechanics/blob/main/SECURITY.md
+    about: Follow SECURITY.md and report vulnerabilities or sensitive content privately.
+  - name: Licensing and collaboration
+    url: https://openbiomechanics.org/#terms
+    about: Review usage terms before contacting Driveline about licensing or collaboration.

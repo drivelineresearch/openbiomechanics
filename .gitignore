@@ -16,6 +16,12 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .ipynb_checkpoints/
+.pytest_cache/
+.coverage
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
 .venv/
 venv/
 env/
@@ -28,8 +34,11 @@ env/
 # Raw motion capture
 baseball_pitching/data/c3d/
 baseball_hitting/data/c3d/
-# Processed full-signal archives
-baseball_*/data/full_sig/*.zip
+*.c3d
+*.C3D
+# Processed full-signal archives and extracted tables
+baseball_pitching/data/full_sig/
+baseball_hitting/data/full_sig/
 # Computer-vision demo media
 *.mp4
 *.mov
@@ -38,6 +47,7 @@ baseball_*/data/full_sig/*.zip
 # Third-party tool installers
 binaries/*.dmg
 binaries/*.zip
+*.dmg
 
 # --- Generated CV scratch dirs (keep the small .csv/.xml calibration outputs) ---
 computer_vision/**/debug_images/*

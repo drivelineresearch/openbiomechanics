@@ -25,16 +25,19 @@ It's often tempting to dive straight into complex projects. However, I recommend
 
 - Begin with a static image to understand how object detection and face recognition work.
 - See the example in the script: [face_image.py](hello_world/face_image.py).
+- Run `python3 computer_vision/hello_world/face_image.py --help` for portable input and optional face-crop output arguments.
 
 ### Transition To Video
 
 - Move on to analyzing pre-recorded videos to handle data over time.
 - Check out the video processing example: [face_video.py](hello_world/face_video.py).
+- Pass the input explicitly: `python3 computer_vision/hello_world/face_video.py --video path/to/video.mp4`.
 
 ### Finally, Live Video Feed
 
 - Progress to a live video feed for real-time processing and tracking.
 - Live tracking example can be found in: [face_tracking.py](hello_world/face_tracking.py).
+- Start the default webcam with `python3 computer_vision/hello_world/face_tracking.py --camera 0` and press `q` to quit.
 
 ### Expected Outputs
 
@@ -44,9 +47,9 @@ As you progress through these exercises, you should expect to produce outputs si
 
 ## Demo Videos and Dependencies
 
-The demo videos referenced by these examples now live in the `cv-media-v1` GitHub Release. Download `cv_media.zip` and unzip it at the repository root to restore them. Python dependencies for these examples are pinned in [computer_vision/requirements.txt](requirements.txt).
+The demo videos referenced by these examples now live in the `cv-media-v1` GitHub Release. Run `scripts/download_data.sh --skip-data --with-media` from the repository root to download, verify, and restore only the media. The legacy face examples use the focused [`requirements-face-recognition.txt`](requirements-face-recognition.txt) environment; its `dlib` dependency may require a C++/CMake toolchain. The broader CV examples use [computer_vision/requirements.txt](requirements.txt).
 
-The boilerplate these scripts share — loading known faces from a `training/` folder, opening a video and creating a matching output writer, iterating frames, and drawing a labeled face box — lives in [computer_vision/utils.py](utils.py). Each script adds the `computer_vision/` directory to `sys.path` and imports the helpers it needs.
+The video scripts use the two tracked sample portraits beside them as references by default. Pass `--training-dir` to use your own `.jpg`/`.jpeg` portraits; filename stems become labels. Shared path-safe loading, face matching, video iteration/writing, and annotation helpers live in [computer_vision/utils.py](utils.py). Optional dependencies load only after argument parsing, so every script's `--help` works in the minimal repository environment.
 
 ## Getting Help
 
@@ -55,7 +58,7 @@ If you encounter any issues or have questions:
 1. Consult the documentation and resources linked above.
 2. Seek guidance from community forums or directly from the tools' official support channels.
 3. For more personalized assistance, consult each library's official documentation or post your queries to community forums such as Stack Overflow.
-4. If you still need help, open a GitHub issue on this repository. Crafting your first working script can be challenging, but with perseverance, you will succeed.
+4. For a reproducible correction to this repository, follow the root [`CONTRIBUTING.md`](../CONTRIBUTING.md) guide and propose a focused pull request.
 
 ## OBP-CV Calibration
 
@@ -81,4 +84,4 @@ schema and acceptance plan is in
 
 ---
 
-For more information and to ensure you are compliant with the licensing terms, please visit [www.openbiomechanics.org](http://www.openbiomechanics.org). All data and reports are subject to the licensing outlined on the website and the GitHub repository.
+For more information and to ensure you are compliant with the licensing terms, visit [openbiomechanics.org](https://openbiomechanics.org). All data and reports are subject to the licensing outlined on the website and in this repository.

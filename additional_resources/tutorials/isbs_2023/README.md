@@ -1,5 +1,10 @@
 # A Workshop with Biomechanics Industry: Learn to use Python to analyze your biomechanical data
 
+> [!NOTE]
+> This is archived material from the 2023 ISBS workshop. The screenshots and
+> interface details are retained for context; use the included environment file
+> for the most reproducible setup.
+
 <aside>
 🚀 To be ready for the ISBS workshop , you’ll need Python and a Python interactive development environment (IDE). For this workshop, I’m going to use Anaconda + Microsoft VS Code. There are many other ways, including VS code by itself. Since most of the differences between IDEs aren’t too relevant to us beginning and intermediate coders, I encourage you to mess around with different IDEs and find one that you like.
 
@@ -27,8 +32,8 @@
 
 ### Create an “empty “environment
 
-```python
-conda env create --name isbs2023 # python=3.8.5
+```bash
+conda env create --file isbs2023.yaml
 ```
 
 - If creating environment within Anaconda, Anaconda will default to installing some of the most popular packages for you.
@@ -39,7 +44,7 @@ conda env create --name isbs2023 # python=3.8.5
 
 - `conda activate <ENV NAME>`
 
-```python
+```bash
 conda activate isbs2023
 ```
 

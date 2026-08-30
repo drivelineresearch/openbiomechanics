@@ -1,103 +1,108 @@
-import os
+"""Identify known faces in a prerecorded video.
+
+The sample portraits beside this script are used as references by default; a
+custom ``--training-dir`` may contain ``.jpg`` or ``.jpeg`` files whose stems
+become labels. Download optional demo media or provide any local video:
+
+    scripts/download_data.sh --skip-data --with-media
+    python3 computer_vision/hello_world/face_video.py --video path/to/video.mp4
+
+Optional CV dependencies are imported only after argument parsing, so
+``--help`` works in the repository's minimal analysis environment.
+"""
+
+from __future__ import annotations
+
+import argparse
 import sys
+from pathlib import Path
 
-import face_recognition
-import cv2
-import numpy as np
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import draw_face_box
-
-# This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
-# other example, but it includes some basic performance tweaks to make things run a lot faster:
-#   1. Process each video frame at 1/4 resolution (though still display it at full resolution)
-#   2. Only detect faces in every other frame of video.
-
-# PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
-# OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
-# specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
-
-# Get a reference to webcam #0 (the default one)
-video_capture = cv2.VideoCapture(0)
-
-# Load a sample picture and learn how to recognize it.
-clayton = face_recognition.load_image_file('C:/Users/clayton.thompson/OneDrive - Driveline Baseball/Documents/GitHub/cvtracking-hackathon/clayton/hello_world/IMG_4484.jpg')
-clayton_face_encoding = face_recognition.face_encodings(clayton)[0]
-
-# Load a second sample picture and learn how to recognize it.
-kyle = face_recognition.load_image_file('C:/Users/clayton.thompson/OneDrive - Driveline Baseball/Documents/GitHub/cvtracking-hackathon/clayton/hello_world/Kyle_Boddy_2009.jpg')
-kyle_face_encoding = face_recognition.face_encodings(kyle)[0]
-
-# Create arrays of known face encodings and their names
-known_face_encodings = [
-    clayton_face_encoding,
-    kyle_face_encoding
-]
-known_face_names = [
-    "Subject",
-    "Kyle Boddy"
-]
-
-# Initialize some variables
-face_locations = []
-face_encodings = []
-face_names = []
-process_this_frame = True
+HERE = Path(__file__).resolve().parent
+CV_ROOT = HERE.parent
 
 
-while True:
-    # Grab a single frame of video
-    ret, frame = video_capture.read()
-
-    # Only process every other frame of video to save time
-    if process_this_frame:
-        # Resize frame of video to 1/4 size for faster face recognition processing
-        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-        
-        # Find all the faces and face encodings in the current frame of video
-        face_locations = face_recognition.face_locations(small_frame)
-        face_encodings = face_recognition.face_encodings(small_frame, face_locations)
-
-        face_names = []
-        for face_encoding in face_encodings:
-            # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-            name = "Unknown"
-
-            # # If a match was found in known_face_encodings, just use the first one.
-            # if True in matches:
-            #     first_match_index = matches.index(True)
-            #     name = known_face_names[first_match_index]
-
-            # Or instead, use the known face with the smallest distance to the new face
-            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-            best_match_index = np.argmin(face_distances)
-            if matches[best_match_index]:
-                name = known_face_names[best_match_index]
-
-            face_names.append(name)
-
-    process_this_frame = not process_this_frame
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--video", type=Path, required=True, help="input video")
+    parser.add_argument(
+        "--training-dir",
+        type=Path,
+        default=HERE,
+        help="reference portraits (default: sample portraits beside this script)",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=HERE / "face_identification_output.mp4",
+        help="annotated output video",
+    )
+    parser.add_argument(
+        "--scale",
+        type=float,
+        default=0.5,
+        help="recognition resize factor in (0, 1] (default: 0.5)",
+    )
+    return parser
 
 
-    # Display the results
-    for (top, right, bottom, left), name in zip(face_locations, face_names):
-        # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-        top *= 4
-        right *= 4
-        bottom *= 4
-        left *= 4
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if not args.video.is_file():
+        parser.error(f"video not found: {args.video}")
+    if not args.training_dir.is_dir():
+        parser.error(f"training directory not found: {args.training_dir}")
+    if not 0 < args.scale <= 1:
+        parser.error("--scale must be greater than 0 and at most 1")
 
-        # Draw a box around the face with a name label below it
-        draw_face_box(frame, top, right, bottom, left, name)
+    sys.path.insert(0, str(CV_ROOT))
+    try:
+        import cv2
+        from utils import (
+            draw_face_box,
+            identify_faces,
+            iter_frames,
+            load_known_faces,
+            make_writer,
+        )
+    except ModuleNotFoundError as error:
+        raise SystemExit(
+            "Install the computer-vision dependencies first: "
+            "python3 -m pip install -r "
+            "computer_vision/requirements-face-recognition.txt"
+        ) from error
 
-    # Display the resulting image
-    cv2.imshow('Video', frame)
+    known_encodings, known_names = load_known_faces(args.training_dir)
+    if not known_encodings:
+        raise SystemExit(f"No usable face portraits found in {args.training_dir}")
 
-    # Hit 'q' on the keyboard to quit!
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    capture = cv2.VideoCapture(str(args.video))
+    if not capture.isOpened():
+        capture.release()
+        raise SystemExit(f"Could not open video: {args.video}")
 
-# Release handle to the webcam
-video_capture.release()
-cv2.destroyAllWindows()
+    fps = float(capture.get(cv2.CAP_PROP_FPS)) or 30.0
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    writer = make_writer(capture, args.output, fps=fps)
+    if not writer.isOpened():
+        capture.release()
+        raise SystemExit(f"Could not create output video: {args.output}")
+
+    try:
+        for frame in iter_frames(capture):
+            locations, names = identify_faces(
+                frame, known_encodings, known_names, scale=args.scale
+            )
+            for (top, right, bottom, left), name in zip(locations, names):
+                draw_face_box(frame, top, right, bottom, left, name)
+            writer.write(frame)
+    finally:
+        writer.release()
+        capture.release()
+
+    print(f"Wrote {args.output}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

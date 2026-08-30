@@ -1,166 +1,187 @@
-# OpenBiomechanics Project (OBP) Documentation
+# OpenBiomechanics Project (OBP)
 
-The OpenBiomechanics Project is an initiative started by [Driveline Baseball Research & Development](https://drivelinebaseball.com/mission-and-purpose/) to provide raw (in the form of cleaned C3D files) and processed (full signal + point of interest) sports biomechanics data to the general public. For more information, read the documentation below and visit the [project homepage](https://openbiomechanics.org).
+The OpenBiomechanics Project is a public research dataset from [Driveline Baseball Research & Development](https://drivelinebaseball.com/mission-and-purpose/). It provides cleaned C3D motion-capture files, processed full-signal time series, point-of-interest (POI) metrics, and high-performance assessments for baseball pitching and hitting.
 
-![IMG_5797.JPG](imgs/IMG_5797.jpg)
+Project homepage: [openbiomechanics.org](https://openbiomechanics.org)
 
-## What's New
-
-### 2026-07-19: validated provisional OBP-CV calibration
-
-- Cross-validated, full-frame-monotonic intrinsics for 8 OptiTrack, 4
-  Edgertronic, and 1 iPhone feed.
-- A held-out-qualified eight-camera OptiTrack pose graph with independent loop
-  closure of 0.072° and 3.27 mm in camera-19-relative coordinates.
-- Exact source hashes, timing diagnostics, reproducible scripts, automated
-  safeguards, and documented rejected views and camera-pair fits.
-- A concrete [cube, CS-200, epipolar, and undistortion-grid annotation plan](computer_vision/calibration/ANNOTATION_PLAN.md)
-  for reaching final lab-frame calibration.
-
-### 2026-07-04: repository overhaul
-
-> [!WARNING]
-> **Breaking — git history was rewritten.** The repository history was purged to
-> remove ~2 GB of large binaries, shrinking `.git` from **2.2 GB to ~25 MB** (a
-> fresh clone is now ~28 MB). **If you have an existing clone or fork, delete it
-> and re-clone** — old commit hashes no longer exist and a `git pull` will not
-> reconcile. Nothing in the current file tree changed; only history was rewritten.
+![A pitcher in the Driveline motion-capture lab](imgs/IMG_5797.jpg)
 
 > [!IMPORTANT]
-> **The large data no longer lives in git.** Raw C3D files, processed
-> full-signal archives, computer-vision demo media, and the Mokka installer are
-> now distributed via [GitHub Releases](https://github.com/drivelineresearch/openbiomechanics/releases).
-> Run [`scripts/download_data.sh`](scripts/download_data.sh) to fetch them. POI
-> and metadata CSVs remain in-repo.
+> Large data files are distributed through [GitHub Releases](https://github.com/drivelineresearch/openbiomechanics/releases), not Git. Existing clones created before the July 2026 history rewrite must be re-cloned. See the [changelog](CHANGELOG.md#2026-07-04--repository-overhaul-and-history-rewrite).
 
-**Major changes**
+## Start here
 
-- **History purge** — large binaries removed from all git history (see the warning above).
-- **Data → GitHub Releases** — `dataset-v1` (raw C3D + full-signal), `cv-media-v1` (demo media), `tools-mokka-0.6.2` (C3D viewer). Fetch with `scripts/download_data.sh`.
-- **Dual license split** — code is now MIT ([`LICENSE-CODE.md`](LICENSE-CODE.md)); data + documentation stay CC BY-NC-SA 4.0 ([`LICENSE-DATA.md`](LICENSE-DATA.md)), including the professional-sports-organization / financial-firm exclusion.
-
-**Minor changes / additions**
-
-- **New tooling** — [`obp/`](obp/README.md) pandas loader package and runnable [`examples/`](examples/README.md).
-- **New metadata** — machine-readable [data dictionaries](#data-dictionaries--datasheet) (`<module>/data/data_dictionary.csv` + `data_dictionary.json`), a [`DATASHEET.md`](DATASHEET.md), and [`CITATION.cff`](CITATION.cff).
-- **Reproducibility** — pinned `requirements.txt` per module; agent guide in [`CLAUDE.md`](CLAUDE.md).
-- **Docs & code fixes** — corrected POI/metadata dictionaries (fixed a broken entry, added undocumented columns, fixed the `rejc` landmark), removed copyrighted textbook PDFs in favor of [cited references](additional_resources/README.md), de-duplicated and parameterized the computer-vision scripts, and removed committed cruft (`.DS_Store`, hardcoded paths/PII in notebooks).
-
-## Contents
-
-- [What's New](#whats-new)
-- [Modules](#modules)
-- [Dataset at a glance](#dataset-at-a-glance)
-- [Getting the Data](#getting-the-data)
-- [Quickstart](#quickstart)
-- [Data dictionaries & datasheet](#data-dictionaries--datasheet)
-- [Citing](#citing)
-- [License](#license)
-- [IRB information](#irb-information)
-- [Updates](#updates)
-
-## Modules
-
-| Module | Description | Link |
+| Goal | Start with | Extra download? |
 | --- | --- | --- |
-| Baseball Pitching | Full-signal + point-of-interest kinematics/kinetics for fastball trials. | [`baseball_pitching/`](baseball_pitching/README.md) |
-| Baseball Hitting | Full-signal + point-of-interest biomechanics for baseball swings. | [`baseball_hitting/`](baseball_hitting/README.md) |
-| High Performance | Force-plate and physical-assessment data paired with the mocap athletes. | [`high_performance/`](high_performance/README.md) |
-| Computer Vision | OBP-CV markerless/2D examples, calibration, and pose tutorials. | [`computer_vision/`](computer_vision/TUTORIAL.md) |
-| Additional Resources | Tutorials, references, and supporting material. | [`additional_resources/`](additional_resources/README.md) |
+| Explore pitch or swing summary metrics | [`examples/01_explore_poi.py`](examples/01_explore_poi.py) and the [`obp` loader](obp/README.md) | No |
+| Explore force-plate assessment metrics | [`examples/04_hp_assessment.py`](examples/04_hp_assessment.py) | No |
+| Read raw marker trajectories | [`examples/02_read_c3d.py`](examples/02_read_c3d.py) | Yes, discipline C3Ds |
+| Join processed time-series tables | [`examples/03_join_fullsig.py`](examples/03_join_fullsig.py) | Yes, full-signal archives |
+| Understand variables and conventions | The relevant [module documentation](#modules) and [data dictionaries](#data-dictionaries-and-datasheet) | No |
+| Work with computer vision or calibration | [`computer_vision/`](computer_vision/README.md) | Some tutorials need media |
+| Contribute a fix or example | [`CONTRIBUTING.md`](CONTRIBUTING.md) | No |
 
-## Dataset at a glance
+## Dataset snapshot
 
-Approximate figures — see each module's README for exact counts and definitions.
+| Module | Records | Population / scope | In Git |
+| --- | ---: | --- | --- |
+| Pitching | 411 fastball trials | 100 athletes | POI + metadata |
+| Hitting | 677 swing trials | 98 athletes; 604 paired HitTrax rows | POI + metadata + HitTrax |
+| High Performance | 1,934 assessments | 1,162 athletes | Complete assessment table |
 
-- **Pitching:** ~411 fastball trials across ~100 athletes.
-- **Hitting:** swing trials across ~99 athletes.
-- **High Performance:** force-plate and physical-assessment data for the participating athletes.
-- **Population:** most participants are collegiate-level.
-
-## Getting the Data
-
-To keep the repository lightweight, the large archives are distributed via [GitHub Releases](https://github.com/drivelineresearch/openbiomechanics/releases) rather than tracked in git:
-
-- **`dataset-v1`** — processed full-signal archives (pitching + hitting) plus the raw `pitching_c3d.zip` and `hitting_c3d.zip`.
-- **`cv-media-v1`** — `cv_media.zip`, the computer-vision demo media; restore by unzipping at the repo root.
-- **`tools-mokka-0.6.2`** — Mokka installers for viewing C3D files.
-
-Run [`scripts/download_data.sh`](scripts/download_data.sh) to fetch and unpack the release assets into the correct locations.
-
-Point-of-interest (POI) and metadata CSVs remain in-repo under each module's `data/` folder, so summary analyses work without downloading the full archives.
+Most participants are collegiate-level. Pitching is fastball-only. See [`DATASHEET.md`](DATASHEET.md) for exact composition, collection, missingness, intended uses, and limitations.
 
 ## Quickstart
 
-A small helper package, [`obp/`](obp/README.md), resolves data paths and loads the
-in-repo CSVs with pandas:
+The public loader and examples are tested on Python 3.10 and 3.12. Clone the repository, create an isolated environment, and install the minimum analysis dependencies:
 
-```python
-import sys; sys.path.insert(0, "path/to/openbiomechanics")
-import obp
-
-poi = obp.load_poi("pitching")     # 411 fastball trials x 81 POI metrics
-meta = obp.load_metadata("hitting")
-hp = obp.load_hp()
-obp.download(media=True)            # fetch the release archives via scripts/download_data.sh
+```bash
+git clone https://github.com/drivelineresearch/openbiomechanics.git
+cd openbiomechanics
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
 ```
 
-Runnable, commented scripts live in [`examples/`](examples/README.md):
+On Windows, activate with `.venv\Scripts\activate` and use Git Bash or WSL for the download script.
 
-- `01_explore_poi.py` — load POI + metadata, plot pitch speed vs. elbow varus moment
-- `02_read_c3d.py` — open a C3D with `ezc3d`, plot a marker trajectory
-- `03_join_fullsig.py` — join full-signal tables on `session_pitch` + `time`
-- `04_hp_assessment.py` — plot a countermovement-jump distribution
+The small `obp` helper is repository-local; run Python or Jupyter from the repository root:
 
-## Data dictionaries & datasheet
+```python
+import obp
 
-- **Data dictionaries** — machine-readable column references generated from the
-  actual CSV headers: `<module>/data/data_dictionary.csv` and the aggregated
-  [`data_dictionary.json`](data_dictionary.json). Regenerate with
-  [`scripts/build_data_dictionary.py`](scripts/build_data_dictionary.py).
-- **Datasheet** — [`DATASHEET.md`](DATASHEET.md) documents motivation, composition
-  (with real counts), collection, and distribution, following the
-  *Datasheets for Datasets* framework.
+pitching_poi = obp.load_poi("pitching")
+hitting_metadata = obp.load_metadata("hitting")
+hittrax = obp.load_hittrax()
+high_performance = obp.load_hp()
+
+print(pitching_poi.shape)
+print(pitching_poi[["pitch_speed_mph", "elbow_varus_moment"]].describe())
+```
+
+Then run an example that uses only the in-repository CSVs:
+
+```bash
+python3 examples/01_explore_poi.py
+python3 examples/04_hp_assessment.py
+```
+
+Figures are created automatically under the ignored `examples/figures/` directory.
+
+## Getting the large data
+
+The full pitching + hitting release is about 1.1 GB compressed. The downloader requires the [GitHub CLI](https://cli.github.com/), `unzip`, Bash, and either `sha256sum` or `shasum`. Authenticate the CLI once with `gh auth login`, or provide `GH_TOKEN` in automation; `gh auth status` confirms the active account. The downloader defaults to the canonical OBP repository and verifies every asset against [`scripts/release_checksums.sha256`](scripts/release_checksums.sha256) before extracting or placing it. Maintainers can use the documented staging-repository override in [`RELEASING.md`](RELEASING.md).
+
+```bash
+# Both pitching and hitting (default)
+scripts/download_data.sh
+
+# One discipline only
+scripts/download_data.sh --discipline pitching
+scripts/download_data.sh --discipline hitting
+
+# Add optional media to a selected dataset download
+scripts/download_data.sh --discipline pitching --with-media
+
+# Optional assets only (do not download the 1.1 GB dataset)
+scripts/download_data.sh --skip-data --with-media
+scripts/download_data.sh --skip-data --with-mokka
+```
+
+The same discipline selection is available from Python:
+
+```python
+import obp
+
+obp.download("pitching")
+obp.download(["pitching", "hitting"], media=True)
+obp.download(data=False, media=True)  # computer-vision media only
+```
+
+The downloader extracts raw C3Ds into each module's `data/c3d/` directory. It leaves processed full-signal tables zipped in `data/full_sig/` so users can extract only what they need:
+
+```bash
+cd baseball_pitching/data/full_sig
+unzip joint_angles.zip
+unzip joint_velos.zip
+```
+
+## Modules
+
+| Module | Contents | Documentation |
+| --- | --- | --- |
+| Baseball Pitching | C3D, full-signal kinematics/kinetics, POI, metadata | [`baseball_pitching/`](baseball_pitching/README.md) |
+| Baseball Hitting | C3D, full-signal biomechanics, POI, metadata, HitTrax | [`baseball_hitting/`](baseball_hitting/README.md) |
+| High Performance | Force-plate and physical-assessment metrics | [`high_performance/`](high_performance/README.md) |
+| Computer Vision | Introductory OpenCV examples and provisional multicamera calibration | [`computer_vision/`](computer_vision/README.md) |
+| Additional Resources | ezc3d and archived workshop tutorials; cited references | [`additional_resources/`](additional_resources/README.md) |
+
+## Repository layout
+
+```text
+baseball_pitching/       pitching data, model files, and documentation
+baseball_hitting/        hitting data, model files, and documentation
+high_performance/        assessment data and protocol documentation
+computer_vision/         CV tutorials, examples, and calibration work
+additional_resources/    tutorials and cited references
+obp/                     repository-local pandas/path helper
+examples/                runnable public workflows
+scripts/                 verified downloads and dictionary generation
+tests/                   loader, schema, docs, and repository checks
+```
+
+The notebooks under `baseball_*/code/py/` are provenance scripts that require private Driveline database access. They document how the release was produced; they are not standalone public pipelines.
+
+## Data relationships and sampling
+
+- Pitching POI, metadata, and full-signal tables join on `session_pitch`.
+- Hitting POI, metadata, HitTrax, and full-signal tables join on `session_swing`.
+- Full-signal tables also use `time`. Marker-derived tables are sampled at 360 Hz; force-plate tables at 1,080 Hz. Do not use a naïve exact-time inner join across those rates.
+- Multiple trials can belong to the same athlete. Split train/test data by athlete or session when leakage matters.
+- High Performance uses `athlete_uid`, while the released pitching/hitting metadata use different identifiers. The public files do not provide a person-level crosswalk between them.
+
+## Runnable examples
+
+| Script | What it demonstrates | Download needed? |
+| --- | --- | --- |
+| [`01_explore_poi.py`](examples/01_explore_poi.py) | Validated POI/metadata join and descriptive pitch analysis | No |
+| [`02_read_c3d.py`](examples/02_read_c3d.py) | C3D marker names, sampling rate, and 3D trajectory | Pitching C3Ds |
+| [`03_join_fullsig.py`](examples/03_join_fullsig.py) | One-to-one full-signal join on `session_pitch` + `time` | Pitching full signal |
+| [`04_hp_assessment.py`](examples/04_hp_assessment.py) | Assessment-level CMJ distribution and repeated-measures context | No |
+
+See [`examples/README.md`](examples/README.md) for exact commands.
+
+## Data dictionaries and datasheet
+
+- Generated column references live at `<module>/data/data_dictionary.csv`; the combined machine-readable form is [`data_dictionary.json`](data_dictionary.json).
+- Pitching and hitting references include descriptions and conventions. The High Performance reference is currently schema-only (names, inferred types, and examples); authoritative per-column definitions remain a documented gap.
+- Regenerate them with `python3 scripts/build_data_dictionary.py` or verify freshness with `python3 scripts/build_data_dictionary.py --check`.
+- [`DATASHEET.md`](DATASHEET.md) documents motivation, composition, collection, preprocessing, uses, distribution, and maintenance following the *Datasheets for Datasets* framework.
 
 ## Citing
 
-If you use OBP, please cite it — see [`CITATION.cff`](CITATION.cff) (GitHub's
-"Cite this repository" button reads this file).
+If you use OBP, please cite it using [`CITATION.cff`](CITATION.cff). GitHub's “Cite this repository” button reads that file.
 
 ## License
 
 OBP is dual-licensed:
 
 - **Code** — MIT License. See [`LICENSE-CODE.md`](LICENSE-CODE.md).
-- **Data + biomechanics documentation** — Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). See [`LICENSE-DATA.md`](LICENSE-DATA.md) and the OBP site under "Usage Terms." (`license.txt` is retained as a pointer.)
+- **Data and biomechanics documentation** — CC BY-NC-SA 4.0 with an additional specific exclusion. See [`LICENSE-DATA.md`](LICENSE-DATA.md) and the OBP site under “Usage Terms.”
 
-The data license is non-commercial, and it carries one additional specific exclusion beyond the standard CC BY-NC-SA terms:
+The exclusion is load-bearing; read the complete data license before use:
 
 > While the license is clear that this data cannot be used for commercial purposes (which includes but is not limited to for-profit organizations, corporations, and sole proprietorships with the intent to profit now or in the future), there is also one additional specific exclusion where this data cannot be used in any form without a specific written commercial (paid) license: ***Any employee or contractor employed by, associated with, or a significant shareholder of a professional sports organization or financial analysis firm is forbidden to use The OpenBiomechanics Project data for any use whatsoever.***
 
-See [`LICENSE-DATA.md`](LICENSE-DATA.md) for the full terms.
+For research collaboration, commercial licensing, or questions about the larger IRB-approved dataset, see [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## IRB information
 
-[Western IRB](https://www.wcgirb.com/) provided ethical approval for all data collection procedures (Western IRB # WB-DLR-115).
+WCG IRB (formerly Western IRB) provided ethical approval for the data-collection procedures under **Western IRB # WB-DLR-115**.
 
-## Updates
+## Contributing and support
 
-### Update 2024-07-30
+Bug fixes, clearer documentation, reproducible examples, and data-quality reports are welcome. Start with [`CONTRIBUTING.md`](CONTRIBUTING.md), use the pull-request checklist, and report security or sensitive-content issues privately according to [`SECURITY.md`](SECURITY.md).
 
-[High Performance](https://github.com/drivelineresearch/openbiomechanics/tree/main/high_performance) module added! Find it in the `high_performance` folder.
-
-### Update 2023-11-02
-
-OBP Computer Vision (OBP-CV) added! Examples can be found in the `computer_vision` folder and the README and data can be found at the following Google Sheet link:
-
-[OBP-CV README, Shot List, and More Information](https://docs.google.com/spreadsheets/d/1NhpF8DnfBdio_xsU7B44KNuHghtePDp-d3juvCYNm9Q/edit?usp=sharing)
-
-### Validated provisional OBP-CV calibration
-
-Cross-validated provisional camera intrinsics, held-out pair transforms, an
-eight-camera OptiTrack pose graph, timing checks, and full methodology are available in
-[`computer_vision/calibration/`](computer_vision/calibration/). These values are
-published for reproducibility and continued validation; they are not yet a
-final lab-frame calibration. The next stage is the documented
-[cube, CS-200, epipolar-overlay, and undistortion-grid workflow](computer_vision/calibration/ANNOTATION_PLAN.md).
+Release history and notable project changes are recorded in [`CHANGELOG.md`](CHANGELOG.md).

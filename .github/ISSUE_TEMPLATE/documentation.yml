@@ -1,0 +1,33 @@
+name: Documentation or data-dictionary correction
+description: Report unclear, stale, or inconsistent public documentation.
+title: "[Docs]: "
+body:
+  - type: input
+    id: location
+    attributes:
+      label: File or page
+      description: Link the affected file and, if possible, a line or section.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is unclear or incorrect?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Point to the authoritative CSV header, release artifact, protocol, or other source. Do not include private data.
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested wording or fix
+  - type: checkboxes
+    id: license
+    attributes:
+      label: License awareness
+      options:
+        - label: I reviewed the code/data documentation license split in CONTRIBUTING.md.
+          required: true

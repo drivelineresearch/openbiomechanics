@@ -2,14 +2,14 @@
 
 # C3D
 
-Cleaned C3D files are provided at `~\baseball_pitching\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
+Downloaded C3D files are placed at `baseball_pitching/data/c3d/` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
 
 ## Getting the Data
 
-The C3D files and full-signal tables are not stored directly in this repository. They are distributed as assets on GitHub Releases under the tag `dataset-v1`. Fetch and unpack them with the helper script from the repository root:
+The C3D files and full-signal tables are not stored directly in this repository. They are distributed as assets on GitHub Releases under the tag `dataset-v1`. Verify and place the pitching assets with the helper script from the repository root:
 
 ```bash
-scripts/download_data.sh
+scripts/download_data.sh --discipline pitching
 ```
 
 The full-signal tables ship as `.zip` archives (e.g. `joint_angles.zip`) and must be unzipped before use.
@@ -144,11 +144,11 @@ The times at which common events occurred are also joined in each table for conv
 
 By default, forces and moments are expressed in the proximal segment’s coordinate system (ex. `lead_ankle_moment_x` represents the moment at the lead ankle about the shank’s x-axis). Exceptions are made for the forces and moments at the shoulders and hips. For these joints, two sets of forces and two sets of moments are provided. The first set is the joint force/moment resolved in the proximal segment’s coordinate system (ex. shoulder force along the thorax’s x, y, and z axes). The second set is the joint force/moment resolved in the distal segment’s coordinate system (ex. shoulder force along the upper arm’s x, y, and z axes). For these “double dipped” joint kinetics, we follow the naming convention `joint_referenceSegment_kineticType_element`. For example, `shoulder_upper_arm_moment_z` represents the moment at the shoulder about the upper arm’s longitudinal (z) axis and `shoulder_thorax_moment_z` represents the moment at the shoulder resolved about the thorax superior-inferior (z) axis.
 
-One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full signal data through the metadata CSV located at `~\baseball_pitching\data\metadata.csv`. 
+One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full-signal data through [`data/metadata.csv`](data/metadata.csv).
 
 ## metadata.csv Schema
 
-The metadata CSV located at `~\baseball_pitching\data\metadata.csv` links the C3D files to the POI and full-signal data and provides athlete- and session-level information.
+[`data/metadata.csv`](data/metadata.csv) links the C3D files to the POI and full-signal data and provides athlete- and session-level information.
 
 - `user`: athlete ID
 - `session`: session ID

@@ -1,0 +1,36 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: pip
+    directory: /computer_vision/calibration
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: pip
+    directory: /baseball_pitching/code
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: pip
+    directory: /baseball_hitting/code
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: pip
+    directory: /high_performance/code
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: pip
+    directory: /computer_vision
+    schedule:
+      interval: monthly

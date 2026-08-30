@@ -172,7 +172,7 @@ video, target patches can be only a few pixels across, and no measured target
 Lab/spectral reference file is supplied.
 
 See [`ANNOTATION_PLAN.md`](ANNOTATION_PLAN.md) for the annotation schemas and
-visual-QA workflow, and [`NEXT_AGENT.md`](NEXT_AGENT.md) for the complete
+visual-QA workflow, and [`ROADMAP.md`](ROADMAP.md) for the complete
 remaining color, geometry, and bundle-adjustment handoff.
 
 ## License

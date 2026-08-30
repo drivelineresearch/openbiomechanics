@@ -1,6 +1,7 @@
 from obp.core import (
     DISCIPLINES,
     REPO_ROOT,
+    Discipline,
     c3d_dir,
     c3d_path,
     download,
@@ -14,6 +15,7 @@ from obp.core import (
 __all__ = [
     "DISCIPLINES",
     "REPO_ROOT",
+    "Discipline",
     "c3d_dir",
     "c3d_path",
     "download",
