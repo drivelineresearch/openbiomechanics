@@ -71,6 +71,15 @@ DATASETS = [
 FIELDS = ["dataset", "column", "dtype", "example", "description", "documented"]
 
 
+def canonical_dtype(series: pd.Series) -> str:
+    """Return a pandas-version-independent dtype label for a CSV column."""
+    non_null = series.dropna()
+    if not non_null.empty and non_null.map(lambda value: isinstance(value, str)).all():
+        # pandas 2.x infers CSV text as ``object``; pandas 3.x uses ``str``.
+        return "str"
+    return str(series.dtype)
+
+
 def parse_descriptions(readme_path: Path) -> dict[str, str]:
     """Return column descriptions parsed from a module README."""
     descriptions: dict[str, str] = {}
@@ -101,7 +110,7 @@ def build_rows() -> tuple[dict[Path, list[dict[str, Any]]], dict[str, Any]]:
                 {
                     "dataset": dataset,
                     "column": column,
-                    "dtype": str(frame[column].dtype),
+                    "dtype": canonical_dtype(frame[column]),
                     "example": example,
                     "description": description,
                     "documented": bool(description),
