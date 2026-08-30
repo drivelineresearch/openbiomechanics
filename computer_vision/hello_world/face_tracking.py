@@ -1,79 +1,91 @@
-import os
+"""Identify known faces in a live camera feed.
+
+The sample portraits beside this script are used as references by default. Use
+``--training-dir`` for custom ``.jpg``/``.jpeg`` portraits and ``--camera`` to
+select a different OpenCV camera index. Press ``q`` to quit.
+
+    python3 computer_vision/hello_world/face_tracking.py --camera 0
+
+Optional CV dependencies are imported only after argument parsing, so
+``--help`` works in the repository's minimal analysis environment.
+"""
+
+from __future__ import annotations
+
+import argparse
 import sys
+from pathlib import Path
 
-import face_recognition  # Library for face recognition
-import cv2  # OpenCV library
-import numpy as np  # Library for numerical operations
+HERE = Path(__file__).resolve().parent
+CV_ROOT = HERE.parent
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import load_known_faces, make_writer, iter_frames, draw_face_box
 
-print("Initializing...")
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--camera", type=int, default=0, help="OpenCV camera index (default: 0)"
+    )
+    parser.add_argument(
+        "--training-dir",
+        type=Path,
+        default=HERE,
+        help="reference portraits (default: sample portraits beside this script)",
+    )
+    parser.add_argument(
+        "--scale",
+        type=float,
+        default=0.25,
+        help="recognition resize factor in (0, 1] (default: 0.25)",
+    )
+    return parser
 
-# Path to the video file to be processed
-video_path = 'calibration1.mp4'
-# Create a VideoCapture object
-cap = cv2.VideoCapture(video_path)
-# Create a VideoWriter sized to the input video
-out = make_writer(cap, 'face_identification_output.mp4')
 
-print("Loading training images...")
-# Load face encodings from the 'training' directory
-known_face_encodings, known_face_names = load_known_faces('training/', "Subject")
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if not args.training_dir.is_dir():
+        parser.error(f"training directory not found: {args.training_dir}")
+    if not 0 < args.scale <= 1:
+        parser.error("--scale must be greater than 0 and at most 1")
 
-# Initialize lists to store face locations, encodings, and names
-face_locations = []
-face_encodings = []
-face_names = []
-# Initialize variable to control frame processing
-process_this_frame = True
+    sys.path.insert(0, str(CV_ROOT))
+    try:
+        import cv2
+        from utils import draw_face_box, identify_faces, load_known_faces
+    except ModuleNotFoundError as error:
+        raise SystemExit(
+            "Install the computer-vision dependencies first: "
+            "python3 -m pip install -r "
+            "computer_vision/requirements-face-recognition.txt"
+        ) from error
 
-print("Starting video processing...")
+    known_encodings, known_names = load_known_faces(args.training_dir)
+    if not known_encodings:
+        raise SystemExit(f"No usable face portraits found in {args.training_dir}")
 
-# Loop over frames from the video file stream
-for frame in iter_frames(cap):
-    # Only process every other frame of video to save time
-    if process_this_frame:
-        print("Processing frame...")
-        # Resize frame of video for faster face recognition processing
-        small_frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
-        small_frame = frame  # using original frame for now
+    capture = cv2.VideoCapture(args.camera)
+    if not capture.isOpened():
+        capture.release()
+        raise SystemExit(f"Could not open camera index {args.camera}")
 
-        # Find all the faces and face encodings in the current frame of video
-        face_locations = face_recognition.face_locations(small_frame)
-        print(f"Found {len(face_locations)} face(s) in this frame.")
+    try:
+        while True:
+            ok, frame = capture.read()
+            if not ok:
+                raise SystemExit("Camera stopped returning frames")
+            locations, names = identify_faces(
+                frame, known_encodings, known_names, scale=args.scale
+            )
+            for (top, right, bottom, left), name in zip(locations, names):
+                draw_face_box(frame, top, right, bottom, left, name)
+            cv2.imshow("Face identification (press q to quit)", frame)
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
+    finally:
+        capture.release()
+        cv2.destroyAllWindows()
+    return 0
 
-        face_encodings = face_recognition.face_encodings(
-            small_frame, face_locations)
 
-        face_names = []
-        for face_encoding in face_encodings:
-            # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(
-                known_face_encodings, face_encoding, tolerance=0.6)
-            name = "Unknown"
-
-            # Use the known face with the smallest distance to the new face
-            face_distances = face_recognition.face_distance(
-                known_face_encodings, face_encoding)
-            best_match_index = np.argmin(face_distances)
-            if matches[best_match_index]:
-                name = known_face_names[best_match_index]
-
-            face_names.append(name)
-        print(f"Identified faces: {face_names}")
-
-    # Switch to not process the next frame
-    process_this_frame = not process_this_frame
-
-    # Display the results
-    for (top, right, bottom, left), name in zip(face_locations, face_names):
-        draw_face_box(frame, top, right, bottom, left, name)
-
-    # Write the resulting image to the output video file
-    out.write(frame)
-
-print("Releasing video objects...")
-# Release the file pointers
-out.release()
-cap.release()
+if __name__ == "__main__":
+    raise SystemExit(main())

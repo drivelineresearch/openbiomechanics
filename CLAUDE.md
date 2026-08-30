@@ -17,7 +17,8 @@ files it points to.
 | `additional_resources/` | Cited references + `tutorials/` (ezc3d, ISBS) |
 | `obp/` | Small pandas loader package: `load_poi/load_metadata/load_hp`, path resolvers, `download()` |
 | `examples/` | Runnable `.py` scripts demonstrating POI/C3D/full-signal/HP workflows |
-| `scripts/` | `download_data.sh` (fetch release data), `build_data_dictionary.py` (regenerate dictionaries) |
+| `scripts/` | `download_data.sh` (selective, checksum-verified release data), `build_data_dictionary.py` (regenerate/check dictionaries) |
+| `tests/` | Fast public-loader, schema, docs-link, notebook/JSON, ignore-rule, and release-manifest checks |
 
 Each `baseball_*/data/` holds: `metadata.csv`, `poi/` (in-repo, small) — and,
 after download, `c3d/` (raw trials) and `full_sig/*.zip` (processed signals).
@@ -32,8 +33,10 @@ after download, `c3d/` (raw trials) and `full_sig/*.zip` (processed signals).
 
 ## HOW — working in this repo
 
-- **Get the data:** `scripts/download_data.sh` (needs the `gh` CLI). Add
-  `--with-media` for CV demo videos, `--with-mokka` for the C3D viewer.
+- **Get the data:** `scripts/download_data.sh` (needs `gh`, `unzip`, and a
+  SHA-256 utility). Add `--discipline pitching|hitting` to select one module,
+  `--with-media` for CV demo videos, or `--with-mokka` for the C3D viewer. Use
+  `--skip-data` with either optional asset flag to avoid the dataset download.
 - **Load data in code:** `import obp; obp.load_poi("pitching")`. POI/metadata/HP
   CSVs are in-repo; `obp.download()` fetches the release archives when you need
   raw C3D or full-signal.
@@ -71,6 +74,8 @@ after download, `c3d/` (raw trials) and `full_sig/*.zip` (processed signals).
 - After editing a README's POI or metadata dictionary, cross-check the entries
   against the actual `data/poi/*.csv` / `data/metadata.csv` headers — the docs
   have drifted from the data before.
+- Run `python3 -m unittest discover -s tests -v` and
+  `python3 scripts/build_data_dictionary.py --check` for public-surface changes.
 
 <!-- AGENT-MANAGED SECTION — Claude and other agents may add learnings below. -->
 <!-- Lifecycle: (1) write the full why/history into the relevant README or a  -->

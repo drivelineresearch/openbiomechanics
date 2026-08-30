@@ -1,0 +1,28 @@
+# Keep executable/source files portable across contributor platforms.
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.cff text eol=lf
+*.ipynb text eol=lf
+# Generated dictionaries retain their legacy CRLF bytes without conversion.
+**/data_dictionary.csv -text whitespace=cr-at-eol
+
+# Never attempt textual diffs or line-ending conversion for binary artifacts.
+*.c3d binary
+*.C3D binary
+*.zip binary
+*.dmg binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.JPG binary
+*.mov binary
+*.MOV binary
+*.mp4 binary
+*.avi binary
+*.onnx binary
+*.pt binary

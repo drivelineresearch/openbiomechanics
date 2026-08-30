@@ -1,0 +1,5 @@
+-r requirements.txt
+
+# Repository quality tooling is exact-pinned so local and CI checks agree.
+ruff==0.16.5
+PyYAML==6.0.2

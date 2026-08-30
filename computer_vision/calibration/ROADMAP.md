@@ -1,10 +1,10 @@
-# Handoff: color targets, cube/ground plane, and final calibration
+# Roadmap: color targets, cube/ground plane, and final calibration
 
 The checkerboard audit has produced cross-validated, full-frame-monotonic
 provisional intrinsics for 13 feeds, held-out pair diagnostics, and a connected
-provisional OptiTrack pose graph in camera-19 coordinates. Continue from the
-committed files in this directory; do not silently replace them with hand-entered
-values.
+provisional OptiTrack pose graph in camera-19 coordinates. Future work should
+continue from the committed files in this directory; do not silently replace
+them with hand-entered values.
 
 Follow [`ANNOTATION_PLAN.md`](ANNOTATION_PLAN.md) for source-frame provenance,
 cube and CS-200 JSONL schemas, annotation review, epipolar overlays, undistortion

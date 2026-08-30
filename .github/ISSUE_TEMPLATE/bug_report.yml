@@ -1,0 +1,62 @@
+name: Bug report
+description: Report a reproducible problem in public code, examples, downloads, or data files.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve OBP. Do not include private athlete information, credentials, or security-sensitive details. Report those privately through `SECURITY.md`.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Pitching data or documentation
+        - Hitting data or documentation
+        - High Performance data or documentation
+        - obp loader or examples
+        - Download or release assets
+        - Computer vision or calibration
+        - Other repository tooling
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Commit SHA, branch, or release tag where you observed the problem.
+      placeholder: main at abc1234, or dataset-v1
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Include the smallest command or code sample that reproduces the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and error output
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python version, dependency versions, and whether large release data were downloaded.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, private data, and direct athlete identifiers from this report.
+          required: true

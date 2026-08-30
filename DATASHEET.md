@@ -161,7 +161,7 @@ The dataset is distributed publicly through the OpenBiomechanics GitHub reposito
   - `cv-media-v1` — `cv_media.zip`, computer-vision demo media.
   - `tools-mokka-0.6.2` — Mokka installers for viewing C3D files.
 - Full-signal tables ship as `.zip` archives (e.g., `joint_angles.zip`) and must be unzipped before use.
-- Run `scripts/download_data.sh` from the repository root to fetch and unpack the release assets into the correct locations.
+- Run `scripts/download_data.sh` from the repository root to verify and place the release assets. C3D archives are extracted; full-signal archives remain zipped until the user selects tables to extract.
 
 **License.**
 OBP is dual-licensed:

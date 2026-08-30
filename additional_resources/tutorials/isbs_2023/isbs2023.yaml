@@ -1,4 +1,4 @@
-name: base
+name: isbs2023
 channels:
   - conda-forge
   - defaults
@@ -345,4 +345,3 @@ dependencies:
   - zope.event=4.5.0=py38_0
   - zope.interface=5.1.2=py38he774522_0
   - zstd=1.4.5=h04227a9_0
-prefix: C:\Users\kylew\anaconda3\envs\isbs2023

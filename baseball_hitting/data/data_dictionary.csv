@@ -11,9 +11,9 @@ hitting_poi,bat_torso_angle_connection_x,float64,121.0109,bat-torso angle at dow
 hitting_poi,attack_angle_contact_x,float64,5.7984,vertical attack angle at contact (deg),True
 hitting_poi,bat_speed_mph_max_x,float64,69.2154,maximum resultant bat speed (miles per hour),True
 hitting_poi,bat_speed_xy_max_x,float64,2529.2776,maximum resultant angular velocity of the bat - just x and y components (deg/sec),True
-hitting_poi,bat_torso_angle_ds_x,float64,-121.3557,,False
+hitting_poi,bat_torso_angle_ds_x,float64,-121.3557,x component of bat-torso angle at down swing event (convention not reported) (deg),True
 hitting_poi,bat_torso_angle_ds_y,float64,121.0109,vertical bat angle relative to the torso at down swing event - this is the same as bat_torso_angle_connection and is what Blast calls “Early Connection” (deg),True
-hitting_poi,bat_torso_angle_ds_z,float64,101.554,,False
+hitting_poi,bat_torso_angle_ds_z,float64,101.554,z component of bat-torso angle at down swing event (convention not reported) (deg),True
 hitting_poi,hand_speed_blast_bat_mph_max_x,float64,23.0841,maximum hand speed in mph - calculated the same way as Blast’s hand speed (deg/sec),True
 hitting_poi,hand_speed_mag_max_x,float64,1527.4279,maximum resultant hand speed between first move and contact (deg/sec),True
 hitting_poi,pelvis_angle_fm_x,float64,26.7272,pelvis angle (x) at first move - using K-Vest conventions (deg),True

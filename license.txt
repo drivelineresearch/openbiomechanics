@@ -7,5 +7,5 @@ This project is dual-licensed:
     ...with an additional exclusion for professional sports organizations
     and financial analysis firms. Read LICENSE-DATA.md in full.
 
-HTML-formatted usage terms: https://www.openbiomechanics.org/#terms
+HTML-formatted usage terms: https://openbiomechanics.org/#terms
 CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/

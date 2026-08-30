@@ -1,21 +1,70 @@
-from PIL import Image
-import face_recognition
+"""Locate faces in a still image without relying on the current directory.
 
-# Load the jpg file into a numpy array
-image = face_recognition.load_image_file("Kyle_Boddy_2009.jpg")
+Run from anywhere in the repository:
 
-# Find all the faces in the image
-face_locations = face_recognition.face_locations(image)
+    python3 computer_vision/hello_world/face_image.py
+    python3 computer_vision/hello_world/face_image.py --image path/to/photo.jpg
 
-print("I found {} face(s) in this photograph.".format(len(face_locations)))
+Use ``--output-dir`` to save each detected face as a separate image. The
+``face_recognition`` dependency is intentionally imported after argument
+parsing so ``--help`` works before the optional CV environment is installed.
+"""
 
-for face_location in face_locations:
+from __future__ import annotations
 
-    # Print the location of each face in this image
-    top, right, bottom, left = face_location
-    print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom, right))
+import argparse
+from pathlib import Path
 
-    # You can access the actual face itself like this:
-    face_image = image[top:bottom, left:right]
-    pil_image = Image.fromarray(face_image)
-    pil_image.show()
+HERE = Path(__file__).resolve().parent
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--image",
+        type=Path,
+        default=HERE / "Kyle_Boddy_2009.jpg",
+        help="input image (default: the sample portrait beside this script)",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        help="optional directory for cropped face images",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if not args.image.is_file():
+        parser.error(f"image not found: {args.image}")
+
+    try:
+        import face_recognition
+        from PIL import Image
+    except ModuleNotFoundError as error:
+        raise SystemExit(
+            "Install the computer-vision dependencies first: "
+            "python3 -m pip install -r "
+            "computer_vision/requirements-face-recognition.txt"
+        ) from error
+
+    image = face_recognition.load_image_file(str(args.image))
+    locations = face_recognition.face_locations(image)
+    print(f"Found {len(locations)} face(s) in {args.image}.")
+
+    if args.output_dir is not None:
+        args.output_dir.mkdir(parents=True, exist_ok=True)
+
+    for index, (top, right, bottom, left) in enumerate(locations, start=1):
+        print(f"Face {index}: top={top}, right={right}, bottom={bottom}, left={left}")
+        if args.output_dir is not None:
+            output = args.output_dir / f"face_{index}.jpg"
+            Image.fromarray(image[top:bottom, left:right]).save(output)
+            print(f"Wrote {output}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

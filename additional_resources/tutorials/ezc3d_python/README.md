@@ -10,7 +10,7 @@
 
 Below we will cover some basic exploration of c3d files using the wonderful ezc3d package in Python. We focus on Python implementation (specifically interactive Python via Jupyter Notebook) because Python and Jupyter are all free and well-maintained. 
 
-If you do not have an Python IDE (interactive development environment) set up, you will need to install one. We use Jupyter notebooks via either Anaconda or VS Code. Many excellent guides have been writeen already so we will not write our own here.
+If you do not have a Python IDE (interactive development environment) set up, you will need to install one. We use Jupyter notebooks via either Anaconda or VS Code. Many excellent guides have already been written, so we will not reproduce them here.
 
 A good starting point for setting up and getting familiar with Anaconda and Jupyter Notebooks can be found [here](https://sparkbyexamples.com/python/install-anaconda-jupyter-notebook/).
 You can download VS Code [here](https://code.visualstudio.com/download). A guide to installing VS Code's Jupyter extension can be found [here](https://code.visualstudio.com/docs/datascience/jupyter-notebooks). 
@@ -21,7 +21,7 @@ For additional examples beyond what we cover below, as well as tutorials for the
 
 Once you have your Python environment set up, make sure you install the ezc3d package using anaconda prompt:
 
-```python
+```bash
 conda install -c conda-forge ezc3d
 ```
 
@@ -30,7 +30,7 @@ conda install -c conda-forge ezc3d
 A c3d file is read into python using the ezc3d command `ezc3d.c3d()`. The resulting object is an ezc3d c3d class. 
 Luckily, this class functions a lot like a Python [dictionary](https://www.w3schools.com/python/python_dictionaries.asp) (i.e. it has keys and values) which allows us to examine its structure in greater detail.
 
-All code below can be found in the Jupyter Notebook housed within this GitHub repo `(~\code\explore_c3d_object_structure.ipynb)`
+The complete runnable walkthrough is in [`code/visualize_c3d_data.ipynb`](code/visualize_c3d_data.ipynb).
 
 # Exploring the C3D Object Structure
 
@@ -57,7 +57,7 @@ c.keys()
 The first level of structure for our c3d object contains three substructures: `header`, `parameters`, and `data`. We can access one level deeper within our c3d object by reusing the `keys()` command on one of our three substructures:
 
 ```python
-c = ezc3d.c3d(<'path to your c3d file'>)
+c = ezc3d.c3d("path/to/your/file.c3d")
 
 c.keys()
 # dict_keys(['header', 'parameters', 'data'])
@@ -69,7 +69,7 @@ c['header'].keys()
 We can access deeper and deeper levels of nesting by adding dictionary keys together:
 
 ```python
-c = ezc3d.c3d(<'path to your c3d file'>)
+c = ezc3d.c3d("path/to/your/file.c3d")
 
 c.keys()
 # dict_keys(['header', 'parameters', 'data'])

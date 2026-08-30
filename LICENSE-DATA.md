@@ -13,7 +13,7 @@ repository and in the associated GitHub Releases, including but not limited to:
 The **software** in this repository is licensed separately under
 [LICENSE-CODE.md](LICENSE-CODE.md) (MIT).
 
-See the HTML-formatted version at https://www.openbiomechanics.org/#terms
+See the HTML-formatted version at https://openbiomechanics.org/#terms
 
 ---
 
@@ -51,6 +51,6 @@ form without a specific written commercial (paid) license:
 The data provided in this repository is a sample of a larger dataset that is
 under IRB approval with associated informed consent documents, available for
 paid licensing for commercial uses. See the Contact Us link on
-https://www.openbiomechanics.org for more information on these uses.
+https://openbiomechanics.org for more information on these uses.
 
 https://creativecommons.org/licenses/by-nc-sa/4.0/

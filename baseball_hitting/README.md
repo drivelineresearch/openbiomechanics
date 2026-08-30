@@ -2,11 +2,11 @@
 
 ## Getting the Data
 
-The C3D files and full-signal CSVs are not stored in this git repository. They are distributed as assets on the GitHub Releases page under the tag `dataset-v1`. Run `scripts/download_data.sh` from the repository root to fetch and unzip them into the expected locations. The full-signal data ships as `.zip` archives (unzip at the repo root to restore the `data/` layout referenced throughout this document).
+The C3D files and full-signal CSVs are not stored in this git repository. They are distributed as assets on the GitHub Releases page under the tag `dataset-v1`. From the repository root, run `scripts/download_data.sh --discipline hitting`. The script verifies every archive, extracts C3D files into `baseball_hitting/data/c3d/`, and leaves full-signal archives in `baseball_hitting/data/full_sig/`. Unzip the full-signal tables there before reading them.
 
 ## C3D
 
-Cleaned C3D files are provided at `~\baseball_hitting\data\c3d` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
+Downloaded C3D files are placed at `baseball_hitting/data/c3d/` for those who wish to conduct their own analysis process from start to finish. C3Ds are separated into athlete-specific folders with static model files also provided.
 
 For a worked example of reading and processing these C3D files in Python, see the [ezc3d Python tutorial](../additional_resources/tutorials/ezc3d_python/README.md).
 
@@ -112,16 +112,15 @@ Ground reaction force data were filtered with a 4th order Butterworth low pass f
 Full signal data are broken up into four large CSV files:
 
 - `force_plate`: rear leg, lead leg ground reaction forces
-- `joint angles`: joint angles
+- `joint_angles`: joint angles
 - `joint_velos`: joint angular velocities
 - `landmarks`: joint center positions
 
-Tables may be joined using `session_swing` + `time`. Please note that force plate and marker-derived data are provided at their own respective measurement rates (360 Hz and 1,080 Hz, 
-respectively). Therefore, we recommend caution when joining force plate and marker-derived data to avoid potential data loss.
+Tables may be joined using `session_swing` + `time`. Force-plate data are sampled at 1,080 Hz and marker-derived data at 360 Hz. Therefore, we recommend caution when joining force-plate and marker-derived data to avoid potential data loss.
 
 The times at which common events occurred are also joined in each table for convenience. Provided events are front foot contact (10% bodyweight), front foot plant (100% bodyweight), and contact.
 
-One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full signal data through the metadata CSV located at `~\baseball_hitting\data\metadata.csv`.
+One potential research project is to process the provided C3D using your own pipeline and compare your results with ours. Self-processed data from C3D files may be linked to the provided full-signal data through [`data/metadata.csv`](data/metadata.csv).
 
 ### Landmarks Key
 
@@ -144,7 +143,7 @@ One potential research project is to process the provided C3D using your own pip
 
 ## metadata.csv Schema
 
-The metadata CSV at `~\baseball_hitting\data\metadata.csv` links self-processed C3D data to the provided POI and full-signal data. The join key is `session_swing`.
+[`data/metadata.csv`](data/metadata.csv) links self-processed C3D data to the provided POI and full-signal data. The join key is `session_swing`.
 
 | Column | Definition |
 | --- | --- |
@@ -164,7 +163,7 @@ The metadata CSV at `~\baseball_hitting\data\metadata.csv` links self-processed 
 
 # Point of Interest
 
-Kinematic metrics commonly referenced in biomechanical analyses are arranged into a point-of-interest (POI) CSV at `~\data\poi\POI.csv`. We attempted to name variables so their definitions would be clear, however, this may not always be the case.
+Kinematic metrics commonly referenced in biomechanical analyses are arranged into [`data/poi/poi_metrics.csv`](data/poi/poi_metrics.csv). We attempted to name variables so their definitions would be clear; however, this may not always be the case.
 
 ```python
 'session_swing' : unique swing ID
@@ -180,6 +179,8 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'bat_speed_mph_max_x': maximum resultant bat speed (miles per hour)
 'bat_speed_xy_max_x' : maximum resultant angular velocity of the bat - just x and y components (deg/sec) 
 'bat_torso_angle_ds_y' : vertical bat angle relative to the torso at down swing event - this is the same as bat_torso_angle_connection and is what Blast calls “Early Connection” (deg)
+'bat_torso_angle_ds_x' : x component of bat-torso angle at down swing event (convention not reported) (deg)
+'bat_torso_angle_ds_z' : z component of bat-torso angle at down swing event (convention not reported) (deg)
 'hand_speed_blast_bat_mph_max_x' : maximum hand speed in mph - calculated the same way as Blast’s hand speed (deg/sec) 
 'hand_speed_mag_max_x' : maximum resultant hand speed between first move and contact (deg/sec) 
 'pelvis_angle_fm_x': pelvis angle (x) at first move - using K-Vest conventions (deg)
@@ -217,8 +218,6 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'hand_speed_mag_swing_max_velo_x' : maximum resultant hand speed between load and contact (deg/sec) 
 'lead_knee_launchpos_x' : lead knee angle (x) at foot plant (deg)
 'lead_knee_stride_max_x' : maximum knee angle (x) between load and foot plant (deg)
-'lead_knee_stride_max_y' : maximum knee angle (y) between load and foot plant (deg)
-'lead_knee_stride_max_z' : maximum knee angle (z) between load and foot plant (deg)
 'lead_wrist_fm_x' : lead wrist angle (x) at first move (deg)
 'lead_wrist_swing_max_x' : maximum lead wrist angle (x) between load and contact (deg)
 'pelvis_angular_velocity_fm_x' : pelvis angular velocity at first move (deg/sec) 
@@ -295,7 +294,7 @@ Kinematic metrics commonly referenced in biomechanical analyses are arranged int
 'x_factor_hs_z' : x-factor angle (z) at heel strike (same as torso-pelvis angle) - using K-Vest conventions (deg)
 'max_cog_velo_x' : maximum center of gravity velocity from start of take to end of take (meters per second)
 ```
-In addition to biomechanical POI metrics, we also provide pitch level HitTrax data in `~\data\poi\hittrax.csv`. Those familiar with exporting raw HitTrax data should recognize most of the columns.
+In addition to biomechanical POI metrics, we also provide pitch-level HitTrax data in [`data/poi/hittrax.csv`](data/poi/hittrax.csv). Those familiar with exporting raw HitTrax data should recognize most of the columns.
 
 ```python
 'session_swing': unique swing identifier

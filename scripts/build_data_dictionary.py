@@ -1,21 +1,20 @@
-#!/usr/bin/env python3
-"""Build machine-readable data dictionaries from the actual CSV headers.
+"""Build machine-readable data dictionaries from authoritative CSV headers.
 
-The CSV header/dtypes are authoritative. Descriptions are best-effort matched by
-parsing the POI/metadata dictionary blocks in each module README.md.
-
-Outputs:
-  - baseball_pitching/data/data_dictionary.csv   (pitching POI + metadata)
-  - baseball_hitting/data/data_dictionary.csv     (hitting POI + metadata + hittrax)
-  - high_performance/data/data_dictionary.csv     (high performance)
-  - data_dictionary.json                          (repo root, all datasets)
+Descriptions are best-effort matches parsed from each module README. Run with
+``--check`` in CI to verify the committed dictionaries are current without
+rewriting them.
 """
 
+from __future__ import annotations
+
+import argparse
 import csv
+import io
 import json
 import re
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
@@ -24,16 +23,67 @@ REPO = Path(__file__).resolve().parent.parent
 # Three README description patterns, tried per line:
 #   quoted key:   "name": desc      or   'name' = desc      (YAML / python blocks)
 #   backtick key: - `name`: desc                             (metadata bullet lists)
-#   table row:    | name | desc | ...                        (markdown tables)
+#   table row:    | name | desc | ...                        (Markdown tables)
 QUOTED = re.compile(r'^\s*["\']([^"\']+)["\']\s*[:=]\s*(.+?)\s*$')
-BACKTICK = re.compile(r'^\s*[-*]\s*`([^`]+)`\s*[:=]\s*(.+?)\s*$')
-TABLE = re.compile(r'^\s*\|\s*`?([^|`]+?)`?\s*\|\s*([^|]+?)\s*\|')
+BACKTICK = re.compile(r"^\s*[-*]\s*`([^`]+)`\s*[:=]\s*(.+?)\s*$")
+TABLE = re.compile(r"^\s*\|\s*`?([^|`]+?)`?\s*\|\s*([^|]+?)\s*\|")
+
+# (dataset, CSV path, README path, output data_dictionary.csv path)
+DATASETS = [
+    (
+        "pitching_poi",
+        REPO / "baseball_pitching/data/poi/poi_metrics.csv",
+        REPO / "baseball_pitching/README.md",
+        REPO / "baseball_pitching/data/data_dictionary.csv",
+    ),
+    (
+        "pitching_metadata",
+        REPO / "baseball_pitching/data/metadata.csv",
+        REPO / "baseball_pitching/README.md",
+        REPO / "baseball_pitching/data/data_dictionary.csv",
+    ),
+    (
+        "hitting_poi",
+        REPO / "baseball_hitting/data/poi/poi_metrics.csv",
+        REPO / "baseball_hitting/README.md",
+        REPO / "baseball_hitting/data/data_dictionary.csv",
+    ),
+    (
+        "hitting_metadata",
+        REPO / "baseball_hitting/data/metadata.csv",
+        REPO / "baseball_hitting/README.md",
+        REPO / "baseball_hitting/data/data_dictionary.csv",
+    ),
+    (
+        "hitting_hittrax",
+        REPO / "baseball_hitting/data/poi/hittrax.csv",
+        REPO / "baseball_hitting/README.md",
+        REPO / "baseball_hitting/data/data_dictionary.csv",
+    ),
+    (
+        "high_performance",
+        REPO / "high_performance/data/hp_obp.csv",
+        REPO / "high_performance/README.md",
+        REPO / "high_performance/data/data_dictionary.csv",
+    ),
+]
+
+FIELDS = ["dataset", "column", "dtype", "example", "description", "documented"]
 
 
-def parse_descriptions(readme_path):
-    """Return {column_name: description} scraped from a README's dictionary blocks."""
-    descriptions = {}
-    for line in readme_path.read_text().splitlines():
+def canonical_dtype(series: pd.Series) -> str:
+    """Return a pandas-version-independent dtype label for a CSV column."""
+    non_null = series.dropna()
+    if not non_null.empty and non_null.map(lambda value: isinstance(value, str)).all():
+        # pandas 2.x infers CSV text as ``object``; pandas 3.x uses ``str``.
+        return "str"
+    return str(series.dtype)
+
+
+def parse_descriptions(readme_path: Path) -> dict[str, str]:
+    """Return column descriptions parsed from a module README."""
+    descriptions: dict[str, str] = {}
+    for line in readme_path.read_text(encoding="utf-8").splitlines():
         for pattern in (QUOTED, BACKTICK, TABLE):
             match = pattern.match(line)
             if match:
@@ -42,59 +92,94 @@ def parse_descriptions(readme_path):
     return descriptions
 
 
-# (dataset, csv path, README path, output data_dictionary.csv path)
-DATASETS = [
-    ("pitching_poi", REPO / "baseball_pitching/data/poi/poi_metrics.csv",
-     REPO / "baseball_pitching/README.md", REPO / "baseball_pitching/data/data_dictionary.csv"),
-    ("pitching_metadata", REPO / "baseball_pitching/data/metadata.csv",
-     REPO / "baseball_pitching/README.md", REPO / "baseball_pitching/data/data_dictionary.csv"),
-    ("hitting_poi", REPO / "baseball_hitting/data/poi/poi_metrics.csv",
-     REPO / "baseball_hitting/README.md", REPO / "baseball_hitting/data/data_dictionary.csv"),
-    ("hitting_metadata", REPO / "baseball_hitting/data/metadata.csv",
-     REPO / "baseball_hitting/README.md", REPO / "baseball_hitting/data/data_dictionary.csv"),
-    ("hitting_hittrax", REPO / "baseball_hitting/data/poi/hittrax.csv",
-     REPO / "baseball_hitting/README.md", REPO / "baseball_hitting/data/data_dictionary.csv"),
-    ("high_performance", REPO / "high_performance/data/hp_obp.csv",
-     REPO / "high_performance/README.md", REPO / "high_performance/data/data_dictionary.csv"),
-]
+def build_rows() -> tuple[dict[Path, list[dict[str, Any]]], dict[str, Any]]:
+    """Build per-file and aggregate dictionary rows without writing files."""
+    by_output: dict[Path, list[dict[str, Any]]] = defaultdict(list)
+    aggregate: dict[str, Any] = {}
 
-FIELDS = ["dataset", "column", "dtype", "example", "description", "documented"]
+    for dataset, csv_path, readme_path, out_path in DATASETS:
+        frame = pd.read_csv(csv_path)
+        descriptions = parse_descriptions(readme_path)
 
-by_output = defaultdict(list)
-aggregate = {}
+        rows: list[dict[str, Any]] = []
+        for column in frame.columns:
+            non_null = frame[column].dropna()
+            example = "" if non_null.empty else str(non_null.iloc[0])
+            description = descriptions.get(column, "")
+            rows.append(
+                {
+                    "dataset": dataset,
+                    "column": column,
+                    "dtype": canonical_dtype(frame[column]),
+                    "example": example,
+                    "description": description,
+                    "documented": bool(description),
+                }
+            )
 
-for dataset, csv_path, readme_path, out_path in DATASETS:
-    df = pd.read_csv(csv_path)
-    descriptions = parse_descriptions(readme_path)
+        by_output[out_path].extend(rows)
+        aggregate[dataset] = rows
+        documented = sum(row["documented"] for row in rows)
+        print(
+            f"{dataset}: {documented} documented / "
+            f"{len(rows) - documented} undocumented ({len(rows)} total)"
+        )
 
-    rows = []
-    for column in df.columns:
-        non_null = df[column].dropna()
-        example = "" if non_null.empty else str(non_null.iloc[0])
-        description = descriptions.get(column, "")
-        rows.append({
-            "dataset": dataset,
-            "column": column,
-            "dtype": str(df[column].dtype),
-            "example": example,
-            "description": description,
-            "documented": bool(description),
-        })
+    return by_output, aggregate
 
-    by_output[out_path].extend(rows)
-    aggregate[dataset] = rows
 
-    documented = sum(r["documented"] for r in rows)
-    print(f"{dataset}: {documented} documented / {len(rows) - documented} undocumented "
-          f"({len(rows)} total)")
+def render_outputs() -> dict[Path, bytes]:
+    """Render every generated artifact to deterministic bytes."""
+    by_output, aggregate = build_rows()
+    outputs: dict[Path, bytes] = {}
 
-for out_path, rows in by_output.items():
-    with out_path.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS)
+    for out_path, rows in by_output.items():
+        buffer = io.StringIO(newline="")
+        writer = csv.DictWriter(buffer, fieldnames=FIELDS, lineterminator="\r\n")
         writer.writeheader()
         writer.writerows(rows)
-    print(f"wrote {out_path.relative_to(REPO)} ({len(rows)} rows)")
+        outputs[out_path] = buffer.getvalue().encode("utf-8")
 
-json_path = REPO / "data_dictionary.json"
-json_path.write_text(json.dumps(aggregate, indent=2))
-print(f"wrote {json_path.relative_to(REPO)} ({len(aggregate)} datasets)")
+    outputs[REPO / "data_dictionary.json"] = json.dumps(aggregate, indent=2).encode(
+        "utf-8"
+    )
+    return outputs
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="fail if committed dictionaries differ; do not write files",
+    )
+    args = parser.parse_args(argv)
+    outputs = render_outputs()
+
+    if args.check:
+        stale = [
+            path
+            for path, content in outputs.items()
+            if not path.exists() or path.read_bytes() != content
+        ]
+        if stale:
+            print("stale generated dictionaries:")
+            for path in stale:
+                print(f"  {path.relative_to(REPO)}")
+            print("run: python3 scripts/build_data_dictionary.py")
+            return 1
+        print("all generated dictionaries are current")
+        return 0
+
+    for path, content in outputs.items():
+        path.write_bytes(content)
+        if path.suffix == ".csv":
+            row_count = content.count(b"\n") - 1
+            print(f"wrote {path.relative_to(REPO)} ({row_count} rows)")
+        else:
+            print(f"wrote {path.relative_to(REPO)}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

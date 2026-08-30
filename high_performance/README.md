@@ -1,12 +1,25 @@
-# **Driveline Baseball OBDB High Performance Assessment Documentation**
+# High Performance Assessment Documentation
 
-Our assessment process utilizes force plate tests paired with motion capture data to provide a comprehensive analysis of an athlete’s performance. This documentation outlines the key tests we use, their significance, and how we integrate the collected data
+Our assessment process uses force-plate tests and physical assessments to provide a comprehensive view of athlete performance. This document explains the included tests, their significance, and the released table.
 
 ## Data
 
-The dataset lives in-repo at `data/hp_obp.csv` and is licensed under CC BY-NC-SA 4.0 (see `LICENSE-DATA.md`).
+The dataset lives in-repo at [`data/hp_obp.csv`](data/hp_obp.csv) and is covered by the repository's [data license](../LICENSE-DATA.md).
 
-## **Testing Battery (Protocols included in links)-**
+| Item | Value |
+| --- | --- |
+| Rows | 1,934 assessment records |
+| Athletes | 1,162 unique `athlete_uid` values |
+| Primary record date | `test_date` |
+| Machine-readable schema | [`data/data_dictionary.csv`](data/data_dictionary.csv) |
+
+Rows are assessments, not necessarily unique athletes: some athletes were tested more than once. Choose and document a repeated-measures strategy before reporting athlete-level statistics. `athlete_uid` identifies athletes within this table, but the released pitching and hitting metadata use different identifiers; the public files do not provide a direct person-level crosswalk.
+
+The table contains missing values because not every athlete completed every test. Test-specific metric suffixes are `_cmj` (countermovement jump), `_sj` (squat jump), `_ht` (hop test), `_imtp` (isometric mid-thigh pull), and `_pp` (plyo pushup). The Plyo Pushup is available for only a subset of records.
+
+The generated schema records all 53 column names, inferred data types, and examples. Its per-column `description` values intentionally remain blank because authoritative formulas and definitions were not supplied for every released field. Treat that as a known documentation gap; do not infer formulas from abbreviated names. The protocol-level explanations below provide context but are not a substitute for per-column definitions.
+
+## Testing Battery
 
 [**Table ROM and Shoulder Strength**](https://vimeo.com/382787527/9cf56a289c)**\-**  
 
@@ -62,7 +75,7 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 * **Ground Contact Time:** Measures how quickly an athlete can rebound, important for reactive sports.  
 * **Flight Time:** Reflects the height of each hop, indicating power and endurance.
 
-## **Basic Metrics Overview-** 
+## Basic Metrics Overview
 
 ### **Asymmetry Metrics**
 
@@ -92,13 +105,13 @@ The repeated hop test assesses lower body reactive ability by measuring the athl
 3. **Peak Power**: Maximum Power during the Concentric Phase (W).  
 4. **Peak Power / BM**: Peak Power divided by Body Mass (W/kg).
 
-## **Metrics Naming Convention** ##
+## Metrics Naming Convention
 
 Most metrics in the dataset will follow the naming convention
 
 `variable_[units]_type_testabbreviation`
 
-Where `variable` is a short description of the metric, `[units]` is the unit of measure, `type` denotes the metric data type (typically a mean or max/best of several trials), and `testabbrevion` is an abbreviation of the test type.
+Where `variable` is a short description of the metric, `[units]` is the unit of measure, `type` denotes the metric data type (typically a mean or max/best of several trials), and `testabbreviation` is an abbreviation of the test type.
 
 Test abbreviations are as follows...
 
