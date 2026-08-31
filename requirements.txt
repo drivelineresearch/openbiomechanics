@@ -11,6 +11,6 @@
 # or computer-vision extras. These are minimum compatible versions (>=), not a
 # fully locked environment.
 pandas>=2.0.0
-numpy>=1.24.0
+numpy>=2.5.2
 matplotlib>=3.7.0
 ezc3d>=1.5.0
