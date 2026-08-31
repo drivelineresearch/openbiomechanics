@@ -1,6 +1,6 @@
 # OpenBiomechanics — computer_vision requirements
 # Minimum compatible versions (>=); this is not a fully locked environment.
-opencv-python>=4.8.0
+opencv-python>=5.0.0.93
 ultralytics>=8.0.0
 torch>=2.0.0
 torchvision>=0.15.0
