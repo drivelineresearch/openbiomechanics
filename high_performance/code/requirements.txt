@@ -1,6 +1,6 @@
 # OpenBiomechanics — high_performance/code requirements
 # Minimum compatible versions (>=); this is not a fully locked environment.
 pandas>=2.0.0
-numpy>=1.24.0
+numpy>=2.5.2
 sqlalchemy>=2.0.0
 mysql-connector-python>=8.0.0
