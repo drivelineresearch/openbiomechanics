@@ -5,7 +5,7 @@ ultralytics>=8.0.0
 torch>=2.0.0
 torchvision>=0.15.0
 numpy>=1.24.0
-matplotlib>=3.7.0
+matplotlib>=3.11.1
 
 # NOTE: the hello_world/face_pose demos use a separate, optional legacy stack in
 # requirements-face-recognition.txt. It is unmaintained and dlib-based, and can
