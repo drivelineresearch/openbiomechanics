@@ -2,7 +2,7 @@
 # Minimum compatible versions (>=); this is not a fully locked environment.
 pandas>=2.0.0
 numpy>=1.24.0
-matplotlib>=3.7.0
+matplotlib>=3.11.1
 mysql-connector-python>=8.0.0
 sqlalchemy>=2.0.0
 ezc3d>=1.5.0
