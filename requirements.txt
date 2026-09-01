@@ -10,7 +10,7 @@
 # the released CSV/C3D data (see scripts/download_data.sh) without the database
 # or computer-vision extras. These are minimum compatible versions (>=), not a
 # fully locked environment.
-pandas>=2.0.0
+pandas>=3.0.5
 numpy>=1.24.0
 matplotlib>=3.7.0
 ezc3d>=1.5.0
