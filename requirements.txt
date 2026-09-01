@@ -12,5 +12,5 @@
 # fully locked environment.
 pandas>=2.0.0
 numpy>=1.24.0
-matplotlib>=3.7.0
+matplotlib>=3.11.1
 ezc3d>=1.5.0
