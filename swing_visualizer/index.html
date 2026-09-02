@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skeleton Overlay</title>
+  <style>
+    :root { color-scheme: dark; --bg:#071019; --panel:#0d1925; --line:#25384a; --muted:#91a6b9; --a:#34d6ff; --b:#7bf178; --focus:#dbeafe; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:#edf5fc; font:14px/1.4 Inter,ui-sans-serif,system-ui,sans-serif; overflow:hidden; }
+    button,select,input { font:inherit; }
+    .app { height:100vh; display:grid; grid-template-columns:300px minmax(0,1fr); }
+    aside { background:var(--panel); border-right:1px solid var(--line); padding:22px; display:flex; flex-direction:column; gap:22px; overflow:auto; }
+    h1 { margin:0; font-size:20px; letter-spacing:-.02em; } .sub { margin:5px 0 0; color:var(--muted); }
+    .field { display:grid; gap:7px; } label { color:#c9d7e4; font-weight:600; }
+    select { width:100%; min-height:40px; padding:8px 10px; color:#edf5fc; background:#142536; border:1px solid #30475d; border-radius:7px; }
+    select:focus-visible,button:focus-visible,input:focus-visible { outline:2px solid var(--focus); outline-offset:2px; }
+    .swing-label { display:flex; align-items:center; gap:8px; }.dot { width:9px;height:9px;border-radius:50%;background:var(--a);box-shadow:0 0 12px var(--a); }.dot.b { background:var(--b);box-shadow:0 0 12px var(--b); }
+    .compare { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .compare label { cursor:pointer; } input[type=checkbox] { width:38px;height:21px;accent-color:var(--b); }
+    button.primary { min-height:42px; border:0; border-radius:7px; background:#e8f4ff; color:#09131c; font-weight:750; cursor:pointer; }
+    button.primary:hover { background:white; } button:disabled,select:disabled { opacity:.45;cursor:not-allowed; }
+    .options { display:grid;gap:12px;padding-top:2px; }
+    .option-row { display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px; }
+    .option-row select { width:auto;min-width:120px;min-height:34px; }
+    .metrics { display:grid;gap:10px; }
+    .metrics[hidden] { display:none; }
+    .metrics h2 { margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted); }
+    .metric-table { width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:12px; }
+    .metric-table th,.metric-table td { padding:6px 3px;border-bottom:1px solid var(--line);text-align:right; }
+    .metric-table th:first-child,.metric-table td:first-child { text-align:left;color:#c9d7e4; }
+    .dot.ball { background:#f8fafc; box-shadow:none; border:1px solid #64748b; }
+    .viewer { min-width:0; display:grid; grid-template-rows:minmax(0,1fr) auto; position:relative; }
+    .stage { position:relative; min-height:320px; overflow:hidden; } canvas { position:absolute; inset:0; display:block;width:100%;height:100%;cursor:grab;touch-action:none; } canvas:active { cursor:grabbing; }
+    .hud { position:absolute;left:20px;top:18px;padding:9px 12px;border:1px solid #294159;background:#091624d9;border-radius:7px;backdrop-filter:blur(8px); }
+    .hud strong { font-variant-numeric:tabular-nums; }.hud span { color:var(--muted); }
+    .legend { position:absolute;right:20px;top:18px;display:flex;gap:14px;padding:9px 12px;border:1px solid #294159;background:#091624d9;border-radius:7px; }
+    .legend-item { display:flex;align-items:center;gap:7px;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .viewbar { position:absolute;right:20px;top:66px;display:flex;justify-content:flex-end;flex-wrap:wrap;max-width:min(620px,calc(100% - 40px));gap:5px;padding:5px;background:#091624d9;border:1px solid #294159;border-radius:7px; }
+    .viewbar button { color:#a9bbca;background:transparent;border:0;border-radius:5px;padding:6px 9px;cursor:pointer; }
+    .viewbar button:hover,.viewbar button.active { color:white;background:#23394d; }
+    .event-badge { position:absolute;left:20px;top:82px;color:#d7e6f2;background:#091624d9;border:1px solid #294159;border-radius:7px;padding:6px 9px;font-size:12px; }
+    .event-badge[hidden] { display:none; }
+    .state { position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;background:var(--bg);z-index:3; }
+    .state[hidden] { display:none; }.state-card { max-width:520px; }.state h2 { margin:0 0 8px;font-size:22px; }.state p { color:var(--muted); }.state code { display:block;text-align:left;background:#111f2c;padding:12px 14px;border-radius:7px;color:#d9e9f7;overflow:auto; }
+    .controls { background:var(--panel);border-top:1px solid var(--line);padding:13px 18px;display:grid;grid-template-columns:repeat(3,36px) minmax(150px,1fr) repeat(2,36px) auto auto;align-items:center;gap:8px; }
+    .transport { width:36px;height:36px;border:1px solid #38516a;border-radius:7px;background:#162a3d;color:white;cursor:pointer; }
+    input[type=range] { width:100%;accent-color:#d9eaff; }.counter { color:var(--muted);font-variant-numeric:tabular-nums;min-width:85px;text-align:right; }
+    .speed { width:auto;min-height:34px; }
+    @media (max-width:760px) { body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr;grid-template-rows:auto minmax(520px,70vh)} aside{border-right:0;border-bottom:1px solid var(--line);padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px}aside header,.compare,.primary,.options,.metrics{grid-column:1/-1}.viewer{min-height:520px}.legend{left:14px;right:auto;top:auto;bottom:14px;flex-direction:column}.controls{grid-template-columns:repeat(3,36px) 1fr repeat(2,36px) auto}.speed{display:none} }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; } }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <header><h1>Skeleton Overlay</h1><p class="sub">Compare one or two recorded swings.</p></header>
+    <div class="field"><label class="swing-label" for="trialA"><span class="dot"></span>Swing A</label><select id="trialA" aria-label="Swing A"></select></div>
+    <div class="compare"><label for="compare">Overlay a second swing</label><input id="compare" type="checkbox" role="switch"></div>
+    <div class="field"><label class="swing-label" for="trialB"><span class="dot b"></span>Swing B</label><select id="trialB" aria-label="Swing B" disabled></select></div>
+    <button class="primary" id="load" type="button">Load skeleton</button>
+    <div class="options">
+      <div class="option-row"><label for="sync">Synchronize at</label><select id="sync"><option value="contact">Estimated contact</option><option value="swingStart">Swing start</option><option value="peakSpeed">Peak bat speed</option><option value="percentage">Recording percentage</option></select></div>
+      <div class="option-row"><label for="trails">Motion trails</label><input id="trails" type="checkbox" role="switch" checked></div>
+      <div class="option-row"><label for="showBall">Show estimated ball</label><input id="showBall" type="checkbox" role="switch"></div>
+    </div>
+    <section class="metrics" id="metrics" aria-live="polite" hidden></section>
+  </aside>
+  <section class="viewer" aria-label="Motion viewer">
+    <div class="stage">
+      <canvas id="canvas" aria-label="Animated three-dimensional skeleton overlay"></canvas>
+      <div class="hud"><strong id="time">0.000 s</strong><br><span id="progress">0%</span></div>
+      <div class="legend" id="legend" hidden></div>
+      <div class="event-badge" id="eventBadge" hidden></div>
+      <div class="viewbar" aria-label="Camera views">
+        <button type="button" data-view="catcher">Behind plate</button>
+        <button type="button" class="active" data-view="pitcher">Pitcher</button>
+        <button type="button" data-view="left">Left side</button>
+        <button type="button" data-view="right">Right side</button>
+        <button type="button" data-view="top">Top</button>
+      </div>
+      <div class="state" id="state"><div class="state-card"><h2>Finding local C3D trials…</h2><p>The files stay on this computer.</p></div></div>
+    </div>
+    <div class="controls">
+      <button class="transport" id="previousEvent" type="button" aria-label="Previous swing event">◀|</button>
+      <button class="transport" id="stepBack" type="button" aria-label="Previous frame">‹</button>
+      <button class="transport" id="play" type="button" aria-label="Pause">Ⅱ</button>
+      <input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Motion timeline">
+      <button class="transport" id="stepForward" type="button" aria-label="Next frame">›</button>
+      <button class="transport" id="nextEvent" type="button" aria-label="Next swing event">|▶</button>
+      <span class="counter" id="counter">0 / 0</span>
+      <select class="speed" id="speed" aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+    </div>
+  </section>
+</div>
+<script>
+const $=s=>document.querySelector(s), canvas=$('#canvas'),ctx=canvas.getContext('2d');
+const ui={a:$('#trialA'),b:$('#trialB'),compare:$('#compare'),load:$('#load'),state:$('#state'),play:$('#play'),timeline:$('#timeline'),speed:$('#speed'),legend:$('#legend'),time:$('#time'),progress:$('#progress'),counter:$('#counter'),sync:$('#sync'),trails:$('#trails'),showBall:$('#showBall'),metrics:$('#metrics'),eventBadge:$('#eventBadge'),previousEvent:$('#previousEvent'),nextEvent:$('#nextEvent'),stepBack:$('#stepBack'),stepForward:$('#stepForward')};
+let motions=[],sceneBounds={center:[0,0,0],extent:1},playing=false,phase=0,last=performance.now(),azimuth=-Math.PI/2,elevation=.04,zoom=1,drag=null;
+const VIEWS={catcher:[Math.PI/2,.08,1],pitcher:[-Math.PI/2,.04,1],left:[0,.06,1],right:[Math.PI,.06,1],top:[0,Math.PI/2-.02,.9]};
+const COLORS=['#34d6ff','#7bf178'];
+const JOINTS={
+  head:['LFHD','RFHD','LBHD','RBHD'],neck:['C7','CLAV'],chest:['C7','CLAV','STRN','T10'],pelvis:['LASI','RASI','LPSI','RPSI'],
+  ls:['LSHO'],le:['LELB','LMELB'],lw:['LWRA','LWRB'],lh:['LFIN'],rs:['RSHO'],re:['RELB','RMELB'],rw:['RWRA','RWRB'],rh:['RFIN'],
+  lhip:['LASI','LPSI'],lk:['LKNE','LMKNE'],la:['LANK','LMANK'],lf:['LHEE','LTOE'],rhip:['RASI','RPSI'],rk:['RKNE','RMKNE'],ra:['RANK','RMANK'],rf:['RHEE','RTOE']
+};
+const BONES=[['head','neck'],['neck','chest'],['chest','pelvis'],['neck','ls'],['ls','le'],['le','lw'],['lw','lh'],['neck','rs'],['rs','re'],['re','rw'],['rw','rh'],['pelvis','lhip'],['lhip','lk'],['lk','la'],['la','lf'],['pelvis','rhip'],['rhip','rk'],['rk','ra'],['ra','rf'],['ls','rs'],['lhip','rhip']];
+function showState(title,message,command=''){ui.state.hidden=false;ui.state.innerHTML=`<div class="state-card"><h2>${title}</h2><p>${message}</p>${command?`<code>${command}</code>`:''}</div>`}
+function hideState(){ui.state.hidden=true}
+async function json(url){const response=await fetch(url);const body=await response.json();if(!response.ok)throw new Error(body.error||`Request failed: ${response.status}`);return body}
+function fillSelect(select,trials){select.innerHTML=trials.map(t=>`<option value="${encodeURIComponent(t.path)}">${t.path}</option>`).join('')}
+async function initialize(){try{const {trials}=await json('/api/trials');if(!trials.length){showState('No hitting C3Ds found','Download the release data, then restart this application.','scripts/download_data.sh --discipline hitting');ui.load.disabled=true;return}fillSelect(ui.a,trials);fillSelect(ui.b,trials);if(trials.length>1)ui.b.selectedIndex=1;showState('Choose a swing','Select one trial—or enable a second overlay—then load the skeleton.');}catch(e){showState('Could not read local trials',e.message)}}
+ui.compare.onchange=()=>{ui.b.disabled=!ui.compare.checked;ui.load.textContent=ui.compare.checked?'Load overlay':'Load skeleton'};
+function anchorMotion(m){const anchors=m.anchor||[],first=m.frames.find(frame=>anchors.some(i=>frame[i]?.every(Number.isFinite)))||m.frames[0];let origin=[0,0,0],valid=anchors.map(i=>first[i]).filter(p=>p?.every(Number.isFinite));if(valid.length)origin=origin.map((_,axis)=>valid.reduce((s,p)=>s+p[axis],0)/valid.length);const move=p=>p?.every(Number.isFinite)?p.map((v,i)=>v-origin[i]):p;m.frames=m.frames.map(frame=>frame.map(move));m.ball=(m.ball||Array(m.frames.length).fill(null)).map(move);m.batPoses=(m.batPoses||[]).map(pose=>pose?{grip:move(pose.grip),barrel:move(pose.barrel)}:null);m.ground=(m.ground??0)-origin[2];return m}
+function alignmentRange(){if(!motions.length||ui.sync.value==='percentage')return null;const key=ui.sync.value,anchors=motions.map(m=>m.analysis?.events?.[key]);if(anchors.some(v=>!Number.isFinite(v)))return null;const start=Math.max(...motions.map((m,i)=>-anchors[i]/m.rate)),end=Math.min(...motions.map((m,i)=>(m.frames.length-1-anchors[i])/m.rate));return end>start?{start,end,anchors}:null}
+function frameAt(m){const range=alignmentRange();if(!range)return Math.min(m.frames.length-1,Math.round(phase*(m.frames.length-1)));const i=motions.indexOf(m),time=range.start+phase*(range.end-range.start);return Math.max(0,Math.min(m.frames.length-1,Math.round(range.anchors[i]+time*m.rate)))}
+function eventPhases(){if(!motions.length)return[];const m=motions[0],range=alignmentRange();return Object.entries(m.analysis?.events||{}).filter(([,frame])=>Number.isFinite(frame)).map(([name,frame])=>{const value=range?((frame-range.anchors[0])/m.rate-range.start)/(range.end-range.start):frame/(m.frames.length-1);return{name,frame,value}}).filter(event=>event.value>=0&&event.value<=1).sort((a,b)=>a.value-b.value)}
+function eventLabel(name){return({swingStart:'Swing start',peakSpeed:'Peak bat speed',contact:'Estimated contact',followThrough:'Follow-through'})[name]||name}
+function renderMetrics(){const rows=[['Peak barrel speed','peakBarrelSpeedMph','mph'],['At contact','contactBarrelSpeedMph','mph'],['Attack angle','attackAngleDeg','°'],['Bat direction','batDirectionDeg','°'],['Time to contact','timeToContactMs','ms'],['Recorded exit velocity','recordedExitVelocityMph','mph']];const value=(m,key,unit)=>Number.isFinite(m?.analysis?.metrics?.[key])?`${m.analysis.metrics[key]} ${unit}`:'—';ui.metrics.innerHTML=`<h2>Bat metrics</h2><table class="metric-table"><thead><tr><th>Measurement</th><th>Swing A</th>${motions[1]?'<th>Swing B</th><th>Δ</th>':''}</tr></thead><tbody>${rows.map(([label,key,unit])=>{const a=motions[0]?.analysis?.metrics?.[key],b=motions[1]?.analysis?.metrics?.[key],delta=Number.isFinite(a)&&Number.isFinite(b)?`${b-a>0?'+':''}${Math.round((b-a)*10)/10} ${unit}`:'—';return`<tr><td>${label}</td><td>${value(motions[0],key,unit)}</td>${motions[1]?`<td>${value(motions[1],key,unit)}</td><td>${delta}</td>`:''}</tr>`}).join('')}</tbody></table>`;ui.metrics.hidden=false}
+function renderLegend(){ui.legend.innerHTML=motions.map((m,i)=>`<span class="legend-item"><span class="dot ${i?'b':''}"></span>${m.name}</span>`).join('')+(ui.showBall.checked?'<span class="legend-item"><span class="dot ball"></span>Estimated ball</span>':'');ui.legend.hidden=false}
+async function load(){ui.load.disabled=true;showState('Loading motion data…','Parsing local C3D marker trajectories.');try{const paths=[ui.a.value,...(ui.compare.checked?[ui.b.value]:[])];motions=await Promise.all(paths.map(p=>json('/api/motion?path='+p)));motions=motions.map(anchorMotion);sceneBounds=bounds();phase=0;playing=true;ui.play.textContent='Ⅱ';ui.play.ariaLabel='Pause';renderLegend();renderMetrics();hideState();draw()}catch(e){showState('Could not load this trial',e.message)}finally{ui.load.disabled=false}}
+ui.load.onclick=load;
+function bounds(){const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];for(const motion of motions)for(const frame of motion.frames)for(const point of frame)if(point?.every(Number.isFinite))for(let axis=0;axis<3;axis++){low[axis]=Math.min(low[axis],point[axis]);high[axis]=Math.max(high[axis],point[axis])}if(!Number.isFinite(low[0]))return {center:[0,0,0],extent:1};const center=low.map((value,axis)=>(value+high[axis])/2);let extent=1;for(let axis=0;axis<3;axis++)extent=Math.max(extent,Math.abs(low[axis]-center[axis]),Math.abs(high[axis]-center[axis]));return {center,extent}}
+function project(p,w,h,b,orthographic=false){if(!p?.every(Number.isFinite))return null;let x=p[0]-b.center[0],y=p[1]-b.center[1],z=p[2]-b.center[2],ca=Math.cos(azimuth),sa=Math.sin(azimuth),ce=Math.cos(elevation),se=Math.sin(elevation),rx=ca*x-sa*y,d=sa*x+ca*y,ry=ce*z-se*d,rz=se*z+ce*d,perspective=orthographic?1:1+rz/(b.extent*20);if(perspective<=.08)return null;const scale=Math.min(w,h)*.41/b.extent*zoom/perspective;return[w/2+rx*scale,h/2-ry*scale,rz]}
+function line(a,b,color,width,alpha){if(!a||!b)return;ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke()}
+function drawTrail(points,color,width,alpha){if(points.length<2)return;ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);points.slice(1).forEach(point=>ctx.lineTo(point[0],point[1]));ctx.stroke()}
+function average(frame,index,names){const pts=names.map(name=>frame[index[name]]).filter(p=>p?.every(Number.isFinite));return pts.length?[0,1,2].map(axis=>pts.reduce((sum,p)=>sum+p[axis],0)/pts.length):null}
+function drawGround(b,w,h){const z=motions.reduce((sum,m)=>sum+m.ground,0)/motions.length,size=b.extent*1.2,step=size/6;for(let i=-6;i<=6;i++){const d=i*step;line(project([b.center[0]-size,b.center[1]+d,z],w,h,b),project([b.center[0]+size,b.center[1]+d,z],w,h,b),'#496175',1,i===0?.55:.22);line(project([b.center[0]+d,b.center[1]-size,z],w,h,b),project([b.center[0]+d,b.center[1]+size,z],w,h,b),'#496175',1,i===0?.55:.22)}}
+function drawBone(a,b,color,alpha){line(a,b,'#06111b',11,alpha*.8);line(a,b,color,6,alpha)}
+function drawBat(grip,barrel,color,alpha){
+  if(!grip||!barrel)return;
+  const dx=barrel[0]-grip[0],dy=barrel[1]-grip[1],length=Math.hypot(dx,dy);
+  if(length<4)return;
+  const ux=dx/length,uy=dy/length,nx=-uy,ny=ux,maxRadius=Math.max(4,Math.min(7,length*.038));
+  const at=(t,r,side=1)=>[grip[0]+ux*length*t+nx*r*side,grip[1]+uy*length*t+ny*r*side];
+  const profile=[[at(-.025,maxRadius*.62),at(.08,maxRadius*.28),at(.58,maxRadius*.32),at(.76,maxRadius),at(.98,maxRadius),at(1,maxRadius*.72)],[at(1,maxRadius*.72,-1),at(.98,maxRadius,-1),at(.76,maxRadius,-1),at(.58,maxRadius*.32,-1),at(.08,maxRadius*.28,-1),at(-.025,maxRadius*.62,-1)]].flat();
+  ctx.globalAlpha=alpha;ctx.fillStyle=color;ctx.strokeStyle='#071019';ctx.lineWidth=3;ctx.lineJoin='round';
+  ctx.beginPath();ctx.moveTo(...profile[0]);profile.slice(1).forEach(point=>ctx.lineTo(...point));ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.globalAlpha=alpha*.45;ctx.strokeStyle='#f8fafc';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(...at(.14,0));ctx.lineTo(...at(.94,0));ctx.stroke();ctx.globalAlpha=1;
+}
+function motionPrimitives(m,index,b,w,h){
+  const f=frameAt(m),frame=m.frames[f],lookup=Object.fromEntries(m.labels.map((label,i)=>[label,i]));
+  const color=COLORS[index],alpha=motions.length===2?.78:1,primitives=[];
+  const joints=Object.fromEntries(Object.entries(JOINTS).map(([name,labels])=>[name,project(average(frame,lookup,labels),w,h,b)]));
+  BONES.forEach(([start,end])=>{
+    const a=joints[start],c=joints[end];
+    if(a&&c)primitives.push({depth:(a[2]+c[2])/2,paint:()=>drawBone(a,c,color,alpha)});
+  });
+  Object.values(joints).forEach(point=>{
+    if(point)primitives.push({depth:point[2]-.002,paint:()=>{ctx.globalAlpha=alpha;ctx.fillStyle=color;ctx.strokeStyle='#06111b';ctx.lineWidth=2;ctx.beginPath();ctx.arc(point[0],point[1],5,0,Math.PI*2);ctx.fill();ctx.stroke()}});
+  });
+  if(joints.head)primitives.push({depth:joints.head[2]+.003,paint:()=>{ctx.globalAlpha=alpha*.32;ctx.beginPath();ctx.arc(joints.head[0],joints.head[1],15,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()}});
+
+  const pose=m.batPoses?.[f];
+  let grip3=pose?.grip,barrel3=pose?.barrel;
+  if(!grip3?.every(Number.isFinite)||!barrel3?.every(Number.isFinite)){
+    barrel3=m.barrel===null?null:frame[m.barrel];
+    grip3=m.grip===null||m.grip===undefined?null:frame[m.grip];
+  }
+  const grip=project(grip3,w,h,b),barrel=project(barrel3,w,h,b);
+  if(ui.trails.checked){
+    const start=Math.max(0,f-Math.round(m.rate*.18)),barrelTrail=[],handTrail=[];
+    for(let trailFrame=start;trailFrame<=f;trailFrame++){
+      const trailPose=m.batPoses?.[trailFrame],trailMarkers=m.frames[trailFrame];
+      const barrelPoint=project(trailPose?.barrel,w,h,b);
+      const hands=project(average(trailMarkers,lookup,['LFIN','RFIN','LWRA','RWRA']),w,h,b);
+      if(barrelPoint)barrelTrail.push(barrelPoint);
+      if(hands)handTrail.push(hands);
+    }
+    const trailDepth=[...barrelTrail,...handTrail].reduce((sum,p)=>sum+p[2],0)/Math.max(1,barrelTrail.length+handTrail.length);
+    primitives.push({depth:trailDepth+.01,paint:()=>{drawTrail(barrelTrail,color,3,alpha*.55);drawTrail(handTrail,color,2,alpha*.3)}});
+  }
+  if(grip&&barrel)primitives.push({depth:(grip[2]+barrel[2])/2,paint:()=>drawBat(grip,barrel,color,alpha)});
+  if(grip){
+    for(const hand of [joints.lh,joints.rh])if(hand)primitives.push({depth:(hand[2]+grip[2])/2,paint:()=>{line(hand,grip,'#06111b',8,alpha);line(hand,grip,color,4,alpha)}});
+  }
+  const ball=ui.showBall.checked?project(m.ball[f],w,h,b,true):null;
+  if(ball)primitives.push({depth:ball[2],paint:()=>{ctx.globalAlpha=.95;ctx.fillStyle='#f8fafc';ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.arc(ball[0],ball[1],8,0,Math.PI*2);ctx.fill();ctx.stroke()}});
+  return primitives;
+}
+function playbackDuration(){const range=alignmentRange();return range?range.end-range.start:(motions[0]?.frames.length-1||1)/(motions[0]?.rate||1)}
+function draw(){
+  const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);let g=ctx.createRadialGradient(w*.5,h*.45,20,w*.5,h*.5,Math.max(w,h)*.72);g.addColorStop(0,'#142638');g.addColorStop(1,'#071019');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);if(!motions.length)return;
+  drawGround(sceneBounds,w,h);motions.flatMap((m,i)=>motionPrimitives(m,i,sceneBounds,w,h)).sort((a,b)=>b.depth-a.depth).forEach(item=>item.paint());ctx.globalAlpha=1;ui.timeline.value=Math.round(phase*1000);ui.progress.textContent=Math.round(phase*100)+'%';
+  const primary=motions[0],f=frameAt(primary),contact=primary.analysis?.events?.contact,relative=Number.isFinite(contact)?(f-contact)/primary.rate:null;ui.time.textContent=relative===null?(f/primary.rate).toFixed(3)+' s':`${relative>=0?'+':''}${relative.toFixed(3)} s from contact`;ui.counter.textContent=`${f+1} / ${primary.frames.length}`;
+  const current=eventPhases().find(event=>Math.abs(event.frame-f)<=1);ui.eventBadge.hidden=!current;ui.eventBadge.textContent=current?eventLabel(current.name):'';
+}
+function resize(){const d=devicePixelRatio||1,r=canvas.getBoundingClientRect();canvas.width=Math.round(r.width*d);canvas.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0);draw()}
+function tick(now){if(playing&&motions.length){phase=(phase+(now-last)*Number(ui.speed.value)/1000/playbackDuration())%1}last=now;draw();requestAnimationFrame(tick)}
+function pause(){playing=false;ui.play.textContent='▶';ui.play.ariaLabel='Play'}
+ui.play.onclick=()=>{playing=!playing;ui.play.textContent=playing?'Ⅱ':'▶';ui.play.ariaLabel=playing?'Pause':'Play'};ui.timeline.oninput=()=>{phase=Number(ui.timeline.value)/1000;pause();draw()};
+function jumpEvent(direction){const events=eventPhases(),epsilon=.001,event=direction>0?events.find(item=>item.value>phase+epsilon):[...events].reverse().find(item=>item.value<phase-epsilon);if(event){phase=event.value;pause();draw()}}
+function stepFrame(direction){const frames=Math.max(1,Math.round(playbackDuration()*motions[0].rate));phase=Math.max(0,Math.min(1,phase+direction/frames));pause();draw()}
+ui.previousEvent.onclick=()=>jumpEvent(-1);ui.nextEvent.onclick=()=>jumpEvent(1);ui.stepBack.onclick=()=>stepFrame(-1);ui.stepForward.onclick=()=>stepFrame(1);ui.sync.onchange=()=>{phase=0;draw()};ui.trails.onchange=draw;ui.showBall.onchange=()=>{renderLegend();draw()};
+document.querySelectorAll('.viewbar button').forEach(button=>button.onclick=()=>{
+  [azimuth,elevation,zoom]=VIEWS[button.dataset.view];
+  document.querySelectorAll('.viewbar button').forEach(item=>item.classList.toggle('active',item===button));
+  draw();
+});
+canvas.onpointerdown=e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId)};canvas.onpointermove=e=>{if(!drag)return;azimuth+=(e.clientX-drag[0])*.008;elevation=Math.max(-1.2,Math.min(1.2,elevation+(e.clientY-drag[1])*.008));drag=[e.clientX,e.clientY];draw()};canvas.onpointerup=canvas.onpointercancel=()=>drag=null;canvas.onwheel=e=>{e.preventDefault();zoom=Math.max(.3,Math.min(3,zoom*Math.exp(-e.deltaY*.001)));draw()};
+addEventListener('resize',resize);resize();initialize();requestAnimationFrame(tick);
+</script>
+</body>
+</html>
