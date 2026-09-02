@@ -1,8 +1,8 @@
 # Hitting swing viewer
 
-Use the local browser viewer to play one hitting trial or compare two trials as an animated skeleton and reconstructed bat. The C3D data stays on your computer.
+Open the downloaded hitting C3Ds in your browser to watch one swing or overlay two trials. Everything runs locally. The C3D files never leave your computer.
 
-Mokka remains the better choice for general C3D inspection, signal plots, event editing, video, and force-plate analysis. This viewer focuses on a quick comparison of OpenBiomechanics hitting swings.
+Want to inspect the raw markers or signals? Open the trial in Mokka. It also handles signal plots, event editing, video, and force-plate data. This viewer stays focused on comparing swings in the browser.
 
 ## Prerequisites
 
