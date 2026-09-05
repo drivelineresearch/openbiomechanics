@@ -1,0 +1,15 @@
+# Install torch and gsplat first (see setup_env.sh): torch==2.6.0 torchvision==0.21.0 (cu124), gsplat==1.5.3.
+numpy
+scipy
+pillow
+imageio
+imageio-ffmpeg
+torchmetrics
+transformers<5         # BiRefNet athlete masks (ZhengPeng7/BiRefNet)
+timm
+einops
+kornia
+huggingface_hub
+mini-dust3r            # background depth with the calibrated poses held fixed
+ezc3d                  # Theia3D C3D
+gdown                  # public Drive downloads
