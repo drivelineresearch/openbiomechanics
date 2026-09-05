@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import importlib.util
 import pathlib
+import sys
 import tempfile
+import types
 import unittest
+from unittest import mock
 
 import numpy as np
 
@@ -65,6 +68,48 @@ class SwingVisualizerTests(unittest.TestCase):
         self.assertEqual(
             APP._bat_poses(points, ["Marker1", "Marker2"], [0, 1]), [None, None]
         )
+
+    def test_athlete_metadata_extracted_from_hitting_c3d(self) -> None:
+        trial_path = (
+            REPO
+            / "baseball_hitting"
+            / "data"
+            / "c3d"
+            / "000004"
+            / "000004_000103_75_236_R_003_972.c3d"
+        )
+        if trial_path.exists():
+            motion = APP.load_motion(trial_path)
+            self.assertEqual(motion["athleteHeightIn"], 75.0)
+            self.assertEqual(motion["athleteWeightLb"], 236.0)
+            self.assertEqual(motion["hitterSide"], "R")
+            self.assertEqual(motion["analysis"]["metrics"]["athleteHeightIn"], 75.0)
+            self.assertGreater(motion["ground"], 0.0)
+
+    def test_load_motion_extracts_metadata_from_synthetic_c3d(self) -> None:
+        labels = ["Marker1", "Marker2", "LASI", "RASI"]
+        points = np.zeros((4, len(labels), 5))
+        points[3, :, :] = 0.0
+        fake_ezc3d = types.SimpleNamespace(
+            c3d=lambda _path: {
+                "parameters": {
+                    "POINT": {
+                        "LABELS": {"value": labels},
+                        "RATE": {"value": [100.0]},
+                    }
+                },
+                "data": {"points": points},
+            }
+        )
+        with mock.patch.dict(sys.modules, {"ezc3d": fake_ezc3d}):
+            synthetic_path = pathlib.Path("000004_000103_75_236_R_003_972.c3d")
+            motion = APP.load_motion(synthetic_path)
+            self.assertEqual(motion["athleteHeightIn"], 75.0)
+            self.assertEqual(motion["athleteWeightLb"], 236.0)
+            self.assertEqual(motion["hitterSide"], "R")
+            self.assertEqual(
+                motion["analysis"]["metrics"]["recordedExitVelocityMph"], 97.2
+            )
 
 
 if __name__ == "__main__":

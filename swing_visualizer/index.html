@@ -44,8 +44,19 @@
     .state { position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;background:var(--bg);z-index:3; }
     .state[hidden] { display:none; }.state-card { max-width:520px; }.state h2 { margin:0 0 8px;font-size:22px; }.state p { color:var(--muted); }.state code { display:block;text-align:left;background:#111f2c;padding:12px 14px;border-radius:7px;color:#d9e9f7;overflow:auto; }
     .controls { background:var(--panel);border-top:1px solid var(--line);padding:13px 18px;display:grid;grid-template-columns:repeat(3,36px) minmax(150px,1fr) repeat(2,36px) auto auto;align-items:center;gap:8px; }
-    .transport { width:36px;height:36px;border:1px solid #38516a;border-radius:7px;background:#162a3d;color:white;cursor:pointer; }
-    input[type=range] { width:100%;accent-color:#d9eaff; }.counter { color:var(--muted);font-variant-numeric:tabular-nums;min-width:85px;text-align:right; }
+    .transport { width:36px;height:36px;border:1px solid #38516a;border-radius:7px;background:#162a3d;color:white;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;transition:background .15s,border-color .15s; }
+    .transport:hover { background:#223c54;border-color:#4b6b8b; }
+    .transport svg { display:block; }
+    .timeline-bar { position:relative;width:100%;height:36px;display:flex;align-items:center; }
+    .timeline-bar input[type=range] { position:relative;z-index:2;width:100%;margin:0;background:transparent;accent-color:#d9eaff;cursor:pointer; }
+    .timeline-markers { position:absolute;inset:0;pointer-events:none;z-index:1; }
+    .contact-marker { position:absolute;top:50%;transform:translate(-50%,-50%);width:16px;height:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:auto;cursor:pointer;transition:transform .15s ease; }
+    .contact-marker:hover { transform:translate(-50%,-50%) scale(1.25);z-index:10; }
+    .contact-marker-line { width:2px;height:18px;border-radius:1px;background:var(--marker-color,#34d6ff);box-shadow:0 0 6px var(--marker-color,#34d6ff); }
+    .contact-marker-pip { position:absolute;top:1px;width:7px;height:7px;border-radius:1.5px;transform:rotate(45deg);background:var(--marker-pip-top,var(--marker-color,#34d6ff));box-shadow:0 0 6px var(--marker-pip-top,var(--marker-color,#34d6ff)); }
+    .contact-marker-pip.bottom { top:auto;bottom:1px;background:var(--marker-pip-bottom,var(--marker-color,#34d6ff));box-shadow:0 0 6px var(--marker-pip-bottom,var(--marker-color,#34d6ff)); }
+    .contact-marker.dual .contact-marker-line { background:linear-gradient(180deg,#34d6ff 0%,#7bf178 100%);box-shadow:0 0 6px rgba(52,214,255,.5); }
+    .counter { color:var(--muted);font-variant-numeric:tabular-nums;min-width:85px;text-align:right; }
     .speed { width:auto;min-height:34px; }
     @media (max-width:760px) { body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr;grid-template-rows:auto minmax(520px,70vh)} aside{border-right:0;border-bottom:1px solid var(--line);padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px}aside header,.compare,.primary,.options,.metrics{grid-column:1/-1}.viewer{min-height:520px}.legend{left:14px;right:auto;top:auto;bottom:14px;flex-direction:column}.controls{grid-template-columns:repeat(3,36px) 1fr repeat(2,36px) auto}.speed{display:none} }
     @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; } }
@@ -61,6 +72,9 @@
     <button class="primary" id="load" type="button">Load skeleton</button>
     <div class="options">
       <div class="option-row"><label for="sync">Synchronize at</label><select id="sync"><option value="contact">Estimated contact</option><option value="swingStart">Swing start</option><option value="peakSpeed">Peak bat speed</option><option value="percentage">Recording percentage</option></select></div>
+      <div class="option-row"><label for="align">Spatial alignment</label><select id="align"><option value="hips" selected>Each other's hips (at sync)</option><option value="hipsStance">Each other's hips (stance)</option><option value="plate">Home plate</option></select></div>
+      <div class="option-row"><label for="matchSize">Match player size</label><input id="matchSize" type="checkbox" role="switch"></div>
+      <div class="option-row"><label for="showPlate">Show home plate</label><input id="showPlate" type="checkbox" role="switch" checked></div>
       <div class="option-row"><label for="trails">Motion trails</label><input id="trails" type="checkbox" role="switch" checked></div>
       <div class="option-row"><label for="showBall">Show estimated ball</label><input id="showBall" type="checkbox" role="switch"></div>
     </div>
@@ -82,12 +96,15 @@
       <div class="state" id="state"><div class="state-card"><h2>Finding local C3D trials…</h2><p>The files stay on this computer.</p></div></div>
     </div>
     <div class="controls">
-      <button class="transport" id="previousEvent" type="button" aria-label="Previous swing event">◀|</button>
-      <button class="transport" id="stepBack" type="button" aria-label="Previous frame">‹</button>
-      <button class="transport" id="play" type="button" aria-label="Pause">Ⅱ</button>
-      <input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Motion timeline">
-      <button class="transport" id="stepForward" type="button" aria-label="Next frame">›</button>
-      <button class="transport" id="nextEvent" type="button" aria-label="Next swing event">|▶</button>
+      <button class="transport" id="previousEvent" type="button" aria-label="Previous swing event"><svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="2" y="2.5" width="2" height="11" rx="0.75"/><path d="M13 3.24a.8.8 0 0 0-1.24-.67L5.5 6.94a.8.8 0 0 0 0 1.34l6.26 4.37a.8.8 0 0 0 1.24-.67V3.24z"/></svg></button>
+      <button class="transport" id="stepBack" type="button" aria-label="Previous frame"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5L5.5 8l4.5 4.5"/></svg></button>
+      <button class="transport" id="play" type="button" aria-label="Play"><svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.5 3.24a.8.8 0 0 1 1.24-.67l7.5 4.76a.8.8 0 0 1 0 1.34l-7.5 4.76a.8.8 0 0 1-1.24-.67V3.24z"/></svg></button>
+      <div class="timeline-bar">
+        <input id="timeline" type="range" min="0" max="1000" value="0" aria-label="Motion timeline">
+        <div class="timeline-markers" id="timelineMarkers" aria-hidden="true"></div>
+      </div>
+      <button class="transport" id="stepForward" type="button" aria-label="Next frame"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5"/></svg></button>
+      <button class="transport" id="nextEvent" type="button" aria-label="Next swing event"><svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M3 3.24a.8.8 0 0 1 1.24-.67l6.26 4.37a.8.8 0 0 1 0 1.34L4.24 12.65A.8.8 0 0 1 3 11.98V3.24z"/><rect x="12" y="2.5" width="2" height="11" rx="0.75"/></svg></button>
       <span class="counter" id="counter">0 / 0</span>
       <select class="speed" id="speed" aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
     </div>
@@ -95,8 +112,9 @@
 </div>
 <script>
 const $=s=>document.querySelector(s), canvas=$('#canvas'),ctx=canvas.getContext('2d');
-const ui={a:$('#trialA'),b:$('#trialB'),compare:$('#compare'),load:$('#load'),state:$('#state'),play:$('#play'),timeline:$('#timeline'),speed:$('#speed'),legend:$('#legend'),time:$('#time'),progress:$('#progress'),counter:$('#counter'),sync:$('#sync'),trails:$('#trails'),showBall:$('#showBall'),metrics:$('#metrics'),eventBadge:$('#eventBadge'),previousEvent:$('#previousEvent'),nextEvent:$('#nextEvent'),stepBack:$('#stepBack'),stepForward:$('#stepForward')};
-let motions=[],sceneBounds={center:[0,0,0],extent:1},playing=false,phase=0,last=performance.now(),azimuth=-Math.PI/2,elevation=.04,zoom=1,drag=null;
+const ui={a:$('#trialA'),b:$('#trialB'),compare:$('#compare'),load:$('#load'),state:$('#state'),play:$('#play'),timeline:$('#timeline'),timelineMarkers:$('#timelineMarkers'),speed:$('#speed'),legend:$('#legend'),time:$('#time'),progress:$('#progress'),counter:$('#counter'),sync:$('#sync'),align:$('#align'),matchSize:$('#matchSize'),showPlate:$('#showPlate'),trails:$('#trails'),showBall:$('#showBall'),metrics:$('#metrics'),eventBadge:$('#eventBadge'),previousEvent:$('#previousEvent'),nextEvent:$('#nextEvent'),stepBack:$('#stepBack'),stepForward:$('#stepForward')};
+let rawMotions=[],motions=[],sceneBounds={center:[0,0,0],extent:1},playing=false,phase=0,last=performance.now(),azimuth=-Math.PI/2,elevation=.04,zoom=1,drag=null;
+window.viewer={get motions(){return motions;},get rawMotions(){return rawMotions;},get phase(){return phase;},set phase(v){phase=v;pause();draw();},get alignMode(){return ui.align?ui.align.value:'hips';},set alignMode(v){if(ui.align){ui.align.value=v;updateAlignment();}},get matchSize(){return ui.matchSize?ui.matchSize.checked:false;},set matchSize(v){if(ui.matchSize){ui.matchSize.checked=v;updateAlignment();}},setView(az,el,z=1){azimuth=az;elevation=el;zoom=z;draw();},draw,pause};
 const VIEWS={catcher:[Math.PI/2,.08,1],pitcher:[-Math.PI/2,.04,1],left:[0,.06,1],right:[Math.PI,.06,1],top:[0,Math.PI/2-.02,.9]};
 const COLORS=['#34d6ff','#7bf178'];
 const JOINTS={
@@ -105,59 +123,244 @@ const JOINTS={
   lhip:['LASI','LPSI'],lk:['LKNE','LMKNE'],la:['LANK','LMANK'],lf:['LHEE','LTOE'],rhip:['RASI','RPSI'],rk:['RKNE','RMKNE'],ra:['RANK','RMANK'],rf:['RHEE','RTOE']
 };
 const BONES=[['head','neck'],['neck','chest'],['chest','pelvis'],['neck','ls'],['ls','le'],['le','lw'],['lw','lh'],['neck','rs'],['rs','re'],['re','rw'],['rw','rh'],['pelvis','lhip'],['lhip','lk'],['lk','la'],['la','lf'],['pelvis','rhip'],['rhip','rk'],['rk','ra'],['ra','rf'],['ls','rs'],['lhip','rhip']];
-function showState(title,message,command=''){ui.state.hidden=false;ui.state.innerHTML=`<div class="state-card"><h2>${title}</h2><p>${message}</p>${command?`<code>${command}</code>`:''}</div>`}
+function showState(title,message,command=''){if(ui.timelineMarkers)ui.timelineMarkers.innerHTML='';ui.state.hidden=false;ui.state.innerHTML=`<div class="state-card"><h2>${title}</h2><p>${message}</p>${command?`<code>${command}</code>`:''}</div>`}
 function hideState(){ui.state.hidden=true}
 async function json(url){const response=await fetch(url);const body=await response.json();if(!response.ok)throw new Error(body.error||`Request failed: ${response.status}`);return body}
 function fillSelect(select,trials){select.innerHTML=trials.map(t=>`<option value="${encodeURIComponent(t.path)}">${t.path}</option>`).join('')}
 async function initialize(){try{const {trials}=await json('/api/trials');if(!trials.length){showState('No hitting C3Ds found','Download the release data, then restart this application.','scripts/download_data.sh --discipline hitting');ui.load.disabled=true;return}fillSelect(ui.a,trials);fillSelect(ui.b,trials);if(trials.length>1)ui.b.selectedIndex=1;showState('Choose a swing','Select one trial—or enable a second overlay—then load the skeleton.');}catch(e){showState('Could not read local trials',e.message)}}
 ui.compare.onchange=()=>{ui.b.disabled=!ui.compare.checked;ui.load.textContent=ui.compare.checked?'Load overlay':'Load skeleton'};
-function anchorMotion(m){const anchors=m.anchor||[],first=m.frames.find(frame=>anchors.some(i=>frame[i]?.every(Number.isFinite)))||m.frames[0];let origin=[0,0,0],valid=anchors.map(i=>first[i]).filter(p=>p?.every(Number.isFinite));if(valid.length)origin=origin.map((_,axis)=>valid.reduce((s,p)=>s+p[axis],0)/valid.length);const move=p=>p?.every(Number.isFinite)?p.map((v,i)=>v-origin[i]):p;m.frames=m.frames.map(frame=>frame.map(move));m.ball=(m.ball||Array(m.frames.length).fill(null)).map(move);m.batPoses=(m.batPoses||[]).map(pose=>pose?{grip:move(pose.grip),barrel:move(pose.barrel)}:null);m.ground=(m.ground??0)-origin[2];return m}
+const HOME_PLATE_VERTS=[
+  [-0.4318,-0.2159],
+  [-0.2159,-0.4318],
+  [0.0,-0.4318],
+  [0.0,0.0],
+  [-0.2159,0.0]
+];
+function athleteHeight(raw){
+  if(Number.isFinite(raw.athleteHeightIn)&&raw.athleteHeightIn>0)return raw.athleteHeightIn;
+  const headIdxs=['LFHD','RFHD','LBHD','RBHD'].map(l=>raw.labels?.indexOf(l)).filter(i=>i>=0);
+  const ground=raw.ground??0;
+  let maxHeadZ=-Infinity;
+  for(const f of (raw.frames||[]).slice(0,Math.min(60,raw.frames.length))){
+    for(const idx of headIdxs){const p=f[idx];if(p&&Number.isFinite(p[2]))maxHeadZ=Math.max(maxHeadZ,p[2]);}
+  }
+  return Number.isFinite(maxHeadZ)?Math.round(((maxHeadZ-ground+0.09)/0.0254)*10)/10:null;
+}
+function computeHipOrigin(m,frameIndex){
+  const anchors=m.anchor||[];
+  let frame=null;
+  if(frameIndex!==undefined&&frameIndex!==null&&m.frames[frameIndex]){
+    const candidate=m.frames[frameIndex];
+    if(anchors.some(i=>candidate[i]?.every(Number.isFinite)))frame=candidate;
+  }
+  if(!frame){
+    frame=m.frames.find(f=>anchors.some(i=>f[i]?.every(Number.isFinite)))||m.frames[0];
+  }
+  let origin=[0,0,0];
+  const valid=anchors.map(i=>frame[i]).filter(p=>p?.every(Number.isFinite));
+  if(valid.length)origin=origin.map((_,axis)=>valid.reduce((s,p)=>s+p[axis],0)/valid.length);
+  return origin;
+}
+function updateAlignment(){
+  if(!rawMotions.length)return;
+  const mode=ui.align?ui.align.value:'hips';
+  const syncKey=ui.sync?ui.sync.value:'contact';
+  const matchSize=!!(ui.matchSize&&ui.matchSize.checked&&rawMotions.length>1);
+  const refHeight=matchSize?(athleteHeight(rawMotions[0])||70):null;
+  const scales=rawMotions.map((raw,idx)=>{
+    if(!matchSize||idx===0)return 1;
+    const h=athleteHeight(raw)||70;
+    return(refHeight&&h>0)?(refHeight/h):1;
+  });
+  motions=rawMotions.map((raw,idx)=>{
+    let anchorFrame=0;
+    if(mode==='hips'&&syncKey!=='percentage'){
+      const evt=raw.analysis?.events?.[syncKey];
+      if(Number.isFinite(evt))anchorFrame=evt;
+    }
+    const hipOrig=computeHipOrigin(raw,anchorFrame);
+    const scale=scales[idx];
+    const rawGround=raw.ground??0;
+    const centerX=hipOrig[0],centerY=hipOrig[1],centerZ=rawGround;
+    const scalePt=p=>{
+      if(!p||!p.every(Number.isFinite))return p;
+      if(scale===1)return p;
+      return[centerX+(p[0]-centerX)*scale,centerY+(p[1]-centerY)*scale,centerZ+(p[2]-centerZ)*scale];
+    };
+    let origin=[0,0,0];
+    if(mode==='hips'||mode==='hipsStance'){
+      origin=[centerX,centerY,0];
+    }
+    const move=p=>{
+      if(!p||!p.every(Number.isFinite))return p;
+      const sp=scale!==1?scalePt(p):p;
+      return[sp[0]-origin[0],sp[1]-origin[1],sp[2]-rawGround];
+    };
+    return{
+      ...raw,
+      origin,
+      scale,
+      frames:raw.frames.map(frame=>frame.map(move)),
+      ball:(raw.ball||Array(raw.frames.length).fill(null)).map(move),
+      batPoses:(raw.batPoses||[]).map(pose=>pose?{grip:move(pose.grip),barrel:move(pose.barrel)}:null),
+      ground:0
+    };
+  });
+  sceneBounds=bounds();
+  renderTimelineMarkers();
+  renderLegend();
+  renderMetrics();
+  draw();
+}
+function drawHomePlate(b,w,h){
+  if(!motions.length)return null;
+  const mode=ui.align?ui.align.value:'hips';
+  const groundZ=0;
+  const plateOffset=(mode==='hips'||mode==='hipsStance')?(motions[0]?.origin||[0,0,0]):[0,0,0];
+  const pts3D=HOME_PLATE_VERTS.map(([vx,vy])=>[vx-plateOffset[0],vy-plateOffset[1],groundZ+0.002]);
+  const pts2D=pts3D.map(p=>project(p,w,h,b,false));
+  if(pts2D.some(p=>!p))return null;
+  const avgDepth=pts2D.reduce((s,p)=>s+p[2],0)/pts2D.length;
+  return{
+    depth:avgDepth+0.015,
+    paint:()=>{
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(pts2D[0][0],pts2D[0][1]);
+      for(let i=1;i<pts2D.length;i++)ctx.lineTo(pts2D[i][0],pts2D[i][1]);
+      ctx.closePath();
+      ctx.fillStyle='#06111b';
+      ctx.fill();
+      ctx.strokeStyle='#06111b';
+      ctx.lineWidth=4;
+      ctx.lineJoin='round';
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(pts2D[0][0],pts2D[0][1]);
+      for(let i=1;i<pts2D.length;i++)ctx.lineTo(pts2D[i][0],pts2D[i][1]);
+      ctx.closePath();
+      ctx.fillStyle='#f8fafc';
+      ctx.globalAlpha=0.92;
+      ctx.fill();
+      ctx.strokeStyle='#cbd5e1';
+      ctx.lineWidth=1.2;
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+}
+function bounds(){
+  const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];
+  for(const motion of motions)for(const frame of motion.frames)for(const point of frame)if(point?.every(Number.isFinite))for(let axis=0;axis<3;axis++){low[axis]=Math.min(low[axis],point[axis]);high[axis]=Math.max(high[axis],point[axis])}
+  if(motions.length&&(!ui.showPlate||ui.showPlate.checked)){
+    const mode=ui.align?ui.align.value:'hips',groundZ=0;
+    const plateOffset=(mode==='hips'||mode==='hipsStance')?(motions[0]?.origin||[0,0,0]):[0,0,0];
+    for(const [vx,vy] of HOME_PLATE_VERTS){const px=vx-plateOffset[0],py=vy-plateOffset[1],pz=groundZ;low[0]=Math.min(low[0],px);high[0]=Math.max(high[0],px);low[1]=Math.min(low[1],py);high[1]=Math.max(high[1],py);low[2]=Math.min(low[2],pz);high[2]=Math.max(high[2],pz);}
+  }
+  const center=low.map((v,i)=>(v+high[i])/2),extent=Math.max(...low.map((v,i)=>Math.max(0.6,(high[i]-v)/2)));
+  return{center,extent};
+}
+function drawGround(b,w,h){
+  const z=0,size=b.extent*1.2,step=size/6;
+  for(let i=-6;i<=6;i++){
+    const d=i*step;
+    line(project([b.center[0]-size,b.center[1]+d,z],w,h,b),project([b.center[0]+size,b.center[1]+d,z],w,h,b),'#496175',1,i===0?.55:.22);
+    line(project([b.center[0]+d,b.center[1]-size,z],w,h,b),project([b.center[0]+d,b.center[1]+size,z],w,h,b),'#496175',1,i===0?.55:.22);
+  }
+}
 function alignmentRange(){if(!motions.length||ui.sync.value==='percentage')return null;const key=ui.sync.value,anchors=motions.map(m=>m.analysis?.events?.[key]);if(anchors.some(v=>!Number.isFinite(v)))return null;const start=Math.max(...motions.map((m,i)=>-anchors[i]/m.rate)),end=Math.min(...motions.map((m,i)=>(m.frames.length-1-anchors[i])/m.rate));return end>start?{start,end,anchors}:null}
 function frameAt(m){const range=alignmentRange();if(!range)return Math.min(m.frames.length-1,Math.round(phase*(m.frames.length-1)));const i=motions.indexOf(m),time=range.start+phase*(range.end-range.start);return Math.max(0,Math.min(m.frames.length-1,Math.round(range.anchors[i]+time*m.rate)))}
 function eventPhases(){if(!motions.length)return[];const m=motions[0],range=alignmentRange();return Object.entries(m.analysis?.events||{}).filter(([,frame])=>Number.isFinite(frame)).map(([name,frame])=>{const value=range?((frame-range.anchors[0])/m.rate-range.start)/(range.end-range.start):frame/(m.frames.length-1);return{name,frame,value}}).filter(event=>event.value>=0&&event.value<=1).sort((a,b)=>a.value-b.value)}
 function eventLabel(name){return({swingStart:'Swing start',peakSpeed:'Peak bat speed',contact:'Estimated contact',followThrough:'Follow-through'})[name]||name}
-function renderMetrics(){const rows=[['Peak barrel speed','peakBarrelSpeedMph','mph'],['At contact','contactBarrelSpeedMph','mph'],['Attack angle','attackAngleDeg','°'],['Bat direction','batDirectionDeg','°'],['Time to contact','timeToContactMs','ms'],['Recorded exit velocity','recordedExitVelocityMph','mph']];const value=(m,key,unit)=>Number.isFinite(m?.analysis?.metrics?.[key])?`${m.analysis.metrics[key]} ${unit}`:'—';ui.metrics.innerHTML=`<h2>Bat metrics</h2><table class="metric-table"><thead><tr><th>Measurement</th><th>Swing A</th>${motions[1]?'<th>Swing B</th><th>Δ</th>':''}</tr></thead><tbody>${rows.map(([label,key,unit])=>{const a=motions[0]?.analysis?.metrics?.[key],b=motions[1]?.analysis?.metrics?.[key],delta=Number.isFinite(a)&&Number.isFinite(b)?`${b-a>0?'+':''}${Math.round((b-a)*10)/10} ${unit}`:'—';return`<tr><td>${label}</td><td>${value(motions[0],key,unit)}</td>${motions[1]?`<td>${value(motions[1],key,unit)}</td><td>${delta}</td>`:''}</tr>`}).join('')}</tbody></table>`;ui.metrics.hidden=false}
-function renderLegend(){ui.legend.innerHTML=motions.map((m,i)=>`<span class="legend-item"><span class="dot ${i?'b':''}"></span>${m.name}</span>`).join('')+(ui.showBall.checked?'<span class="legend-item"><span class="dot ball"></span>Estimated ball</span>':'');ui.legend.hidden=false}
-async function load(){ui.load.disabled=true;showState('Loading motion data…','Parsing local C3D marker trajectories.');try{const paths=[ui.a.value,...(ui.compare.checked?[ui.b.value]:[])];motions=await Promise.all(paths.map(p=>json('/api/motion?path='+p)));motions=motions.map(anchorMotion);sceneBounds=bounds();phase=0;playing=true;ui.play.textContent='Ⅱ';ui.play.ariaLabel='Pause';renderLegend();renderMetrics();hideState();draw()}catch(e){showState('Could not load this trial',e.message)}finally{ui.load.disabled=false}}
+function renderMetrics(){const rows=[['Athlete height','athleteHeightIn','in'],['Peak barrel speed','peakBarrelSpeedMph','mph'],['At contact','contactBarrelSpeedMph','mph'],['Attack angle','attackAngleDeg','°'],['Bat direction','batDirectionDeg','°'],['Time to contact','timeToContactMs','ms'],['Recorded exit velocity','recordedExitVelocityMph','mph']];const value=(m,key,unit)=>{const v=m?.analysis?.metrics?.[key];if(!Number.isFinite(v))return '—';if(key==='athleteHeightIn'&&m===motions[1]&&Number.isFinite(m.scale)&&Math.abs(m.scale-1)>0.001){const scaledVal=(v*m.scale).toFixed(1);return `${v} ${unit} (${scaledVal} ${unit})`;}return `${v} ${unit}`;};ui.metrics.innerHTML=`<h2>Bat metrics</h2><table class="metric-table"><thead><tr><th>Measurement</th><th>Swing A</th>${motions[1]?'<th>Swing B</th><th>Δ</th>':''}</tr></thead><tbody>${rows.map(([label,key,unit])=>{const a=motions[0]?.analysis?.metrics?.[key],b=motions[1]?.analysis?.metrics?.[key],delta=Number.isFinite(a)&&Number.isFinite(b)?`${(b-a)>=0?'+':''}${(b-a).toFixed(1)} ${unit}`:'—';return `<tr><td>${label}</td><td>${value(motions[0],key,unit)}</td>${motions[1]?`<td>${value(motions[1],key,unit)}</td><td>${delta}</td>`:''}</tr>`;}).join('')}</tbody></table>`;ui.metrics.hidden=false}
+function renderLegend(){ui.legend.innerHTML=motions.map((m,i)=>{let label=m.name;const h=m.athleteHeightIn;const heightStr=Number.isFinite(h)?`${h}″`:'';let scaleStr='';if(i>0&&Number.isFinite(m.scale)&&Math.abs(m.scale-1)>0.001){scaleStr=` · scaled ${m.scale.toFixed(2)}×`;}const extra=(heightStr||scaleStr)?` (${heightStr}${scaleStr})`:'';return `<span class="legend-item"><span class="dot ${i?'b':''}"></span>${label}${extra}</span>`;}).join('')+(ui.showBall.checked?'<span class="legend-item"><span class="dot ball"></span>Estimated ball</span>':'');ui.legend.hidden=false}
+const ICONS={play:`<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.5 3.24a.8.8 0 0 1 1.24-.67l7.5 4.76a.8.8 0 0 1 0 1.34l-7.5 4.76a.8.8 0 0 1-1.24-.67V3.24z"/></svg>`,pause:`<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="3.5" y="2.5" width="3" height="11" rx="1"/><rect x="9.5" y="2.5" width="3" height="11" rx="1"/></svg>`};
+function setPlaying(state){playing=state;ui.play.innerHTML=playing?ICONS.pause:ICONS.play;ui.play.setAttribute('aria-label',playing?'Pause':'Play');}
+function phaseForFrame(motionIndex,frame){if(!motions[motionIndex]||!Number.isFinite(frame))return null;const m=motions[motionIndex],range=alignmentRange();const value=range?((frame-range.anchors[motionIndex])/m.rate-range.start)/(range.end-range.start):frame/(m.frames.length-1);return(value>=0&&value<=1)?value:null;}
+function renderTimelineMarkers(){ui.timelineMarkers.innerHTML='';if(!motions.length)return;const contactA=motions[0]?.analysis?.events?.contact,phaseA=phaseForFrame(0,contactA);const contactB=motions[1]?.analysis?.events?.contact,phaseB=motions[1]?phaseForFrame(1,contactB):null;const seekTo=targetPhase=>{phase=targetPhase;pause();draw();};if(phaseA!==null&&phaseB!==null&&Math.abs(phaseA-phaseB)<=0.006){const marker=document.createElement('div');marker.className='contact-marker dual';marker.style.setProperty('--marker-pip-top',COLORS[0]);marker.style.setProperty('--marker-pip-bottom',COLORS[1]);marker.style.left=`calc(8px + ${phaseA} * (100% - 16px))`;marker.title=`Estimated contact: Swings A & B (synchronized · frames ${contactA+1} & ${contactB+1})`;marker.innerHTML='<div class="contact-marker-pip"></div><div class="contact-marker-line"></div><div class="contact-marker-pip bottom"></div>';marker.onclick=()=>seekTo(phaseA);ui.timelineMarkers.appendChild(marker);return;}[[0,contactA,phaseA],[1,contactB,phaseB]].forEach(([idx,frame,val])=>{if(val===null)return;const marker=document.createElement('div');marker.className='contact-marker';marker.style.setProperty('--marker-color',COLORS[idx]);marker.style.left=`calc(8px + ${val} * (100% - 16px))`;const label=idx===0?'Swing A':'Swing B';marker.title=`Estimated contact: ${label} (frame ${frame+1})`;marker.innerHTML='<div class="contact-marker-pip"></div><div class="contact-marker-line"></div><div class="contact-marker-pip bottom"></div>';marker.onclick=()=>seekTo(val);ui.timelineMarkers.appendChild(marker);});}
+async function load(){ui.load.disabled=true;showState('Loading motion data…','Parsing local C3D marker trajectories.');try{const paths=[ui.a.value,...(ui.compare.checked?[ui.b.value]:[])];rawMotions=await Promise.all(paths.map(p=>json('/api/motion?path='+p)));updateAlignment();phase=0;setPlaying(true);renderLegend();renderMetrics();renderTimelineMarkers();hideState();draw()}catch(e){showState('Could not load this trial',e.message)}finally{ui.load.disabled=false}}
 ui.load.onclick=load;
-function bounds(){const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];for(const motion of motions)for(const frame of motion.frames)for(const point of frame)if(point?.every(Number.isFinite))for(let axis=0;axis<3;axis++){low[axis]=Math.min(low[axis],point[axis]);high[axis]=Math.max(high[axis],point[axis])}if(!Number.isFinite(low[0]))return {center:[0,0,0],extent:1};const center=low.map((value,axis)=>(value+high[axis])/2);let extent=1;for(let axis=0;axis<3;axis++)extent=Math.max(extent,Math.abs(low[axis]-center[axis]),Math.abs(high[axis]-center[axis]));return {center,extent}}
 function project(p,w,h,b,orthographic=false){if(!p?.every(Number.isFinite))return null;let x=p[0]-b.center[0],y=p[1]-b.center[1],z=p[2]-b.center[2],ca=Math.cos(azimuth),sa=Math.sin(azimuth),ce=Math.cos(elevation),se=Math.sin(elevation),rx=ca*x-sa*y,d=sa*x+ca*y,ry=ce*z-se*d,rz=se*z+ce*d,perspective=orthographic?1:1+rz/(b.extent*20);if(perspective<=.08)return null;const scale=Math.min(w,h)*.41/b.extent*zoom/perspective;return[w/2+rx*scale,h/2-ry*scale,rz]}
 function line(a,b,color,width,alpha){if(!a||!b)return;ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke()}
 function drawTrail(points,color,width,alpha){if(points.length<2)return;ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);points.slice(1).forEach(point=>ctx.lineTo(point[0],point[1]));ctx.stroke()}
 function average(frame,index,names){const pts=names.map(name=>frame[index[name]]).filter(p=>p?.every(Number.isFinite));return pts.length?[0,1,2].map(axis=>pts.reduce((sum,p)=>sum+p[axis],0)/pts.length):null}
-function drawGround(b,w,h){const z=motions.reduce((sum,m)=>sum+m.ground,0)/motions.length,size=b.extent*1.2,step=size/6;for(let i=-6;i<=6;i++){const d=i*step;line(project([b.center[0]-size,b.center[1]+d,z],w,h,b),project([b.center[0]+size,b.center[1]+d,z],w,h,b),'#496175',1,i===0?.55:.22);line(project([b.center[0]+d,b.center[1]-size,z],w,h,b),project([b.center[0]+d,b.center[1]+size,z],w,h,b),'#496175',1,i===0?.55:.22)}}
 function drawBone(a,b,color,alpha){line(a,b,'#06111b',11,alpha*.8);line(a,b,color,6,alpha)}
 function drawBat(grip,barrel,color,alpha){
   if(!grip||!barrel)return;
   const dx=barrel[0]-grip[0],dy=barrel[1]-grip[1],length=Math.hypot(dx,dy);
   if(length<4)return;
-  const ux=dx/length,uy=dy/length,nx=-uy,ny=ux,maxRadius=Math.max(4,Math.min(7,length*.038));
-  const at=(t,r,side=1)=>[grip[0]+ux*length*t+nx*r*side,grip[1]+uy*length*t+ny*r*side];
-  const profile=[[at(-.025,maxRadius*.62),at(.08,maxRadius*.28),at(.58,maxRadius*.32),at(.76,maxRadius),at(.98,maxRadius),at(1,maxRadius*.72)],[at(1,maxRadius*.72,-1),at(.98,maxRadius,-1),at(.76,maxRadius,-1),at(.58,maxRadius*.32,-1),at(.08,maxRadius*.28,-1),at(-.025,maxRadius*.62,-1)]].flat();
-  ctx.globalAlpha=alpha;ctx.fillStyle=color;ctx.strokeStyle='#071019';ctx.lineWidth=3;ctx.lineJoin='round';
-  ctx.beginPath();ctx.moveTo(...profile[0]);profile.slice(1).forEach(point=>ctx.lineTo(...point));ctx.closePath();ctx.fill();ctx.stroke();
-  ctx.globalAlpha=alpha*.45;ctx.strokeStyle='#f8fafc';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(...at(.14,0));ctx.lineTo(...at(.94,0));ctx.stroke();ctx.globalAlpha=1;
+  const ux=dx/length,uy=dy/length,nx=-uy,ny=ux;
+  const r=Math.max(4,Math.min(13,length*0.042));
+  const at=(t,w,side=1)=>[grip[0]+ux*length*t+nx*w*side,grip[1]+uy*length*t+ny*w*side];
+  const profile=[
+    at(0,r*0.7),
+    at(0.025,r*0.42),
+    at(0.35,r*0.44),
+    at(0.55,r*0.7),
+    at(0.68,r),
+    at(0.96,r),
+    at(1,r*0.75),
+    at(1,r*0.75,-1),
+    at(0.96,r,-1),
+    at(0.68,r,-1),
+    at(0.55,r*0.7,-1),
+    at(0.35,r*0.44,-1),
+    at(0.025,r*0.42,-1),
+    at(0,r*0.7,-1)
+  ];
+  ctx.globalAlpha=alpha;
+  const batGrad=ctx.createLinearGradient(grip[0],grip[1],barrel[0],barrel[1]);
+  batGrad.addColorStop(0,'#152535');
+  batGrad.addColorStop(0.35,'#1e3549');
+  batGrad.addColorStop(0.7,'#26435c');
+  batGrad.addColorStop(1,'#2c4f6d');
+  ctx.fillStyle=batGrad;
+  ctx.strokeStyle=color;
+  ctx.lineWidth=2.2;
+  ctx.lineJoin='round';
+  ctx.beginPath();ctx.moveTo(...profile[0]);profile.slice(1).forEach(p=>ctx.lineTo(...p));ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.globalAlpha=alpha*0.4;ctx.strokeStyle='#ffffff';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(...at(0.35,0));ctx.lineTo(...at(0.95,0));ctx.stroke();
+  ctx.globalAlpha=1;
 }
 function motionPrimitives(m,index,b,w,h){
   const f=frameAt(m),frame=m.frames[f],lookup=Object.fromEntries(m.labels.map((label,i)=>[label,i]));
   const color=COLORS[index],alpha=motions.length===2?.78:1,primitives=[];
-  const joints=Object.fromEntries(Object.entries(JOINTS).map(([name,labels])=>[name,project(average(frame,lookup,labels),w,h,b)]));
-  BONES.forEach(([start,end])=>{
-    const a=joints[start],c=joints[end];
-    if(a&&c)primitives.push({depth:(a[2]+c[2])/2,paint:()=>drawBone(a,c,color,alpha)});
-  });
-  Object.values(joints).forEach(point=>{
-    if(point)primitives.push({depth:point[2]-.002,paint:()=>{ctx.globalAlpha=alpha;ctx.fillStyle=color;ctx.strokeStyle='#06111b';ctx.lineWidth=2;ctx.beginPath();ctx.arc(point[0],point[1],5,0,Math.PI*2);ctx.fill();ctx.stroke()}});
-  });
-  if(joints.head)primitives.push({depth:joints.head[2]+.003,paint:()=>{ctx.globalAlpha=alpha*.32;ctx.beginPath();ctx.arc(joints.head[0],joints.head[1],15,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()}});
-
   const pose=m.batPoses?.[f];
   let grip3=pose?.grip,barrel3=pose?.barrel;
   if(!grip3?.every(Number.isFinite)||!barrel3?.every(Number.isFinite)){
     barrel3=m.barrel===null?null:frame[m.barrel];
     grip3=m.grip===null||m.grip===undefined?null:frame[m.grip];
   }
+  const joints=Object.fromEntries(Object.entries(JOINTS).map(([name,labels])=>[name,project(average(frame,lookup,labels),w,h,b)]));
+  if(grip3&&barrel3&&grip3.every(Number.isFinite)&&barrel3.every(Number.isFinite)){
+    const delta=[barrel3[0]-grip3[0],barrel3[1]-grip3[1],barrel3[2]-grip3[2]];
+    const batLength=Math.hypot(...delta);
+    if(batLength>0.1){
+      const u_axis=delta.map(v=>v/batLength);
+      const lfin3=average(frame,lookup,['LFIN']),rfin3=average(frame,lookup,['RFIN']);
+      const lwra3=average(frame,lookup,['LWRA','LWRB']),rwra3=average(frame,lookup,['RWRA','RWRB']);
+      const refLeft=lfin3||lwra3,refRight=rfin3||rwra3;
+      if(refLeft){
+        const tL=Math.max(0.04,Math.min(0.24,[0,1,2].reduce((s,i)=>s+(refLeft[i]-grip3[i])*u_axis[i],0)));
+        joints.lh=project(grip3.map((v,i)=>v+u_axis[i]*tL),w,h,b);
+      }
+      if(refRight){
+        const tR=Math.max(0.12,Math.min(0.32,[0,1,2].reduce((s,i)=>s+(refRight[i]-grip3[i])*u_axis[i],0)));
+        joints.rh=project(grip3.map((v,i)=>v+u_axis[i]*tR),w,h,b);
+      }
+    }
+  }
   const grip=project(grip3,w,h,b),barrel=project(barrel3,w,h,b);
+  BONES.forEach(([start,end])=>{
+    const a=joints[start],c=joints[end];
+    if(a&&c)primitives.push({depth:(a[2]+c[2])/2,paint:()=>drawBone(a,c,color,alpha)});
+  });
+  Object.entries(joints).forEach(([name,point])=>{
+    if(!point||(grip&&barrel&&(name==='lh'||name==='rh')))return;
+    primitives.push({depth:point[2]-.002,paint:()=>{ctx.globalAlpha=alpha;ctx.fillStyle=color;ctx.strokeStyle='#06111b';ctx.lineWidth=2;ctx.beginPath();ctx.arc(point[0],point[1],5,0,Math.PI*2);ctx.fill();ctx.stroke()}});
+  });
+  if(joints.head)primitives.push({depth:joints.head[2]+.003,paint:()=>{ctx.globalAlpha=alpha*.32;ctx.beginPath();ctx.arc(joints.head[0],joints.head[1],15,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()}});
   if(ui.trails.checked){
     const start=Math.max(0,f-Math.round(m.rate*.18)),barrelTrail=[],handTrail=[];
     for(let trailFrame=start;trailFrame<=f;trailFrame++){
@@ -170,9 +373,21 @@ function motionPrimitives(m,index,b,w,h){
     const trailDepth=[...barrelTrail,...handTrail].reduce((sum,p)=>sum+p[2],0)/Math.max(1,barrelTrail.length+handTrail.length);
     primitives.push({depth:trailDepth+.01,paint:()=>{drawTrail(barrelTrail,color,3,alpha*.55);drawTrail(handTrail,color,2,alpha*.3)}});
   }
-  if(grip&&barrel)primitives.push({depth:(grip[2]+barrel[2])/2,paint:()=>drawBat(grip,barrel,color,alpha)});
-  if(grip){
-    for(const hand of [joints.lh,joints.rh])if(hand)primitives.push({depth:(hand[2]+grip[2])/2,paint:()=>{line(hand,grip,'#06111b',8,alpha);line(hand,grip,color,4,alpha)}});
+  if(grip&&barrel){
+    primitives.push({depth:(grip[2]+barrel[2])/2,paint:()=>drawBat(grip,barrel,color,alpha)});
+    const dx=barrel[0]-grip[0],dy=barrel[1]-grip[1],len=Math.hypot(dx,dy);
+    const nx=len>0?-dy/len:0,ny=len>0?dx/len:0;
+    const gripDepth=Math.min(grip[2],barrel[2])-0.005;
+    [joints.lh,joints.rh].forEach(hPoint=>{
+      if(!hPoint)return;
+      primitives.push({depth:gripDepth,paint:()=>{
+        const w=6.5;
+        line([hPoint[0]-nx*w,hPoint[1]-ny*w],[hPoint[0]+nx*w,hPoint[1]+ny*w],'#06111b',9,alpha*.9);
+        line([hPoint[0]-nx*w,hPoint[1]-ny*w],[hPoint[0]+nx*w,hPoint[1]+ny*w],color,5,alpha);
+        ctx.globalAlpha=alpha;ctx.fillStyle=color;ctx.strokeStyle='#06111b';ctx.lineWidth=2;
+        ctx.beginPath();ctx.arc(hPoint[0],hPoint[1],4.5,0,Math.PI*2);ctx.fill();ctx.stroke();
+      }});
+    });
   }
   const ball=ui.showBall.checked?project(m.ball[f],w,h,b,true):null;
   if(ball)primitives.push({depth:ball[2],paint:()=>{ctx.globalAlpha=.95;ctx.fillStyle='#f8fafc';ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.arc(ball[0],ball[1],8,0,Math.PI*2);ctx.fill();ctx.stroke()}});
@@ -181,17 +396,17 @@ function motionPrimitives(m,index,b,w,h){
 function playbackDuration(){const range=alignmentRange();return range?range.end-range.start:(motions[0]?.frames.length-1||1)/(motions[0]?.rate||1)}
 function draw(){
   const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);let g=ctx.createRadialGradient(w*.5,h*.45,20,w*.5,h*.5,Math.max(w,h)*.72);g.addColorStop(0,'#142638');g.addColorStop(1,'#071019');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);if(!motions.length)return;
-  drawGround(sceneBounds,w,h);motions.flatMap((m,i)=>motionPrimitives(m,i,sceneBounds,w,h)).sort((a,b)=>b.depth-a.depth).forEach(item=>item.paint());ctx.globalAlpha=1;ui.timeline.value=Math.round(phase*1000);ui.progress.textContent=Math.round(phase*100)+'%';
+  drawGround(sceneBounds,w,h);const primitives=motions.flatMap((m,i)=>motionPrimitives(m,i,sceneBounds,w,h));if(ui.showPlate.checked){const plate=drawHomePlate(sceneBounds,w,h);if(plate)primitives.push(plate);}primitives.sort((a,b)=>b.depth-a.depth).forEach(item=>item.paint());ctx.globalAlpha=1;ui.timeline.value=Math.round(phase*1000);ui.progress.textContent=Math.round(phase*100)+'%';
   const primary=motions[0],f=frameAt(primary),contact=primary.analysis?.events?.contact,relative=Number.isFinite(contact)?(f-contact)/primary.rate:null;ui.time.textContent=relative===null?(f/primary.rate).toFixed(3)+' s':`${relative>=0?'+':''}${relative.toFixed(3)} s from contact`;ui.counter.textContent=`${f+1} / ${primary.frames.length}`;
   const current=eventPhases().find(event=>Math.abs(event.frame-f)<=1);ui.eventBadge.hidden=!current;ui.eventBadge.textContent=current?eventLabel(current.name):'';
 }
 function resize(){const d=devicePixelRatio||1,r=canvas.getBoundingClientRect();canvas.width=Math.round(r.width*d);canvas.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0);draw()}
 function tick(now){if(playing&&motions.length){phase=(phase+(now-last)*Number(ui.speed.value)/1000/playbackDuration())%1}last=now;draw();requestAnimationFrame(tick)}
-function pause(){playing=false;ui.play.textContent='▶';ui.play.ariaLabel='Play'}
-ui.play.onclick=()=>{playing=!playing;ui.play.textContent=playing?'Ⅱ':'▶';ui.play.ariaLabel=playing?'Pause':'Play'};ui.timeline.oninput=()=>{phase=Number(ui.timeline.value)/1000;pause();draw()};
+function pause(){setPlaying(false);}
+ui.play.onclick=()=>{setPlaying(!playing);};ui.timeline.oninput=()=>{phase=Number(ui.timeline.value)/1000;pause();draw()};
 function jumpEvent(direction){const events=eventPhases(),epsilon=.001,event=direction>0?events.find(item=>item.value>phase+epsilon):[...events].reverse().find(item=>item.value<phase-epsilon);if(event){phase=event.value;pause();draw()}}
 function stepFrame(direction){const frames=Math.max(1,Math.round(playbackDuration()*motions[0].rate));phase=Math.max(0,Math.min(1,phase+direction/frames));pause();draw()}
-ui.previousEvent.onclick=()=>jumpEvent(-1);ui.nextEvent.onclick=()=>jumpEvent(1);ui.stepBack.onclick=()=>stepFrame(-1);ui.stepForward.onclick=()=>stepFrame(1);ui.sync.onchange=()=>{phase=0;draw()};ui.trails.onchange=draw;ui.showBall.onchange=()=>{renderLegend();draw()};
+ui.previousEvent.onclick=()=>jumpEvent(-1);ui.nextEvent.onclick=()=>jumpEvent(1);ui.stepBack.onclick=()=>stepFrame(-1);ui.stepForward.onclick=()=>stepFrame(1);ui.sync.onchange=()=>{updateAlignment();phase=0;renderTimelineMarkers();draw()};ui.align.onchange=()=>{updateAlignment();};if(ui.matchSize)ui.matchSize.onchange=()=>{updateAlignment();};ui.showPlate.onchange=()=>{sceneBounds=bounds();draw();};ui.trails.onchange=draw;ui.showBall.onchange=()=>{renderLegend();draw()};
 document.querySelectorAll('.viewbar button').forEach(button=>button.onclick=()=>{
   [azimuth,elevation,zoom]=VIEWS[button.dataset.view];
   document.querySelectorAll('.viewbar button').forEach(item=>item.classList.toggle('active',item===button));

@@ -139,6 +139,16 @@ def _bat_poses(
         for label in ("LFIN", "RFIN", "LWRA", "RWRA")
         if label in labels
     ]
+    m1_idx = labels.index("Marker1") if "Marker1" in labels else -1
+    m2_idx = labels.index("Marker2") if "Marker2" in labels else -1
+    m3_idx = labels.index("Marker3") if "Marker3" in labels else -1
+
+    def _valid(idx: int, frame: int) -> bool:
+        if idx < 0:
+            return False
+        col = raw_points[:, idx, frame]
+        return bool(np.isfinite(col[:3]).all() and (len(col) <= 3 or col[3] >= 0))
+
     poses: list[dict[str, list[float]] | None] = []
     for frame in range(raw_points.shape[2]):
         bat_points = raw_points[:3, bat, frame].T
@@ -149,6 +159,29 @@ def _bat_poses(
         if len(bat_points) < 2:
             poses.append(None)
             continue
+
+        if _valid(m1_idx, frame):
+            distal_pts = [
+                raw_points[:3, idx, frame]
+                for idx in (m2_idx, m3_idx)
+                if _valid(idx, frame)
+            ]
+            if distal_pts:
+                grip = raw_points[:3, m1_idx, frame]
+                distal = np.mean(distal_pts, axis=0)
+                delta = distal - grip
+                length = float(np.linalg.norm(delta))
+                if length > 0.1:
+                    direction = delta / length
+                    barrel = grip + direction * 0.864
+                    poses.append(
+                        {
+                            "grip": [round(float(value), 4) for value in grip],
+                            "barrel": [round(float(value), 4) for value in barrel],
+                        }
+                    )
+                    continue
+
         center = bat_points.mean(axis=0)
         _, _, axes = np.linalg.svd(bat_points - center, full_matrices=False)
         axis = axes[0]
@@ -165,8 +198,6 @@ def _bat_poses(
             grip, direction = low, axis
         else:
             grip, direction = high, -axis
-        # OBP hitting metadata reports bats around 32–34 inches. The rigid-body
-        # markers span only part of the implement, so render a full 34-inch bat.
         barrel = grip + direction * 0.864
         poses.append(
             {
@@ -307,6 +338,36 @@ def load_motion(path: pathlib.Path) -> dict[str, Any]:
     analysis = _motion_analysis(path, bat_poses, None, rate)
     contact = analysis["events"]["contact"]
     ball = _estimated_ball(path, bat_poses, contact, rate)
+    ground = _ground_height(frames, index)
+
+    athlete_height_in: float | None = None
+    athlete_weight_lb: float | None = None
+    hitter_side: str | None = None
+    parts = path.stem.split("_")
+    if len(parts) == 7:
+        if parts[2].isdigit():
+            athlete_height_in = float(parts[2])
+        if parts[3].isdigit():
+            athlete_weight_lb = float(parts[3])
+        if parts[4].upper() in ("R", "L"):
+            hitter_side = parts[4].upper()
+
+    if athlete_height_in is None:
+        head_indices = [
+            index[lbl] for lbl in ("LFHD", "RFHD", "LBHD", "RBHD") if lbl in index
+        ]
+        head_heights = [
+            point[2]
+            for frame in frames[: min(60, len(frames))]
+            for marker in head_indices
+            if (point := frame[marker])[2] is not None
+        ]
+        if head_heights:
+            athlete_height_in = round(((max(head_heights) - ground) + 0.09) / 0.0254, 1)
+
+    if athlete_height_in is not None:
+        analysis["metrics"]["athleteHeightIn"] = athlete_height_in
+
     return {
         "name": path.name,
         "rate": rate,
@@ -319,7 +380,10 @@ def load_motion(path: pathlib.Path) -> dict[str, Any]:
         "batPoses": bat_poses,
         "barrel": barrel,
         "grip": grip,
-        "ground": _ground_height(frames, index),
+        "ground": ground,
+        "athleteHeightIn": athlete_height_in,
+        "athleteWeightLb": athlete_weight_lb,
+        "hitterSide": hitter_side,
         "contact": contact,
         "ball": ball,
         "analysis": analysis,
