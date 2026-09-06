@@ -1,0 +1,41 @@
+{
+  "note": "Similarity from the Theia3D lab frame (millimeters) to the rig frame (meters, camera 19 as origin), fitted on the joint centers of the 12 limb segments against COCO keypoints triangulated from the 8 cameras over 30 frames around ball release of OBP_movement_BaseballThrow_001; median residual 1.7 cm. The C3D and the videos both run at 360 Hz; C3D frame index = video frame index + 1.",
+  "scale": 0.0010095743123137383,
+  "rotation": [
+    [
+      0.7448731978837655,
+      -0.655134545744006,
+      -0.1263433656636107
+    ],
+    [
+      -0.3608823219575658,
+      -0.23633053333865128,
+      -0.9021706206202825
+    ],
+    [
+      0.5611843447325751,
+      0.7175978023828286,
+      -0.4124627561882485
+    ]
+  ],
+  "translation": [
+    0.5497170694228506,
+    0.9477292907423803,
+    5.113182096665322
+  ],
+  "c3d_frame_minus_video_frame": 1,
+  "trial": "OBP_movement_BaseballThrow_001",
+  "fit_cameras": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22
+  ],
+  "fit_frame_selection": "30 frames around release; exact indices not supplied by contributor",
+  "fit_code_available": false,
+  "status": "contributor-fitted, trial-specific; not final laboratory calibration"
+}
