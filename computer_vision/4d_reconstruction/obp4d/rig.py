@@ -16,14 +16,33 @@ W, H = 1280, 720
 
 def load_rig():
     """{camera: (R, t, K)} with X_camera = R X_world + t, in meters"""
-    intr = {r["camera"]: r for r in csv.DictReader(open(CALIB / "intrinsics_summary.csv"))}
-    poses = json.load(open(CALIB / "optitrack_rig_provisional.json"))["camera_poses"]
+    intr = {
+        r["camera"]: r
+        for r in csv.DictReader(
+            (CALIB / "intrinsics_summary.csv").read_text().splitlines()
+        )
+    }
+    poses = json.loads(Path(CALIB / "optitrack_rig_provisional.json").read_text())[
+        "camera_poses"
+    ]
     rig = {}
     for c in CAMS:
         p, i = poses[str(c)], intr[f"optitrack_{c}"]
-        assert json.loads(i["distortion"]) == [0.0] * 5, f"camera {c} was calibrated with distortion"
-        K = np.array([[float(i["fx_px"]), 0, float(i["cx_px"])], [0, float(i["fy_px"]), float(i["cy_px"])], [0, 0, 1]])
-        rig[c] = (np.array(p["reference_to_camera_rotation_matrix"]), np.array(p["reference_to_camera_translation_mm"]) / 1000, K)
+        assert json.loads(i["distortion"]) == [0.0] * 5, (
+            f"camera {c} was calibrated with distortion"
+        )
+        K = np.array(
+            [
+                [float(i["fx_px"]), 0, float(i["cx_px"])],
+                [0, float(i["fy_px"]), float(i["cy_px"])],
+                [0, 0, 1],
+            ]
+        )
+        rig[c] = (
+            np.array(p["reference_to_camera_rotation_matrix"]),
+            np.array(p["reference_to_camera_translation_mm"]) / 1000,
+            K,
+        )
     return rig
 
 
@@ -55,7 +74,9 @@ def ring(rig):
     m = C.mean(0)
     _, _, Vt = np.linalg.svd(C - m)
     u, v = Vt[0], np.cross(Vt[2], Vt[0])
-    order = sorted(CAMS, key=lambda c: np.arctan2((c2w[c][:3, 3] - m) @ v, (c2w[c][:3, 3] - m) @ u))
+    order = sorted(
+        CAMS, key=lambda c: np.arctan2((c2w[c][:3, 3] - m) @ v, (c2w[c][:3, 3] - m) @ u)
+    )
     return c2w, order
 
 
@@ -63,14 +84,21 @@ def ring_pose(c2w, order, s):
     """world-to-camera at arc-length fraction s in [0, 8] around the ring: position linear and rotation slerped
     between the two neighboring real cameras, so the virtual camera moves at constant speed and passes through
     every real pose"""
-    L = np.array([np.linalg.norm(c2w[order[(g + 1) % 8]][:3, 3] - c2w[order[g]][:3, 3]) for g in range(8)])
+    L = np.array(
+        [
+            np.linalg.norm(c2w[order[(g + 1) % 8]][:3, 3] - c2w[order[g]][:3, 3])
+            for g in range(8)
+        ]
+    )
     cum = np.concatenate([[0], np.cumsum(L)])
     d = s / 8 * cum[-1]
     g = min(int(np.searchsorted(cum, d, side="right") - 1), 7)
     a = min(max((d - cum[g]) / L[g], 0.0), 1.0)
     ca, cb = order[g], order[(g + 1) % 8]
     m = np.eye(4)
-    m[:3, :3] = Slerp([0, 1], Rotation.from_matrix([c2w[ca][:3, :3], c2w[cb][:3, :3]]))(a).as_matrix()
+    m[:3, :3] = Slerp([0, 1], Rotation.from_matrix([c2w[ca][:3, :3], c2w[cb][:3, :3]]))(
+        a
+    ).as_matrix()
     m[:3, 3] = (1 - a) * c2w[ca][:3, 3] + a * c2w[cb][:3, 3]
     return np.linalg.inv(m)
 

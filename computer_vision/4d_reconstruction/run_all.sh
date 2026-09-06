@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 # End-to-end reproduction: the 62.7 mph throw, video frames 800-1099 at 360 fps. Camera 19 is held out of the
-# background and the body for the score, then all eight cameras train the model behind the videos.
-# Everything is written under WORK (default ./work); nothing is written into the repository.
+# appearance losses for the score. Supplied Theia poses/alignment are conditioning inputs.
+# Then all eight cameras train the model behind the videos.
+# Everything is written under WORK (default ~/obp4d-work); nothing is written into the repository.
 #
 #   bash computer_vision/4d_reconstruction/run_all.sh [WORK]
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORK="${1:-$PWD/work}"
+WORK="${1:-$HOME/obp4d-work}"
+mkdir -p "$WORK"
+WORK="$(cd "$WORK" && pwd)"
+python -m pip freeze > "$WORK/environment.txt"
 export PYTHONPATH="$HERE:${PYTHONPATH:-}"
 run() { echo; echo "=== $*"; python -m obp4d "$@" --work "$WORK"; }
 
@@ -15,7 +19,7 @@ run dataset
 run masks
 run plates
 
-# held-out protocol: camera 19 unseen by the background and the body, scored on its athlete pixels
+# appearance holdout: camera 19 excluded from background/body image losses; alignment uses all eight
 run background --holdout 19 --out bg_h19.pt
 run body --holdout 19 --bg bg_h19.pt --out body_h19
 run render holdout --body body_h19 --bg bg_h19.pt --cam 19 --out holdout_cam19.mp4

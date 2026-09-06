@@ -2,6 +2,8 @@
 Drive folder, into <work>/videos/cam{15..22}.mp4 and <work>/theia.c3d."""
 
 import argparse
+import hashlib
+import json
 from pathlib import Path
 
 import gdown
@@ -33,3 +35,18 @@ def main(argv):
     for c, file_id in VIDEOS.items():
         fetch(file_id, Path(f"videos/cam{c}.mp4"), 10**6)
     fetch(C3D, Path("theia.c3d"), 10**5)
+    manifest = {}
+    for path, file_id in [
+        *[(Path(f"videos/cam{c}.mp4"), fid) for c, fid in VIDEOS.items()],
+        (Path("theia.c3d"), C3D),
+    ]:
+        digest = hashlib.sha256()
+        with path.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(chunk)
+        manifest[str(path)] = {
+            "drive_id": file_id,
+            "bytes": path.stat().st_size,
+            "observed_sha256": digest.hexdigest(),
+        }
+    Path("download_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

@@ -61,3 +61,10 @@ The next stage is documented in [`calibration/ROADMAP.md`](calibration/ROADMAP.m
 ## Contributing
 
 Keep educational/legacy examples distinct from validated calibration outputs. Changes under `calibration/` must pass its deterministic rebuild and test gates. See the root [`CONTRIBUTING.md`](../CONTRIBUTING.md) for the full checklist and licensing boundaries.
+
+## Experimental 4D reconstruction
+
+The [Theia-conditioned 4D pipeline](4d_reconstruction/README.md) reconstructs one pitch with supplied
+segment transforms and learned per-frame corrections. It needs its own Linux/NVIDIA/CUDA environment and
+public source videos/C3D. Read its evaluation contract: published numbers are contributor-reported,
+conditioned rendering scores, and are not independent biomechanics validation or final lab calibration.

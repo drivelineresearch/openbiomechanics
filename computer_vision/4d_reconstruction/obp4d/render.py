@@ -28,9 +28,22 @@ def main(argv):
     ap.add_argument("--body", required=True)
     ap.add_argument("--bg", required=True)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--cam", type=int, default=19, help="holdout: the camera to compare against")
-    ap.add_argument("--elev", type=float, nargs=2, default=[25, 10], help="ring: elevation in degrees at the start and the end")
-    ap.add_argument("--dist", type=float, default=4.5, help="ring: camera distance from the pitcher in meters")
+    ap.add_argument(
+        "--cam", type=int, default=19, help="holdout: the camera to compare against"
+    )
+    ap.add_argument(
+        "--elev",
+        type=float,
+        nargs=2,
+        default=[25, 10],
+        help="ring: elevation in degrees at the start and the end",
+    )
+    ap.add_argument(
+        "--dist",
+        type=float,
+        default=4.5,
+        help="ring: camera distance from the pitcher in meters",
+    )
     a = ap.parse_args(argv)
     rig = load_rig()
     vm, K = to_torch(rig)
@@ -45,18 +58,35 @@ def main(argv):
             w2c = torch.tensor(w2c, dtype=torch.float32, device="cuda")[None]
         bgc = rasterize(*bg, w2c, Kc)[0]
         col, alpha, _ = body.render(frame, w2c, Kc)
-        return ((col + (1 - alpha) * bgc)[0].clamp(0, 1).cpu().numpy() * 255).astype(np.uint8)
+        return ((col + (1 - alpha) * bgc)[0].clamp(0, 1).cpu().numpy() * 255).astype(
+            np.uint8
+        )
 
-    with imageio.get_writer(a.out, fps=30, codec="libx264", quality=8, pixelformat="yuv420p") as wr:
+    with imageio.get_writer(
+        a.out, fps=30, codec="libx264", quality=8, pixelformat="yuv420p"
+    ) as wr:
         if a.mode == "holdout":
             for f in frames:
-                photo = np.array(Image.open(f"images/cam{a.cam}_{f:04d}.png").convert("RGB"))
+                photo = np.array(
+                    Image.open(f"images/cam{a.cam}_{f:04d}.png").convert("RGB")
+                )
                 wr.append_data(np.hstack([view(f, vm[a.cam], K[a.cam]), photo]))
         elif a.mode == "quad":
             c2w, order = ring(rig)
             for i, f in enumerate(frames):
-                panels = [np.array(Image.fromarray(view(f, ring_pose(c2w, order, 2 * q + 2 * i / (n - 1)), K[19])).resize((640, 360), Image.LANCZOS)) for q in range(4)]
-                wr.append_data(np.vstack([np.hstack(panels[:2]), np.hstack(panels[2:])]))
+                panels = [
+                    np.array(
+                        Image.fromarray(
+                            view(
+                                f, ring_pose(c2w, order, 2 * q + 2 * i / (n - 1)), K[19]
+                            )
+                        ).resize((640, 360), Image.LANCZOS)
+                    )
+                    for q in range(4)
+                ]
+                wr.append_data(
+                    np.vstack([np.hstack(panels[:2]), np.hstack(panels[2:])])
+                )
         else:
             up = theia.UP / np.linalg.norm(theia.UP)
             target = body.skel.pelvis + 0.2 * up
@@ -70,14 +100,22 @@ def main(argv):
             path = order[order.index(15) :] + order[: order.index(15)] + [15]
             e1 = horiz(C[15] - target)
             e2 = np.cross(up, e1)
-            az = np.unwrap([np.arctan2(horiz(C[c] - target) @ e2, horiz(C[c] - target) @ e1) for c in path])
+            az = np.unwrap(
+                [
+                    np.arctan2(horiz(C[c] - target) @ e2, horiz(C[c] - target) @ e1)
+                    for c in path
+                ]
+            )
             az[-1] = az[0] + np.sign(az[1] - az[0]) * 2 * np.pi
             forward = []
             for i, f in enumerate(frames):
                 u = i / (n - 1)
                 ang = np.interp(u * (len(path) - 1), np.arange(len(path)), az)
                 elev = np.radians(a.elev[0] + (a.elev[1] - a.elev[0]) * u)
-                eye = target + a.dist * (np.cos(elev) * (np.cos(ang) * e1 + np.sin(ang) * e2) + np.sin(elev) * up)
+                eye = target + a.dist * (
+                    np.cos(elev) * (np.cos(ang) * e1 + np.sin(ang) * e2)
+                    + np.sin(elev) * up
+                )
                 forward.append(view(f, look_at(eye, target, up), K[19]))
             for img in forward + forward[::-1]:
                 wr.append_data(img)

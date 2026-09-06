@@ -18,7 +18,13 @@ from .splat import photometric, rasterize
 
 CONF = 3.0  # DUSt3R confidence threshold
 ITERS = 5000
-LRS = {"means": 1.6e-4, "scales": 5e-3, "quats": 1e-3, "opacities": 5e-2, "colors": 2.5e-3}
+LRS = {
+    "means": 1.6e-4,
+    "scales": 5e-3,
+    "quats": 1e-3,
+    "opacities": 5e-2,
+    "colors": 2.5e-3,
+}
 SH_C0 = 0.28209479177387814
 
 
@@ -30,11 +36,24 @@ def dust3r_seed(rig, cams):
     from mini_dust3r.model import AsymmetricCroCo3DStereo
     from mini_dust3r.utils.image import load_images
 
-    model = AsymmetricCroCo3DStereo.from_pretrained("naver/DUSt3R_ViTLarge_BaseDecoder_512_dpt").cuda()
+    model = AsymmetricCroCo3DStereo.from_pretrained(
+        "naver/DUSt3R_ViTLarge_BaseDecoder_512_dpt"
+    ).cuda()
     imgs = load_images([f"plates/cam{c}.png" for c in cams], size=512, verbose=False)
     s = imgs[0]["img"].shape[-1] / W
-    out = inference(make_pairs(imgs, scene_graph="complete", prefilter=None, symmetrize=True), model, "cuda", batch_size=4)
-    scene = global_aligner(out, device="cuda", mode=GlobalAlignerMode.PointCloudOptimizer, min_conf_thr=CONF, optimize_pp=True)
+    out = inference(
+        make_pairs(imgs, scene_graph="complete", prefilter=None, symmetrize=True),
+        model,
+        "cuda",
+        batch_size=4,
+    )
+    scene = global_aligner(
+        out,
+        device="cuda",
+        mode=GlobalAlignerMode.PointCloudOptimizer,
+        min_conf_thr=CONF,
+        optimize_pp=True,
+    )
     c2w = []
     for c in cams:
         R, t, _ = rig[c]
@@ -45,43 +64,76 @@ def dust3r_seed(rig, cams):
     scene.preset_pose(c2w)
     scene.preset_focal([rig[c][2][0, 0] * s for c in cams])
     scene.preset_principal_point([torch.tensor(rig[c][2][:2, 2] * s) for c in cams])
-    loss = scene.compute_global_alignment(init="known_poses", niter=300, schedule="cosine", lr=0.01)
+    loss = scene.compute_global_alignment(
+        init="known_poses", niter=300, schedule="cosine", lr=0.01
+    )
     pts = [p.detach().cpu().numpy() for p in scene.get_pts3d()]
     ok = [m.cpu().numpy() for m in scene.get_masks()]
     xyz = np.concatenate([p[m] for p, m in zip(pts, ok)])
     rgb = np.concatenate([np.asarray(im)[m] for im, m in zip(scene.imgs, ok)])
     if rgb.max() > 1.5:
         rgb = rgb / 255
-    print(f"DUSt3R alignment loss {float(loss):.3f}, {len(xyz)} confident points", flush=True)
+    print(
+        f"DUSt3R alignment loss {float(loss):.3f}, {len(xyz)} confident points",
+        flush=True,
+    )
     return xyz.astype(np.float32), rgb.astype(np.float32)
 
 
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--holdout", type=int, default=0, help="camera left out of training, 0 = none")
+    ap.add_argument(
+        "--holdout", type=int, default=0, help="camera left out of training, 0 = none"
+    )
     a = ap.parse_args(argv)
     rig = load_rig()
     vm, K = to_torch(rig)
     cams = [c for c in CAMS if c != a.holdout]
     xyz, rgb = dust3r_seed(rig, cams)
     n = len(xyz)
-    d = cKDTree(xyz).query(xyz, k=4)[0][:, 1:].mean(1)  # each point's scale from its neighbors
+    d = (
+        cKDTree(xyz).query(xyz, k=4)[0][:, 1:].mean(1)
+    )  # each point's scale from its neighbors
     params = torch.nn.ParameterDict(
         {
             "means": torch.nn.Parameter(torch.tensor(xyz, device="cuda")),
-            "scales": torch.nn.Parameter(torch.tensor(np.log(np.clip(d, 0.005, 0.1)), dtype=torch.float32, device="cuda")[:, None].repeat(1, 3)),
-            "quats": torch.nn.Parameter(torch.tensor([1.0, 0, 0, 0], device="cuda").repeat(n, 1)),
-            "opacities": torch.nn.Parameter(torch.logit(torch.full((n,), 0.1, device="cuda"))),
-            "colors": torch.nn.Parameter(torch.tensor((rgb - 0.5) / SH_C0, device="cuda")[:, None, :]),
+            "scales": torch.nn.Parameter(
+                torch.tensor(
+                    np.log(np.clip(d, 0.005, 0.1)), dtype=torch.float32, device="cuda"
+                )[:, None].repeat(1, 3)
+            ),
+            "quats": torch.nn.Parameter(
+                torch.tensor([1.0, 0, 0, 0], device="cuda").repeat(n, 1)
+            ),
+            "opacities": torch.nn.Parameter(
+                torch.logit(torch.full((n,), 0.1, device="cuda"))
+            ),
+            "colors": torch.nn.Parameter(
+                torch.tensor((rgb - 0.5) / SH_C0, device="cuda")[:, None, :]
+            ),
         }
     )
     opts = {k: torch.optim.Adam([params[k]], lr=LRS[k], eps=1e-15) for k in params}
-    plates = {c: torch.from_numpy(np.array(Image.open(f"plates/cam{c}.png").convert("RGB"))).cuda().float()[None] / 255 for c in cams}
+    plates = {
+        c: torch.from_numpy(np.array(Image.open(f"plates/cam{c}.png").convert("RGB")))
+        .cuda()
+        .float()[None]
+        / 255
+        for c in cams
+    }
     rng = np.random.default_rng(0)
     for it in range(ITERS):
         c = cams[rng.integers(len(cams))]
-        col, _, _ = rasterize(params["means"], F.normalize(params["quats"], dim=-1), torch.exp(params["scales"]), torch.sigmoid(params["opacities"]), params["colors"], vm[c], K[c])
+        col, _, _ = rasterize(
+            params["means"],
+            F.normalize(params["quats"], dim=-1),
+            torch.exp(params["scales"]),
+            torch.sigmoid(params["opacities"]),
+            params["colors"],
+            vm[c],
+            K[c],
+        )
         loss, s = photometric(col, plates[c])
         loss.backward()
         for o in opts.values():
@@ -101,4 +153,7 @@ def main(argv):
             },
             a.out,
         )
-    print(f"BACKGROUND_DONE {int(keep.sum())} of {n} Gaussians kept -> {a.out}", flush=True)
+    print(
+        f"BACKGROUND_DONE {int(keep.sum())} of {n} Gaussians kept -> {a.out}",
+        flush=True,
+    )

@@ -181,3 +181,11 @@ The scripts are covered by [`../../LICENSE-CODE.md`](../../LICENSE-CODE.md).
 Calibration videos, derived values, and documentation are covered by
 [`../../LICENSE-DATA.md`](../../LICENSE-DATA.md), including its additional usage
 exclusions.
+
+## Experimental downstream use
+
+The [Theia-conditioned 4D reconstruction](../4d_reconstruction/README.md) consumes these matrices without
+changing them. Its trial-specific fitted alignment uses all eight cameras and is supporting experimental
+evidence, not final lab-frame calibration. Read the pipeline's source-provenance, frame-offset, and
+appearance-evaluation limitations before interpreting its reported results. The [roadmap](ROADMAP.md)
+remains open for independent target-based lab coordinates and joint bundle adjustment.

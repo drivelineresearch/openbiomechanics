@@ -33,10 +33,32 @@ MARGIN = 40  # pixels around the athlete's mask box covered by the photometric l
 SIL_W = 0.2  # silhouette term: L1 between rendered alpha and the mask
 KNOT = 10  # the rigid per-bone refinement lives on knots every KNOT frames, linearly interpolated
 DELTA_LR, SMOOTH_W, PRIOR_W = 2e-3, 100.0, 1.0
-RESID_LR, RESID_W, RESID_START = 5e-4, 1.0, 2000  # residual network: rate, L2 on its offsets, start step
-K_LR, LRW_LR, DIRS_LR, LRSMOOTH_W, DIRS_L2, LR_START = 8, 1e-3, 1.6e-4, 100.0, 1e-3, 2000  # low-rank offsets
-LRS = {"means": 1.6e-4, "scales": 5e-3, "quats": 1e-3, "opacities": 5e-2, "colors": 2.5e-3, "dirs": DIRS_LR}
-INIT_N, INIT_SPREAD, INIT_SCALE = 20000, 0.06, 0.02  # starting Gaussians scattered along the bones
+RESID_LR, RESID_W, RESID_START = (
+    5e-4,
+    1.0,
+    2000,
+)  # residual network: rate, L2 on its offsets, start step
+K_LR, LRW_LR, DIRS_LR, LRSMOOTH_W, DIRS_L2, LR_START = (
+    8,
+    1e-3,
+    1.6e-4,
+    100.0,
+    1e-3,
+    2000,
+)  # low-rank offsets
+LRS = {
+    "means": 1.6e-4,
+    "scales": 5e-3,
+    "quats": 1e-3,
+    "opacities": 5e-2,
+    "colors": 2.5e-3,
+    "dirs": DIRS_LR,
+}
+INIT_N, INIT_SPREAD, INIT_SCALE = (
+    20000,
+    0.06,
+    0.02,
+)  # starting Gaussians scattered along the bones
 
 # (segment whose motion the bone follows, endpoint a, endpoint b, lo, hi): the bone is a + u (b - a), u in [lo, hi]
 BONES = [
@@ -61,7 +83,15 @@ BONES = [
 def quat_mul(q, r):
     w1, x1, y1, z1 = q.unbind(-1)
     w2, x2, y2, z2 = r.unbind(-1)
-    return torch.stack([w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2, w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2, w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2, w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2], -1)
+    return torch.stack(
+        [
+            w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2,
+            w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2,
+            w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2,
+            w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2,
+        ],
+        -1,
+    )
 
 
 def rodrigues(v):
@@ -69,8 +99,19 @@ def rodrigues(v):
     th = v.norm(dim=-1, keepdim=True).clamp_min(1e-8)
     a = v / th
     Kx = torch.zeros(len(v), 3, 3, device=v.device)
-    Kx[:, 0, 1], Kx[:, 0, 2], Kx[:, 1, 0], Kx[:, 1, 2], Kx[:, 2, 0], Kx[:, 2, 1] = -a[:, 2], a[:, 1], a[:, 2], -a[:, 0], -a[:, 1], a[:, 0]
-    return torch.eye(3, device=v.device) + torch.sin(th)[..., None] * Kx + (1 - torch.cos(th))[..., None] * (Kx @ Kx)
+    Kx[:, 0, 1], Kx[:, 0, 2], Kx[:, 1, 0], Kx[:, 1, 2], Kx[:, 2, 0], Kx[:, 2, 1] = (
+        -a[:, 2],
+        a[:, 1],
+        a[:, 2],
+        -a[:, 0],
+        -a[:, 1],
+        a[:, 0],
+    )
+    return (
+        torch.eye(3, device=v.device)
+        + torch.sin(th)[..., None] * Kx
+        + (1 - torch.cos(th))[..., None] * (Kx @ Kx)
+    )
 
 
 class Skeleton:
@@ -80,27 +121,43 @@ class Skeleton:
         T_all, names = theia.load_segments(c3d)
         self.canon = canon
         seg = [names.index(b[0]) for b in BONES]
-        k = canon + theia.FRAME_OFFSET
+        k = theia.video_to_c3d_index(canon, len(T_all))
         M = T_all[:, seg] @ np.linalg.inv(T_all[k, seg])  # canonical -> frame, per bone
         self.M = torch.tensor(M, dtype=torch.float32, device=dev)
-        q = Rotation.from_matrix(M[:, :, :3, :3].reshape(-1, 3, 3)).as_quat()[:, [3, 0, 1, 2]]
-        self.Q = torch.tensor(q.reshape(len(M), len(BONES), 4), dtype=torch.float32, device=dev)
-        self.origin = torch.tensor(T_all[:, seg][:, :, :3, 3], dtype=torch.float32, device=dev)
+        q = Rotation.from_matrix(M[:, :, :3, :3].reshape(-1, 3, 3)).as_quat()[
+            :, [3, 0, 1, 2]
+        ]
+        self.Q = torch.tensor(
+            q.reshape(len(M), len(BONES), 4), dtype=torch.float32, device=dev
+        )
+        self.origin = torch.tensor(
+            T_all[:, seg][:, :, :3, 3], dtype=torch.float32, device=dev
+        )
         P = {n: T_all[k, i, :3, 3] for i, n in enumerate(names)}
-        self.A = torch.tensor(np.stack([P[a] + lo * (P[b] - P[a]) for _, a, b, lo, _ in BONES]), dtype=torch.float32, device=dev)
-        self.B = torch.tensor(np.stack([P[a] + hi * (P[b] - P[a]) for _, a, b, _, hi in BONES]), dtype=torch.float32, device=dev)
+        self.A = torch.tensor(
+            np.stack([P[a] + lo * (P[b] - P[a]) for _, a, b, lo, _ in BONES]),
+            dtype=torch.float32,
+            device=dev,
+        )
+        self.B = torch.tensor(
+            np.stack([P[a] + hi * (P[b] - P[a]) for _, a, b, _, hi in BONES]),
+            dtype=torch.float32,
+            device=dev,
+        )
         self.pelvis = T_all[k, names.index("pelvis"), :3, 3]
 
     def bone_dist(self, p):
         """(N, 15) distance from points (N, 3) to each canonical bone segment"""
         ab = self.B - self.A
         u = ((p[:, None] - self.A[None]) * ab[None]).sum(-1) / (ab * ab).sum(-1)[None]
-        return (p[:, None] - (self.A[None] + u.clamp(0, 1)[..., None] * ab[None])).norm(dim=-1)
+        return (p[:, None] - (self.A[None] + u.clamp(0, 1)[..., None] * ab[None])).norm(
+            dim=-1
+        )
 
     def motion(self, frame, delta, f0):
         """per-bone (R, t, quaternion) canonical -> video frame, with the knot refinement delta applied about
         the bone origin"""
-        i = frame + theia.FRAME_OFFSET
+        i = theia.video_to_c3d_index(frame, len(self.M))
         Mf, Qf = self.M[i], self.Q[i]
         if delta is None:
             return Mf[:, :3, :3], Mf[:, :3, 3], Qf
@@ -111,7 +168,9 @@ class Skeleton:
         R = Rd @ Mf[:, :3, :3]
         t = (Rd @ (Mf[:, :3, 3] - o)[..., None])[..., 0] + o + d[:, 3:]
         th = d[:, :3].norm(dim=-1, keepdim=True)
-        qd = torch.cat([torch.cos(th / 2), d[:, :3] / th.clamp_min(1e-8) * torch.sin(th / 2)], -1)
+        qd = torch.cat(
+            [torch.cos(th / 2), d[:, :3] / th.clamp_min(1e-8) * torch.sin(th / 2)], -1
+        )
         return R, t, quat_mul(qd, Qf)
 
 
@@ -122,14 +181,32 @@ class Deform(torch.nn.Module):
         super().__init__()
         self.fx = 2.0 ** torch.arange(nx, device=dev) * np.pi
         self.ft = 2.0 ** torch.arange(nt, device=dev) * np.pi
-        self.net = torch.nn.Sequential(torch.nn.Linear(3 + 6 * nx + 1 + 2 * nt, 128), torch.nn.ReLU(), torch.nn.Linear(128, 128), torch.nn.ReLU(), torch.nn.Linear(128, 3))
+        self.net = torch.nn.Sequential(
+            torch.nn.Linear(3 + 6 * nx + 1 + 2 * nt, 128),
+            torch.nn.ReLU(),
+            torch.nn.Linear(128, 128),
+            torch.nn.ReLU(),
+            torch.nn.Linear(128, 3),
+        )
         torch.nn.init.zeros_(self.net[-1].weight)
         torch.nn.init.zeros_(self.net[-1].bias)
 
     def forward(self, x, t):
         px = (x[:, :, None] * self.fx).flatten(1)
         pt = t * self.ft
-        return self.net(torch.cat([x, torch.sin(px), torch.cos(px), t.expand(len(x), 1), torch.sin(pt).expand(len(x), -1), torch.cos(pt).expand(len(x), -1)], 1))
+        return self.net(
+            torch.cat(
+                [
+                    x,
+                    torch.sin(px),
+                    torch.cos(px),
+                    t.expand(len(x), 1),
+                    torch.sin(pt).expand(len(x), -1),
+                    torch.cos(pt).expand(len(x), -1),
+                ],
+                1,
+            )
+        )
 
 
 class Body:
@@ -137,7 +214,15 @@ class Body:
     attached part-way through training"""
 
     def __init__(self, skel, params, f0, n, delta, deform=None, lrw=None):
-        self.skel, self.params, self.f0, self.n, self.delta, self.deform, self.lrw = skel, params, f0, n, delta, deform, lrw
+        self.skel, self.params, self.f0, self.n, self.delta, self.deform, self.lrw = (
+            skel,
+            params,
+            f0,
+            n,
+            delta,
+            deform,
+            lrw,
+        )
 
     @property
     def frames(self):
@@ -148,19 +233,34 @@ class Body:
 
     def posed(self, frame):
         p = self.params
-        w = torch.softmax(-0.5 * (self.skel.bone_dist(p["means"].detach()) / SIGMA) ** 2, dim=1)
+        w = torch.softmax(
+            -0.5 * (self.skel.bone_dist(p["means"].detach()) / SIGMA) ** 2, dim=1
+        )
         R, t, q = self.skel.motion(frame, self.delta, self.f0)
-        means = (w[..., None] * (torch.einsum("kij,nj->nki", R, p["means"]) + t[None])).sum(1)
+        means = (
+            w[..., None] * (torch.einsum("kij,nj->nki", R, p["means"]) + t[None])
+        ).sum(1)
         if self.deform is not None:
             means = means + self.deform(p["means"].detach(), self.time(frame))
         if self.lrw is not None:
-            means = means + (p["dirs"].view(-1, K_LR, 3) * self.lrw[frame - self.f0][None, :, None]).sum(1)
+            means = means + (
+                p["dirs"].view(-1, K_LR, 3) * self.lrw[frame - self.f0][None, :, None]
+            ).sum(1)
         return means, quat_mul(q[w.argmax(1)], p["quats"])
 
     def render(self, frame, vm, K, absgrad=False):
         means, quats = self.posed(frame)
         p = self.params
-        return rasterize(means, quats, torch.exp(p["scales"]), torch.sigmoid(p["opacities"]), p["colors"], vm, K, absgrad)
+        return rasterize(
+            means,
+            quats,
+            torch.exp(p["scales"]),
+            torch.sigmoid(p["opacities"]),
+            p["colors"],
+            vm,
+            K,
+            absgrad,
+        )
 
     def save(self, path):
         torch.save(
@@ -168,9 +268,12 @@ class Body:
                 "params": {k: v.detach().cpu() for k, v in self.params.items()},
                 "delta": self.delta.detach().cpu(),
                 "lrw": None if self.lrw is None else self.lrw.detach().cpu(),
-                "deform": None if self.deform is None else {k: v.cpu() for k, v in self.deform.state_dict().items()},
+                "deform": None
+                if self.deform is None
+                else {k: v.cpu() for k, v in self.deform.state_dict().items()},
                 "canon": self.skel.canon,
                 "frames": list(self.frames),
+                "alignment_sha256": theia.ALIGNMENT_SHA256,
             },
             path,
         )
@@ -178,6 +281,8 @@ class Body:
     @staticmethod
     def load(path, c3d):
         ck = torch.load(path, weights_only=True)
+        if ck.get("alignment_sha256", theia.ALIGNMENT_SHA256) != theia.ALIGNMENT_SHA256:
+            raise ValueError("Checkpoint was trained with a different Theia alignment")
         skel = Skeleton(c3d, ck["canon"])
         f0, f1 = ck["frames"]
         params = {k: v.to(dev) for k, v in ck["params"].items()}
@@ -233,17 +338,38 @@ def progress(body, path, gt, mk, bg_img, vm, K, frames):
     rows = []
     for f in (frames[0], frames[len(frames) // 2], frames[-1]):
         pred = composite(body, f, 19, bg_img, vm, K)[0][0]
-        rows.append(torch.cat([pred, gt[CAMS.index(19), frames.index(f)].float() / 255], 1))
-    Image.fromarray((torch.cat(rows, 0).clamp(0, 1).cpu().numpy() * 255).astype(np.uint8)).resize((1280, 1080)).save(path)
+        rows.append(
+            torch.cat([pred, gt[CAMS.index(19), frames.index(f)].float() / 255], 1)
+        )
+    Image.fromarray(
+        (torch.cat(rows, 0).clamp(0, 1).cpu().numpy() * 255).astype(np.uint8)
+    ).resize((1280, 1080)).save(path)
 
 
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--bg", required=True)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--holdout", type=int, default=0, help="camera left out of training, 0 = none")
-    ap.add_argument("--frames", type=int, nargs=2, default=[800, 1100], help="video frame range, [first, last)")
-    ap.add_argument("--canon", type=int, default=950, help="canonical pose: the video frame of ball release")
+    ap.add_argument(
+        "--holdout",
+        type=int,
+        choices=[0, *CAMS],
+        default=0,
+        help="camera left out of training, 0 = none",
+    )
+    ap.add_argument(
+        "--frames",
+        type=int,
+        nargs=2,
+        default=[800, 1100],
+        help="video frame range, [first, last)",
+    )
+    ap.add_argument(
+        "--canon",
+        type=int,
+        default=950,
+        help="canonical pose: the video frame of ball release",
+    )
     ap.add_argument("--iters", type=int, default=15000)
     ap.add_argument("--cap", type=int, default=100000, help="MCMC Gaussian budget")
     a = ap.parse_args(argv)
@@ -262,16 +388,57 @@ def main(argv):
     lrw = torch.nn.Parameter(0.1 * torch.randn(n, K_LR, device=dev))
     body = Body(skel, params, f0, n, delta)
     opts = {k: torch.optim.Adam([params[k]], lr=LRS[k], eps=1e-15) for k in params}
-    extra = [torch.optim.Adam([delta], lr=DELTA_LR), torch.optim.Adam(deform.parameters(), lr=RESID_LR), torch.optim.Adam([lrw], lr=LRW_LR)]
-    strategy = MCMCStrategy(cap_max=a.cap, refine_start_iter=500, refine_stop_iter=int(0.7 * a.iters), refine_every=100, verbose=False)
+    extra = [
+        torch.optim.Adam([delta], lr=DELTA_LR),
+        torch.optim.Adam(deform.parameters(), lr=RESID_LR),
+        torch.optim.Adam([lrw], lr=LRW_LR),
+    ]
+    strategy = MCMCStrategy(
+        cap_max=a.cap,
+        refine_start_iter=500,
+        refine_stop_iter=int(0.7 * a.iters),
+        refine_every=100,
+        verbose=False,
+    )
     state = strategy.initialize_state()
     bg = load_background(a.bg)
-    bg_img = {c: rasterize(*bg, vm[c], K[c])[0] for c in CAMS}  # static, rendered once per camera
+    bg_img = {
+        c: rasterize(*bg, vm[c], K[c])[0] for c in CAMS
+    }  # static, rendered once per camera
 
     print("loading", len(CAMS) * n, "images and masks", flush=True)
-    gt = torch.stack([torch.stack([torch.from_numpy(np.array(Image.open(f"images/cam{c}_{f:04d}.png").convert("RGB"))) for f in frames]) for c in CAMS]).to(dev)
-    mk = torch.stack([torch.stack([torch.from_numpy(np.array(Image.open(f"masks/cam{c}_{f:04d}.png").convert("L"))) for f in frames]) for c in CAMS]).to(dev)
-    assert gt.shape == (len(CAMS), n, H, W, 3) and mk.shape == (len(CAMS), n, H, W), (gt.shape, mk.shape)
+    gt = torch.stack(
+        [
+            torch.stack(
+                [
+                    torch.from_numpy(
+                        np.array(
+                            Image.open(f"images/cam{c}_{f:04d}.png").convert("RGB")
+                        )
+                    )
+                    for f in frames
+                ]
+            )
+            for c in CAMS
+        ]
+    ).to(dev)
+    mk = torch.stack(
+        [
+            torch.stack(
+                [
+                    torch.from_numpy(
+                        np.array(Image.open(f"masks/cam{c}_{f:04d}.png").convert("L"))
+                    )
+                    for f in frames
+                ]
+            )
+            for c in CAMS
+        ]
+    ).to(dev)
+    assert gt.shape == (len(CAMS), n, H, W, 3) and mk.shape == (len(CAMS), n, H, W), (
+        gt.shape,
+        mk.shape,
+    )
 
     rng = np.random.default_rng(0)
     for it in range(a.iters):
@@ -288,14 +455,33 @@ def main(argv):
         y0, y1 = max(int(ys.min()) - MARGIN, 0), min(int(ys.max()) + MARGIN, H)
         x0, x1 = max(int(xs.min()) - MARGIN, 0), min(int(xs.max()) + MARGIN, W)
         pred, alpha, info = composite(body, f, c, bg_img, vm, K, absgrad=True)
-        photo, s = photometric(pred[:, y0:y1, x0:x1], (gt[ci, fi][None].float() / 255)[:, y0:y1, x0:x1])
+        photo, s = photometric(
+            pred[:, y0:y1, x0:x1], (gt[ci, fi][None].float() / 255)[:, y0:y1, x0:x1]
+        )
         sil = (alpha[0, y0:y1, x0:x1, 0] - m[y0:y1, x0:x1]).abs().mean()
-        loss = photo + SIL_W * sil + 0.01 * torch.sigmoid(params["opacities"]).mean() + 0.01 * torch.exp(params["scales"]).mean()
-        loss = loss + SMOOTH_W * ((delta[1:] - delta[:-1]) ** 2).mean() + PRIOR_W * (delta**2).mean()
+        loss = (
+            photo
+            + SIL_W * sil
+            + 0.01 * torch.sigmoid(params["opacities"]).mean()
+            + 0.01 * torch.exp(params["scales"]).mean()
+        )
+        loss = (
+            loss
+            + SMOOTH_W * ((delta[1:] - delta[:-1]) ** 2).mean()
+            + PRIOR_W * (delta**2).mean()
+        )
         if body.deform is not None:
-            loss = loss + RESID_W * (deform(params["means"].detach(), body.time(f)) ** 2).sum(1).mean()
+            loss = (
+                loss
+                + RESID_W
+                * (deform(params["means"].detach(), body.time(f)) ** 2).sum(1).mean()
+            )
         if body.lrw is not None:
-            loss = loss + LRSMOOTH_W * ((lrw[1:] - lrw[:-1]) ** 2).mean() + DIRS_L2 * (params["dirs"] ** 2).mean()
+            loss = (
+                loss
+                + LRSMOOTH_W * ((lrw[1:] - lrw[:-1]) ** 2).mean()
+                + DIRS_L2 * (params["dirs"] ** 2).mean()
+            )
         loss.backward()
         strategy.step_post_backward(params, opts, state, it, info, lr=LRS["means"])
         for o in list(opts.values()) + extra:
@@ -305,29 +491,57 @@ def main(argv):
             far = skel.bone_dist(params["means"].detach()).min(1).values > PRUNE_DIST
             params["opacities"].data[far] = -7.0
         if it % 500 == 0:
-            print(f"it {it} loss {loss.item():.4f} ssim {s.item():.3f} sil {sil.item():.4f} gaussians {len(params['means'])}", flush=True)
+            print(
+                f"it {it} loss {loss.item():.4f} ssim {s.item():.3f} sil {sil.item():.4f} gaussians {len(params['means'])}",
+                flush=True,
+            )
         if it % 2500 == 0 or it == a.iters - 1:
-            progress(body, out / f"progress_{it:05d}.png", gt, mk, bg_img, vm, K, frames)
+            progress(
+                body, out / f"progress_{it:05d}.png", gt, mk, bg_img, vm, K, frames
+            )
             body.save(out / "body.pt")
 
     with torch.no_grad():
         cam = a.holdout or 19
         athlete, full, n_eval = evaluate(body, cam, gt, mk, bg_img, vm, K, frames)
-        r = torch.stack([deform(params["means"], body.time(f)).norm(dim=1) for f in frames[::10]])
-        o = torch.stack([(params["dirs"].view(-1, K_LR, 3) * lrw[fi][None, :, None]).sum(1).norm(dim=1) for fi in range(0, n, 10)])
+        r = torch.stack(
+            [deform(params["means"], body.time(f)).norm(dim=1) for f in frames[::10]]
+        )
+        o = torch.stack(
+            [
+                (params["dirs"].view(-1, K_LR, 3) * lrw[fi][None, :, None])
+                .sum(1)
+                .norm(dim=1)
+                for fi in range(0, n, 10)
+            ]
+        )
     result = {
         "camera": cam,
         "held_out": bool(a.holdout),
+        "holdout_scope": "appearance losses only; supplied poses and alignment are conditioning inputs",
+        "evaluation_protocol": theia.evaluation_protocol(a.holdout, frames),
         "frames_scored": n_eval,
         "athlete_psnr_db": round(athlete, 2),
         "full_frame_psnr_db": round(full, 2),
         "gaussians": len(params["means"]),
-        "residual_cm": {"median": round(r.median().item() * 100, 2), "p95": round(r.quantile(0.95).item() * 100, 2), "max": round(r.max().item() * 100, 2)},
-        "lowrank_offset_cm": {"median": round(o.median().item() * 100, 2), "p95": round(o.quantile(0.95).item() * 100, 2), "max": round(o.max().item() * 100, 2)},
+        "residual_cm": {
+            "median": round(r.median().item() * 100, 2),
+            "p95": round(r.quantile(0.95).item() * 100, 2),
+            "max": round(r.max().item() * 100, 2),
+        },
+        "lowrank_offset_cm": {
+            "median": round(o.median().item() * 100, 2),
+            "p95": round(o.quantile(0.95).item() * 100, 2),
+            "max": round(o.max().item() * 100, 2),
+        },
         "bone_refinement": {
-            "rotation_deg_median": round(float(torch.rad2deg(delta[:, :, :3].norm(dim=-1).median())), 2),
-            "translation_cm_median": round(float(delta[:, :, 3:].norm(dim=-1).median()) * 100, 2),
+            "rotation_deg_median": round(
+                float(torch.rad2deg(delta[:, :, :3].norm(dim=-1).median())), 2
+            ),
+            "translation_cm_median": round(
+                float(delta[:, :, 3:].norm(dim=-1).median()) * 100, 2
+            ),
         },
     }
-    json.dump(result, open(out / "result.json", "w"), indent=1)
+    Path(out / "result.json").write_text(json.dumps(result, indent=1) + "\n")
     print("BODY_DONE", json.dumps(result), flush=True)

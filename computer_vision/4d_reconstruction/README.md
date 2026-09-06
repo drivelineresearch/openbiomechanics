@@ -14,19 +14,23 @@ rebuilt once from clean plates sits behind it. Every frame of the pitch at the f
 set the held-out protocol and the baseline numbers used below. The two pipelines read the same calibration and
 share no files.
 
-## What the numbers say
+## Historical results and evaluation scope
 
-Camera 19 is left out of the background plates and the athlete training and used only for scoring. PSNR on the
-athlete's mask pixels tracks the athlete; the full-frame number mostly measures the background and the dark
-footage.
+The table contains **contributor-reported results**, not GPU measurements rerun by maintainers. Camera 19
+is excluded from background fitting and athlete appearance losses. It still contributed to the supplied
+Theia alignment, which was fitted using all eight cameras. The upstream Theia C3D input-camera provenance
+is not established by this pipeline. These are appearance-holdout scores **conditioned on supplied poses
+and fitted alignment**, not a strict independent-camera evaluation. Athlete-mask and full-frame PSNR
+measure different pixel populations.
 
-| model | frames | held-out camera 19, athlete pixels | full frame |
+| model | frames | cam19 athlete pixels (conditioned) | full frame |
 | --- | --- | --- | --- |
 | pull request 61, skeleton + Theia foot/toe/head joints (29 bones), its best row | 820-1120, every 2nd | 22.07 dB | 23.21 dB |
 | **this pipeline: Theia3D-skinned body + per-frame corrections** | 800-1099, every frame | **23.73 dB** | 22.73 dB |
 
-Both rows score camera 19 frames the model never saw. This pipeline scores every 10th frame of its window (30
-frames), so the two rows use different frames. A second run of the same recipe scored 23.84 dB on the athlete;
+This pipeline scores every 10th frame of its window (30 frames), whereas #61 scores a different window.
+It uses extracted PNG frames and BiRefNet masks (threshold >127/255); #61 uses JPEG-reencoded frames and
+dilated YOLO masks. The rows are **not a controlled comparison** and do not establish a measured improvement. A second run of the same recipe scored 23.84 dB on the athlete;
 the run-to-run spread is about 0.1 dB. The full-frame number is lower here because of the background: with
 camera 19's plate excluded, the far wall behind the mound is seen only obliquely by the other seven cameras and
 renders dark from camera 19.
@@ -34,7 +38,7 @@ renders dark from camera 19.
 ### What each part is worth
 
 Measured on the same held-out camera while the recipe was being built. The background plates came from all
-eight cameras in these runs, so the numbers sit a little above the strict row in the table.
+eight cameras in these runs, so the numbers sit a little above the appearance-holdout row in the table.
 
 | athlete model | held-out athlete pixels |
 | --- | --- |
@@ -110,7 +114,7 @@ bash computer_vision/4d_reconstruction/run_all.sh ~/obp4d-work
 ```
 
 `run_all.sh` downloads the videos and the C3D, extracts frames, masks them and builds the plates. It then trains
-and scores the held-out model with camera 19 out of the background and the body, trains again on all eight
+and scores the held-out model with camera 19 excluded from background/body appearance losses, trains again on all eight
 cameras, and renders three videos: `holdout_cam19.mp4` (prediction beside the real footage), `quad.mp4` (four
 virtual cameras sweeping the ring through the real poses) and `ring.mp4` (one aimed camera circling the pitcher
 while descending, then the footage rewound). The score is in `<work>/body_h19/result.json`.
@@ -133,7 +137,7 @@ so it does not build every architecture.
 - The pose graph is provisional and not bundle-adjusted. All numbers and renders here depend on it.
 - Everything is fitted on one trial. The alignment in `theia_alignment.json` belongs to this rig placement and
   this C3D; another trial needs its own fit.
-- Held-out PSNR measures how well the model predicts a camera it did not train on. It is not evidence that
+- The reported PSNR measures appearance prediction given supplied poses/alignment. It is not evidence that
   joint angles read off the renders would be accurate.
 - Virtual cameras hold up inside the ring at the real cameras' heights. Below about 15 degrees of elevation
   the background streaks near camera 21, and the stretch between cameras 21, 19 and 18 has the thinnest plate
@@ -141,3 +145,53 @@ so it does not build every architecture.
 - The Edgertronic and iPhone recordings are not used. The Edgertronic extrinsics are unsolved and the iPhone is
   not genlocked.
 - The work directory holds the videos, masks, checkpoints and renders. None of it belongs in git.
+
+## Reproduction contract and remaining validation
+
+- Use Python 3.10 on Linux with an NVIDIA GPU and a CUDA compiler/toolkit compatible with the pinned
+  PyTorch 2.6.0/cu124 and gsplat 1.5.3. `setup_env.sh` creates the Python environment; it does not install
+  an NVIDIA driver or CUDA toolkit. The contributor used 24 GB VRAM on an RTX 4090. Reducing `--cap` may
+  help memory use but the suggested 16 GB configuration is not independently verified.
+- Choose a work directory outside the repository, such as `~/obp4d-work`. Budget space for eight source
+  videos, extracted PNGs, plate frames, masks, downloaded models, checkpoints, and renders. The runtime
+  estimates above are the contributor's observations, not a guarantee on other hardware.
+- `fetch.py` lists the exact public Drive IDs for the throw and Theia C3D. Preserve the source hashes and
+  sizes in `download_manifest.json` and installed versions in `environment.txt`. These are observed
+  provenance, not checks against a published trusted checksum list. Other Python packages and remote
+  model revisions are not fully locked. Record model revisions/weight hashes for any new published run;
+  BiRefNet loads its model implementation with `trust_remote_code=True`.
+- The default trains on decoded video indices 800–1099 inclusive (300 frames), with canonical frame 950,
+  and scores 800, 810, ..., 1090. `result.json` includes the evaluation scope, exact frame lists,
+  alignment hash, masks, and image preprocessing. `held_out` refers to appearance losses only.
+- The shipped transform maps Theia lab millimeters to camera-19-relative meters. Its fit uses 12 limb
+  correspondences over 30 frames around release, but the exact fit-frame indices and fitting script were
+  not supplied. Its 1.7 cm residual is an in-sample fit statistic, not independent pose accuracy.
+- The contributor supplied `C3D array index = decoded video index + 1`. The separate splat contribution
+  uses an offset of zero by default. This discrepancy has not been independently resolved; the CPU tests
+  verify implementation of this file's `+1` convention, not its agreement with source timing. Verify
+  the source frame/time alignment before comparing residuals or using another trial.
+- The trial-specific Theia alignment does not complete the CS-200 lab-origin/axes or bundle-adjustment
+  milestones in the [calibration roadmap](../calibration/ROADMAP.md). Keep the published calibration
+  provisional and preserve its deterministic rebuild artifacts.
+- For a strict independent-camera claim, establish that the scored camera is absent from upstream pose
+  estimation and alignment fitting, then rerun the complete pipeline. Compare methods using identical
+  frames, masks, RGB preprocessing, and an evaluation split not used to select the recipe.
+
+## Validation
+
+The CPU gate verifies transform direction/units, frame-index bounds, and truthful evaluation metadata:
+
+```bash
+python3 -m pip install -r requirements-dev.txt
+python3 -m unittest discover -s computer_vision/4d_reconstruction/tests -v
+ruff check --isolated --select E4,E7,E9,F,I computer_vision/4d_reconstruction
+ruff format --isolated --check computer_vision/4d_reconstruction
+python3 -m compileall -q computer_vision/4d_reconstruction
+bash -n computer_vision/4d_reconstruction/run_all.sh computer_vision/4d_reconstruction/setup_env.sh
+```
+
+CI does not download source recordings or train/render GPU models. The original end-to-end run is
+contributor-reported; the maintainer changes need a new GPU run before claiming updated reproduction.
+Thanks to [Doyoung-Tom Kim](https://github.com/tomdoyo) for this contribution. Code retains MIT licensing;
+data and biomechanics documentation retain the repository data license; third-party models retain their
+own terms.
