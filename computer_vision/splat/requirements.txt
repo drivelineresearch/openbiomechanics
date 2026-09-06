@@ -1,0 +1,12 @@
+# Splat pipeline. Install torch first (see setup_env.sh): torch==2.6.0 torchvision==0.21.0 (cu124).
+gsplat==1.5.3
+numpy
+opencv-python-headless
+imageio
+imageio-ffmpeg
+pytorch-msssim
+ultralytics            # YOLO11 segmentation + pose, for athlete masks and 2D keypoints
+mini-dust3r            # multi-view initialisation
+gdown                  # public Drive downloads
+ezc3d                  # optional: Theia3D C3D comparison
+smplx                  # optional: experiments/train_smplx.py (model files are downloaded separately)
