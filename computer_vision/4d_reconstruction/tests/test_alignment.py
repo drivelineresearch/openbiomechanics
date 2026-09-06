@@ -8,6 +8,7 @@ from unittest.mock import patch
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import offset_study
 from obp4d import theia
 
 
@@ -43,6 +44,29 @@ class AlignmentTests(unittest.TestCase):
             theia.video_to_c3d_index(1100, 1101)
         with self.assertRaises(ValueError):
             theia.video_to_c3d_index(-2, 1101)
+
+    def test_shipped_keypoints_cover_the_release_window(self):
+        joints, frames = offset_study.load_keypoints()
+        self.assertEqual(joints.shape, (30, 12, 3))
+        self.assertEqual((frames[0], frames[-1]), (935, 964))
+        self.assertEqual(frames, list(range(935, 965)))
+
+    def test_umeyama_recovers_a_known_similarity(self):
+        rng = np.random.default_rng(0)
+        src = rng.normal(size=(20, 3))
+        angle = 0.7
+        rotation = np.array(
+            [
+                [np.cos(angle), -np.sin(angle), 0.0],
+                [np.sin(angle), np.cos(angle), 0.0],
+                [0.0, 0.0, 1.0],
+            ]
+        )
+        dst = 2.5 * (rotation @ src.T).T + np.array([1.0, -2.0, 3.0])
+        s, R, t = offset_study.umeyama(src, dst)
+        self.assertAlmostEqual(s, 2.5)
+        np.testing.assert_allclose(R, rotation, atol=1e-9)
+        np.testing.assert_allclose(t, [1.0, -2.0, 3.0], atol=1e-9)
 
     def test_alignment_is_not_claimed_independent_of_scored_camera(self):
         protocol = theia.evaluation_protocol(19, range(800, 1100))

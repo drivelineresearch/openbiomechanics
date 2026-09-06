@@ -93,6 +93,8 @@ computer_vision/4d_reconstruction/
   setup_env.sh           PyTorch 2.6 (cu124) + gsplat 1.5.3 + requirements.txt into a venv
   requirements.txt
   theia_alignment.json   Theia3D lab frame -> rig frame
+  offset_study.py        measures the C3D-to-video frame shift at fractional indices
+  release_keypoints.csv  triangulated joint centers over the release window, its reference data
   obp4d/                 the pipeline, one step per module (python -m obp4d <step> --work DIR)
     rig.py               published calibration -> cameras; ring geometry for virtual cameras
     fetch.py             the eight videos and the Theia3D C3D from the public Drive folder
@@ -166,10 +168,14 @@ so it does not build every architecture.
 - The shipped transform maps Theia lab millimeters to camera-19-relative meters. Its fit uses 12 limb
   correspondences over 30 frames around release, but the exact fit-frame indices and fitting script were
   not supplied. Its 1.7 cm residual is an in-sample fit statistic, not independent pose accuracy.
-- The contributor supplied `C3D array index = decoded video index + 1`. The separate splat contribution
-  uses an offset of zero by default. This discrepancy has not been independently resolved; the CPU tests
-  verify implementation of this file's `+1` convention, not its agreement with source timing. Verify
-  the source frame/time alignment before comparing residuals or using another trial.
+- The C3D-to-video shift is not a whole number of frames. `offset_study.py` interpolates the C3D at
+  fractional indices and refits the similarity at each one; the residual minimum sits at +0.5 frames
+  (1.4 ms) for the whole body, +0.625 for the throwing hand and +0.375 for the throwing forearm. This
+  file's `+1` and the splat contribution's `0` are both roundings of that half-frame shift, costing
+  0.08 cm and 0.12 cm against the optimum, well under the 1.6 cm floor set by triangulation error. The
+  shipped `+1` is kept. The measurement is relative: it aligns the C3D to keypoints triangulated from
+  the same videos and does not establish upstream Theia input-camera provenance. Re-measure before
+  using another trial.
 - The trial-specific Theia alignment does not complete the CS-200 lab-origin/axes or bundle-adjustment
   milestones in the [calibration roadmap](../calibration/ROADMAP.md). Keep the published calibration
   provisional and preserve its deterministic rebuild artifacts.
