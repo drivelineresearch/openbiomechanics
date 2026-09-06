@@ -16,6 +16,7 @@ files it points to.
 | `computer_vision/` | OpenCV / YOLO tutorials plus validated provisional multi-camera calibration (`calibration/`); shared helpers in `utils.py` |
 | `additional_resources/` | Cited references + `tutorials/` (ezc3d, ISBS) |
 | `obp/` | Small pandas loader package: `load_poi/load_metadata/load_hp`, path resolvers, `download()` |
+| `swing_visualizer/` | Optional local hitting viewer; exploratory metric assumptions and setup in its README; browser checks in `tests/browser/` |
 | `examples/` | Runnable `.py` scripts demonstrating POI/C3D/full-signal/HP workflows |
 | `scripts/` | `download_data.sh` (selective, checksum-verified release data), `build_data_dictionary.py` (regenerate/check dictionaries) |
 | `tests/` | Fast public-loader, schema, docs-link, notebook/JSON, ignore-rule, and release-manifest checks |
@@ -68,6 +69,8 @@ after download, `c3d/` (raw trials) and `full_sig/*.zip` (processed signals).
   before documenting.
 
 ## Verification
+
+- Optional viewers and experimental reconstruction pipelines have their own checks and evaluation limits in their module READMEs. CPU/browser checks do not establish GPU reproduction or biomechanics accuracy.
 
 - After editing any notebook, confirm it is still valid JSON:
   `python -m json.tool <file> >/dev/null`.

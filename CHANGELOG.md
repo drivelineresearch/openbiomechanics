@@ -4,6 +4,8 @@ Notable repository and dataset changes are recorded here. Dataset release assets
 
 ## Unreleased
 
+- Added an optional local hitting swing viewer with two-trial overlays, exploratory metrics, and browser regression checks.
+
 - Improved contributor onboarding, repository navigation, runnable examples, loader validation, download integrity, and repository-wide quality checks.
 
 ## 2026-07-19 — Validated provisional OBP-CV calibration

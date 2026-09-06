@@ -1,5 +1,10 @@
 # OBP Hitting Documentation
 
+## Explore swings interactively
+
+The optional [browser swing viewer](../swing_visualizer/README.md) plays released hitting C3Ds locally and overlays two swings. Follow its setup and download instructions. Contact and marker-derived bat metrics are exploratory estimates; the illustrated ball flight is not measured.
+
+
 ## Getting the Data
 
 The C3D files and full-signal CSVs are not stored in this git repository. They are distributed as assets on the GitHub Releases page under the tag `dataset-v1`. From the repository root, run `scripts/download_data.sh --discipline hitting`. The script verifies every archive, extracts C3D files into `baseball_hitting/data/c3d/`, and leaves full-signal archives in `baseball_hitting/data/full_sig/`. Unzip the full-signal tables there before reading them.

@@ -218,13 +218,13 @@ def _motion_analysis(
     speeds: list[float | None] = [None] * len(poses)
     for frame in range(1, len(poses) - 1):
         before, after = poses[frame - 1], poses[frame + 1]
-        if before is None or after is None:
+        if poses[frame] is None or before is None or after is None:
             continue
         delta = np.asarray(after["barrel"]) - np.asarray(before["barrel"])
         speeds[frame] = float(np.linalg.norm(delta) * rate / 2)
 
     valid = [(speed, frame) for frame, speed in enumerate(speeds) if speed is not None]
-    peak_speed, peak_frame = max(valid, default=(0.0, 0))
+    peak_speed, peak_frame = max(valid, default=(0.0, None))
     if contact is None:
         contact = peak_frame if valid else None
     contact_speed = speeds[contact] if contact is not None else None

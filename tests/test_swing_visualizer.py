@@ -69,6 +69,27 @@ class SwingVisualizerTests(unittest.TestCase):
             APP._bat_poses(points, ["Marker1", "Marker2"], [0, 1]), [None, None]
         )
 
+    def test_contact_is_not_selected_inside_a_marker_gap(self) -> None:
+        poses = [
+            {"grip": [0.0, 0.0, 0.0], "barrel": [x, 0.0, 0.0]}
+            for x in (0.0, 0.1, 0.2, 0.9, 1.0, 1.05, 1.1)
+        ]
+        poses[2] = None
+        analysis = APP._motion_analysis(pathlib.Path("trial.c3d"), poses, None, 100)
+        contact = analysis["events"]["contact"]
+        self.assertEqual(contact, 4)
+        self.assertIsNotNone(poses[contact])
+        self.assertIsNotNone(
+            APP._estimated_ball(pathlib.Path("trial.c3d"), poses, contact, 100)[contact]
+        )
+
+    def test_absent_bat_has_no_peak_or_contact_event(self) -> None:
+        analysis = APP._motion_analysis(
+            pathlib.Path("trial.c3d"), [None] * 5, None, 100
+        )
+        self.assertIsNone(analysis["events"]["peakSpeed"])
+        self.assertIsNone(analysis["events"]["contact"])
+
     def test_athlete_metadata_extracted_from_hitting_c3d(self) -> None:
         trial_path = (
             REPO
@@ -78,13 +99,14 @@ class SwingVisualizerTests(unittest.TestCase):
             / "000004"
             / "000004_000103_75_236_R_003_972.c3d"
         )
-        if trial_path.exists():
-            motion = APP.load_motion(trial_path)
-            self.assertEqual(motion["athleteHeightIn"], 75.0)
-            self.assertEqual(motion["athleteWeightLb"], 236.0)
-            self.assertEqual(motion["hitterSide"], "R")
-            self.assertEqual(motion["analysis"]["metrics"]["athleteHeightIn"], 75.0)
-            self.assertGreater(motion["ground"], 0.0)
+        if not trial_path.exists():
+            self.skipTest("Optional released hitting C3D is not installed")
+        motion = APP.load_motion(trial_path)
+        self.assertEqual(motion["athleteHeightIn"], 75.0)
+        self.assertEqual(motion["athleteWeightLb"], 236.0)
+        self.assertEqual(motion["hitterSide"], "R")
+        self.assertEqual(motion["analysis"]["metrics"]["athleteHeightIn"], 75.0)
+        self.assertGreater(motion["ground"], 0.0)
 
     def test_load_motion_extracts_metadata_from_synthetic_c3d(self) -> None:
         labels = ["Marker1", "Marker2", "LASI", "RASI"]
