@@ -20,7 +20,9 @@ if [ ! -x /usr/local/cuda-12.4/bin/nvcc ]; then
 fi
 export CUDA_HOME=/usr/local/cuda-12.4 PATH=/usr/local/cuda-12.4/bin:$PATH
 
-python3 -m venv "$VENV"; source "$VENV/bin/activate"
+python3 -m venv "$VENV"
+# shellcheck source=/dev/null
+source "$VENV/bin/activate"
 pip install -q --upgrade pip
 pip install -q torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
 pip install -q -r "$(dirname "${BASH_SOURCE[0]}")/requirements.txt"

@@ -9,6 +9,7 @@ This area combines introductory computer-vision examples with a separately valid
 | Learn image, video, and live-camera basics | [`TUTORIAL.md`](TUTORIAL.md) | Educational examples; some require release media |
 | Inspect provisional camera calibration | [`calibration/README.md`](calibration/README.md) | Reproducible and tested, but not final lab-frame calibration |
 | Reproduce calibration safeguards | [`calibration/tests/`](calibration/tests/) | Uses the exact versions in `calibration/requirements.txt` |
+| Reconstruct a trial with a skeleton-driven splat | [`splat/README.md`](splat/README.md) | Experimental, single trial; separate NVIDIA/CUDA environment |
 | Continue calibration validation | [`calibration/ROADMAP.md`](calibration/ROADMAP.md) | Requires source recordings and new annotations |
 | Review older 2D/checkerboard experiments | `2d_calibration/` and `checkerboard_calibrate/` | Legacy examples; not the validated calibration product |
 
@@ -50,6 +51,7 @@ python3 -m unittest discover -s computer_vision/calibration/tests -v
 | `2d_calibration/` | Older 2D calibration/frame-processing scripts |
 | `checkerboard_calibrate/` | Single-camera checkerboard examples and small outputs |
 | `calibration/` | Validated provisional intrinsics, relative extrinsics, timing analysis, tests, and limitations |
+| `splat/` | Experimental skeleton-driven reconstruction, epipolar diagnostics, and qualified rendering scores |
 | `utils.py` | Shared helpers used by the introductory scripts |
 
 ## Calibration status

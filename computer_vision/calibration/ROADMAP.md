@@ -79,3 +79,11 @@ grids, and final QA deliverables.
 - deterministic held-out QA reports and visual overlays.
 - per-pair epipolar overlays and per-camera undistortion grids specified in
   `ANNOTATION_PLAN.md`.
+
+## Related experimental reconstruction
+
+The [splat pipeline](../splat/README.md) consumes the committed calibration and estimates a trial-specific
+similarity to supplied Theia output. This is useful supporting evidence, but it does not replace CS-200
+observations defining lab origin/axes, independent held-out geometry checks, or joint bundle adjustment.
+Its historical rendering scores used an eight-camera skeleton/alignment and do not validate an unseen
+camera independently. Keep the geometry milestones above open.
