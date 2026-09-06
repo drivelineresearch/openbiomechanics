@@ -118,3 +118,20 @@ By submitting a contribution, you agree that it can be distributed under the lic
 For research collaboration, commercial data licensing, or questions about the larger IRB-approved dataset, email **sportsscience@drivelinebaseball.com** and CC **gretchen@drivelinebaseball.com**.
 
 Report security or sensitive-content issues privately according to [`SECURITY.md`](SECURITY.md).
+
+## Optional viewer and experimental reconstruction checks
+
+The [browser smoke guide](tests/browser/README.md) covers the optional hitting viewer. Its GitHub Actions
+job checks JavaScript/browser behavior using generated C3Ds without a release-data download.
+
+Experimental reconstruction contributions must document their own isolated environment, source provenance,
+coordinate units, exact frame-index convention, and evaluation inputs. A camera excluded from image losses
+may still contribute through triangulation, a fitted alignment, or upstream pose estimation; name that
+conditioning explicitly. Keep author-reported historical results distinct from a new verified rerun.
+Record source hashes, package/model versions, evaluation frame lists, masks, and image preprocessing.
+CPU tests belong with each pipeline and run in dedicated workflows; passing them does not validate GPU
+training, rendering scores, or scientific accuracy. Follow each module README for its CPU and GPU commands.
+
+For a merge, require the public Python matrix plus the applicable browser/pipeline jobs to pass on the
+current head. First-time contributor workflows may need maintainer approval. Preserve contributor commits
+when adding maintainer fixes, and carry unresolved research validation limits into the module documentation.

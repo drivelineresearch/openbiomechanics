@@ -15,6 +15,7 @@ Project homepage: [openbiomechanics.org](https://openbiomechanics.org)
 | --- | --- | --- |
 | Explore pitch or swing summary metrics | [`examples/01_explore_poi.py`](examples/01_explore_poi.py) and the [`obp` loader](obp/README.md) | No |
 | Explore force-plate assessment metrics | [`examples/04_hp_assessment.py`](examples/04_hp_assessment.py) | No |
+| Compare hitting swings in a browser | [`swing_visualizer/`](swing_visualizer/README.md) | Yes, hitting C3Ds |
 | Read raw marker trajectories | [`examples/02_read_c3d.py`](examples/02_read_c3d.py) | Yes, discipline C3Ds |
 | Join processed time-series tables | [`examples/03_join_fullsig.py`](examples/03_join_fullsig.py) | Yes, full-signal archives |
 | Understand variables and conventions | The relevant [module documentation](#modules) and [data dictionaries](#data-dictionaries-and-datasheet) | No |
