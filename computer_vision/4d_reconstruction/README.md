@@ -93,6 +93,8 @@ computer_vision/4d_reconstruction/
   setup_env.sh           PyTorch 2.6 (cu124) + gsplat 1.5.3 + requirements.txt into a venv
   requirements.txt
   theia_alignment.json   Theia3D lab frame -> rig frame
+  offset_study.py        measures the C3D-to-video frame shift at fractional indices
+  release_keypoints.csv  triangulated joint centers over the release window, its reference data
   obp4d/                 the pipeline, one step per module (python -m obp4d <step> --work DIR)
     rig.py               published calibration -> cameras; ring geometry for virtual cameras
     fetch.py             the eight videos and the Theia3D C3D from the public Drive folder
@@ -166,10 +168,19 @@ so it does not build every architecture.
 - The shipped transform maps Theia lab millimeters to camera-19-relative meters. Its fit uses 12 limb
   correspondences over 30 frames around release, but the exact fit-frame indices and fitting script were
   not supplied. Its 1.7 cm residual is an in-sample fit statistic, not independent pose accuracy.
-- The contributor supplied `C3D array index = decoded video index + 1`. The separate splat contribution
-  uses an offset of zero by default. This discrepancy has not been independently resolved; the CPU tests
-  verify implementation of this file's `+1` convention, not its agreement with source timing. Verify
-  the source frame/time alignment before comparing residuals or using another trial.
+- `offset_study.py` compares fractional C3D indices against the supplied `release_keypoints.csv`
+  over video frames 935–964, refitting the similarity at every shift. The in-sample median residual
+  minimum occurs at +0.5 frames (1.4 ms) for all 12 joints, +0.625 for the throwing hand and +0.375
+  for the throwing forearm. Relative to that minimum, `0` and `+1` add 0.12 cm and 0.08 cm to the
+  all-joint median residual **after refitting**. The 1.6 cm minimum is a discrepancy between two
+  estimated pose sources, not an independently measured triangulation-error or uncertainty floor.
+  Holding the shipped transform fixed instead gives 2.2766, 1.8015, and 1.6777 cm at offsets `0`,
+  `+0.5`, and `+1`, respectively; the refitted sweep does not measure either pipeline's score impact.
+  Physical sample synchronization, timing uncertainty, and upstream Theia input-camera provenance
+  remain unestablished. Verify source timing and re-measure before using another trial.
+- The shipped alignment JSON is unchanged, including its prose: checkpoints store its whole-file
+  SHA-256, so even a note-only edit would invalidate existing saved models. This study changes neither
+  the transform nor the `+1` runtime convention; the separate splat pipeline retains its `0` default.
 - The trial-specific Theia alignment does not complete the CS-200 lab-origin/axes or bundle-adjustment
   milestones in the [calibration roadmap](../calibration/ROADMAP.md). Keep the published calibration
   provisional and preserve its deterministic rebuild artifacts.

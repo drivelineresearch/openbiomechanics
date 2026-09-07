@@ -159,10 +159,15 @@ A manually supplied C3D must be from the same trial and use a verified frame off
 - `POSE_HOLDOUT=''` explicitly restores eight-camera skeleton generation for investigation of the
   historical recipe. It does not establish reproducibility of the historical scores by itself.
 - `THEIA_FRAME_OFFSET=0` preserves this contributor's original C3D-array/video indexing assumption.
-  The separate [4D reconstruction PR](https://github.com/drivelineresearch/openbiomechanics/pull/62) uses
-  `+1`. Both inputs are described as the same trial: this discrepancy remains unverified. Inspect the
-  source timing/release event before interpreting alignment residuals or publishing comparisons; set
-  `THEIA_FRAME_OFFSET` explicitly for the source you validate. The NPZ stores the selected offset.
+  The 4D reconstruction module retains `+1`. Its [offset study](../4d_reconstruction/offset_study.py)
+  finds a relative all-joint median residual minimum at +0.5 frames (1.4 ms) over the supplied
+  30-frame reference window, **refitting the similarity at every shift**. Under that protocol,
+  `0` and `+1` add 0.12 cm and 0.08 cm to the minimum residual. The 1.6 cm minimum does not isolate
+  triangulation error or establish an uncertainty floor. The study does not establish physical
+  synchronization or the effect of either offset on the pipelines' rendering scores; holding a
+  transform fixed is a different comparison. See the [study limitations](../4d_reconstruction/README.md#reproduction-contract-and-remaining-validation).
+  Verify source timing, set `THEIA_FRAME_OFFSET` explicitly, and re-measure for any other source.
+  The NPZ stores the selected offset.
 - `out/body/result.json` contains per-frame scores; `out/body/evaluation_protocol.json` records their
   scope, source cameras, frame indices, masks, and image preprocessing. Images used for scoring are
   JPEG-reencoded at quality 95; athlete masks are YOLO segmentation dilated by a 7x7 kernel. These differ
