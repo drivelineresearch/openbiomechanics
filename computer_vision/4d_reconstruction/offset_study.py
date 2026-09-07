@@ -1,9 +1,10 @@
-"""Measure the C3D-to-video frame offset instead of assuming a whole number of frames.
+"""Compare relative C3D-to-video offsets with a refitted similarity at each shift.
 
 This module applies `C3D index = video index + 1` and the splat contribution applies 0;
-neither is exact. Interpolating the C3D at fractional indices and refitting the similarity
-at each one puts the minimum near half a frame, so both conventions are about half a frame
-off and the choice costs less than the measurement floor.
+interpolating the C3D and refitting on the supplied 30-frame reference window puts the
+in-sample residual minimum near half a frame. This relative fit does not establish physical
+sample synchronization, a triangulation-error floor, or effects on rendering scores.
+The shipped transforms and integer offsets are unchanged.
 
 Reference positions are the joint centers triangulated from the eight cameras over the
 release window, shipped as release_keypoints.csv in the camera-19 metric frame.
@@ -38,7 +39,8 @@ SHIFTS = np.arange(-0.5, 1.75, 0.125)
 
 def load_keypoints():
     """(frames, 12, 3) metres in the rig frame, and the video frame numbers."""
-    rows = list(csv.DictReader(KEYPOINTS.open()))
+    with KEYPOINTS.open() as stream:
+        rows = list(csv.DictReader(stream))
     frames = sorted({int(r["video_frame"]) for r in rows})
     index = {(int(r["video_frame"]), r["segment"]): r for r in rows}
     joints = np.array(
@@ -114,14 +116,19 @@ def main():
         )
 
     best = SHIFTS[table[:, 0].argmin()]
-    floor = table[:, 0].min()
+    minimum_residual = table[:, 0].min()
     assert 0.25 <= best <= 0.75, (
         f"expected a sub-frame shift near half a frame, got {best}"
     )
     print(
         f"\nbest whole-body shift {best:+.3f} frames = {best / 360 * 1000:.2f} ms; "
-        f"integer 0 costs {table[SHIFTS == 0, 0][0] - floor:.2f} cm and "
-        f"integer +1 costs {table[SHIFTS == 1, 0][0] - floor:.2f} cm against it"
+        f"integer 0 adds {table[SHIFTS == 0, 0][0] - minimum_residual:.2f} cm and "
+        f"integer +1 adds {table[SHIFTS == 1, 0][0] - minimum_residual:.2f} cm "
+        "to the in-sample median residual after refitting at each shift"
+    )
+    print(
+        "This relative fit does not establish physical synchronization, "
+        "a triangulation-error floor, or effects on rendering scores."
     )
 
 

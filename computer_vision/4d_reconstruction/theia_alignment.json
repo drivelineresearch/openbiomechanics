@@ -1,5 +1,5 @@
 {
-  "note": "Similarity from the Theia3D lab frame (millimeters) to the rig frame (meters, camera 19 as origin), fitted on the joint centers of the 12 limb segments against COCO keypoints triangulated from the 8 cameras over 30 frames around ball release of OBP_movement_BaseballThrow_001; median residual 1.7 cm. The C3D and the videos both run at 360 Hz; C3D frame index = video frame index + 1. That +1 is a rounding: the measured shift is about +0.5 frames (see offset_study.py), so the two systems are not sample-synchronized and either integer costs under 0.12 cm of joint residual.",
+  "note": "Similarity from the Theia3D lab frame (millimeters) to the rig frame (meters, camera 19 as origin), fitted on the joint centers of the 12 limb segments against COCO keypoints triangulated from the 8 cameras over 30 frames around ball release of OBP_movement_BaseballThrow_001; median residual 1.7 cm. The C3D and the videos both run at 360 Hz; C3D frame index = video frame index + 1.",
   "scale": 0.0010095743123137383,
   "rotation": [
     [
