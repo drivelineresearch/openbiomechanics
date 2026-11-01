@@ -5,7 +5,7 @@ pillow
 imageio
 imageio-ffmpeg
 torchmetrics
-transformers<5         # BiRefNet athlete masks (ZhengPeng7/BiRefNet)
+transformers<6         # BiRefNet athlete masks (ZhengPeng7/BiRefNet)
 timm
 einops
 kornia
