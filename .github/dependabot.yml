@@ -4,33 +4,30 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
 
+  # Requirements are >= minimums, so only raise one when the latest release no
+  # longer satisfies it. Security updates are configured separately and still
+  # raise minimums for advisories.
   - package-ecosystem: pip
-    directory: /
+    directories:
+      - /
+      - /baseball_pitching/code
+      - /baseball_hitting/code
+      - /high_performance/code
+      - /computer_vision
+      - /computer_vision/calibration
     schedule:
       interval: monthly
-
-  - package-ecosystem: pip
-    directory: /computer_vision/calibration
-    schedule:
-      interval: monthly
-
-  - package-ecosystem: pip
-    directory: /baseball_pitching/code
-    schedule:
-      interval: monthly
-
-  - package-ecosystem: pip
-    directory: /baseball_hitting/code
-    schedule:
-      interval: monthly
-
-  - package-ecosystem: pip
-    directory: /high_performance/code
-    schedule:
-      interval: monthly
-
-  - package-ecosystem: pip
-    directory: /computer_vision
-    schedule:
-      interval: monthly
+    versioning-strategy: increase-if-necessary
+    groups:
+      python:
+        patterns: ["*"]
+    ignore:
+      # Exact pins that reproduce the committed calibration artifacts.
+      - dependency-name: numpy
+      - dependency-name: opencv-python-headless
+      # Built against torch 2.6 / cu124 in the splat and 4D setup_env.sh scripts.
+      - dependency-name: gsplat
